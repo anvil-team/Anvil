@@ -1,0 +1,46 @@
+{
+  "name": "anvil-web",
+  "version": "1.0.0",
+  "description": "Cluster management framework",
+  "main": "webpack.config.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "https://zsirfs@github.com/zankia-ladybird/Anvil.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "dayjs": "^1.7.7",
+    "react": "^16.6.3",
+    "react-dom": "^16.6.3"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.1.6",
+    "@babel/plugin-proposal-class-properties": "^7.1.0",
+    "@babel/plugin-proposal-optional-chaining": "^7.0.0",
+    "@babel/plugin-syntax-dynamic-import": "^7.0.0",
+    "@babel/preset-env": "^7.1.6",
+    "@babel/preset-react": "^7.0.0",
+    "babel-eslint": "^10.0.1",
+    "babel-loader": "^8.0.4",
+    "css-loader": "^1.0.1",
+    "eslint": "^5.9.0",
+    "eslint-plugin-react": "^7.11.1",
+    "file-loader": "^2.0.0",
+    "fs-extra": "^7.0.1",
+    "html-webpack-plugin": "^3.2.0",
+    "node-sass": "^4.10.0",
+    "ora": "^3.0.0",
+    "sass-loader": "^7.1.0",
+    "style-loader": "^0.23.1",
+    "uglifyjs-webpack-plugin": "^2.0.1",
+    "url-loader": "^1.1.2",
+    "webpack": "^4.26.1",
+    "webpack-dev-server": "^3.1.10"
+  }
+}
