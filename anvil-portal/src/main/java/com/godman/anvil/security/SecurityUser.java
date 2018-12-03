@@ -2,12 +2,13 @@ package com.godman.anvil.security;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import com.godman.anvil.domain.AnvilRole;
 
 public class SecurityUser implements UserDetails {
 
@@ -19,9 +20,7 @@ public class SecurityUser implements UserDetails {
 
 	private String password;
 
-	private Date lastPasswordResetDate;
-
-	private List<SecurityRole> roles;
+	private AnvilRole role;
 
 	public Long getId() {
 		return id;
@@ -47,29 +46,19 @@ public class SecurityUser implements UserDetails {
 		this.password = password;
 	}
 
-	public Date getLastPasswordResetDate() {
-		return lastPasswordResetDate;
+	public AnvilRole getRole() {
+		return role;
 	}
 
-	public void setLastPasswordResetDate(Date lastPasswordResetDate) {
-		this.lastPasswordResetDate = lastPasswordResetDate;
-	}
-
-	public List<SecurityRole> getRoles() {
-		return roles;
-	}
-
-	public void setRoles(List<SecurityRole> roles) {
-		this.roles = roles;
+	public void setRole(AnvilRole role) {
+		this.role = role;
 	}
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		List<GrantedAuthority> auths = new ArrayList<>();
-		List<SecurityRole> roles = this.getRoles();
-		for (SecurityRole role : roles) {
-			auths.add(new SimpleGrantedAuthority(role.getName()));
-		}
+		AnvilRole role = this.getRole();
+		auths.add(new SimpleGrantedAuthority(role.getRoleName()));
 		return auths;
 	}
 

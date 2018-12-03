@@ -4,7 +4,6 @@ import java.util.Map;
 
 import javax.security.sasl.AuthenticationException;
 
-import org.assertj.core.util.Maps;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.godman.anvil.domain.response.CommonResponse;
 import com.godman.anvil.services.AuthService;
+import com.google.common.collect.Maps;
 
 @RestController
 public class AuthController {
@@ -27,7 +27,9 @@ public class AuthController {
 	public CommonResponse<Map<String, String>> createAuthenticationToken(String username, String password) throws AuthenticationException {
 		final String token = authService.login(username, password);
 
-		Map<String, String> tokenMap = Maps.newHashMap("token", token);
+		Map<String, String> tokenMap = Maps.newHashMap();
+		tokenMap.put("token", token);
+
 		CommonResponse<Map<String, String>> response = new CommonResponse<Map<String, String>>();
 		response.setSuccess(CommonResponse.SUCCESS_STATE);
 		response.setData(tokenMap);
