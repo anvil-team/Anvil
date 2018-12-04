@@ -29,14 +29,10 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 	@Value("${jwt.header}")
 	private String tokenHeader;
 
-	@Value("${jwt.tokenHead}")
-	private String tokenHead;
-
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-		String authHeader = request.getHeader(this.tokenHeader);
-		if (authHeader != null && authHeader.startsWith(tokenHead)) {
-			final String authToken = authHeader.substring(tokenHead.length()); 
+		String authToken = request.getHeader(this.tokenHeader);
+		if (authToken != null) {
 			String username = jwtTokenUtil.getUsernameFromToken(authToken);
 			logger.info("checking authentication " + username);
 			if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {

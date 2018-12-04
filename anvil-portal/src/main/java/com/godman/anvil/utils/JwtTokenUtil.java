@@ -12,16 +12,22 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+import com.godman.anvil.security.SecurityUser;
+
 @Component
 public class JwtTokenUtil {
 	private static final String CLAIM_KEY_USERNAME = "sub";
 	private static final String CLAIM_KEY_CREATED = "created";
+	private static final String CLAIM_KEY_REFRESH = "refresh";
 
 	@Value("${jwt.secret}")
 	private String secret;
 
 	@Value("${jwt.expiration}")
 	private Long expiration;
+
+	@Value("${jwt.refreshallow}")
+	private Long refreshallow;
 
 	public String getUsernameFromToken(String token) {
 		String username;
@@ -45,6 +51,17 @@ public class JwtTokenUtil {
 		return created;
 	}
 
+	public Date getRefreshDateFromToken(String token) {
+		Date refreshDate;
+		try {
+			final Claims claims = getClaimsFromToken(token);
+			refreshDate = new Date((Long) claims.get(CLAIM_KEY_REFRESH));
+		} catch (Exception e) {
+			refreshDate = null;
+		}
+		return refreshDate;
+	}
+
 	public Date getExpirationDateFromToken(String token) {
 		Date expiration;
 		try {
@@ -66,40 +83,29 @@ public class JwtTokenUtil {
 		return claims;
 	}
 
-	private Date generateExpirationDate() {
-		return new Date(System.currentTimeMillis() + expiration * 60 * 1000);
-	}
-
-	private Boolean isTokenExpired(String token) {
-		final Date expiration = getExpirationDateFromToken(token);
-		return expiration.before(new Date());
-	}
-
-	private Boolean isCreatedBeforeLastPasswordReset(Date created, Date lastPasswordReset) {
-		return (lastPasswordReset != null && created.before(lastPasswordReset));
-	}
-
 	public String generateToken(UserDetails userDetails) {
 		Map<String, Object> claims = new HashMap<>();
 		claims.put(CLAIM_KEY_USERNAME, userDetails.getUsername());
-		claims.put(CLAIM_KEY_CREATED, new Date());
+
+		Long nowTime = System.currentTimeMillis();
+		claims.put(CLAIM_KEY_CREATED, new Date(nowTime));
+		claims.put(CLAIM_KEY_REFRESH, new Date(nowTime + refreshallow * 60 * 1000));
 		return generateToken(claims);
 	}
 
-	String generateToken(Map<String, Object> claims) {
-		return Jwts.builder().setClaims(claims).setExpiration(generateExpirationDate()).signWith(SignatureAlgorithm.HS512, secret).compact();
-	}
-
-	public Boolean canTokenBeRefreshed(String token, Date lastPasswordReset) {
-		final Date created = getCreatedDateFromToken(token);
-		return !isCreatedBeforeLastPasswordReset(created, lastPasswordReset) && !isTokenExpired(token);
+	public String generateToken(Map<String, Object> claims) {
+		Date expirationDate = new Date(((Date) claims.get(CLAIM_KEY_CREATED)).getTime() + expiration * 60 * 1000);
+		return Jwts.builder().setClaims(claims).setExpiration(expirationDate).signWith(SignatureAlgorithm.HS512, secret).compact();
 	}
 
 	public String refreshToken(String token) {
 		String refreshedToken;
 		try {
 			final Claims claims = getClaimsFromToken(token);
-			claims.put(CLAIM_KEY_CREATED, new Date());
+
+			Long nowTime = System.currentTimeMillis();
+			claims.put(CLAIM_KEY_CREATED, new Date(nowTime));
+			claims.put(CLAIM_KEY_REFRESH, new Date(nowTime + refreshallow * 60 * 1000));
 			refreshedToken = generateToken(claims);
 		} catch (Exception e) {
 			refreshedToken = null;
@@ -107,10 +113,25 @@ public class JwtTokenUtil {
 		return refreshedToken;
 	}
 
-	public Boolean validateToken(String token, UserDetails userDetails) {
-		final String username = getUsernameFromToken(token);
-		final Date created = getCreatedDateFromToken(token);
-		return (username.equals("chenzihao") && !isTokenExpired(token) && !isCreatedBeforeLastPasswordReset(created, created));
+	public Boolean isTokenExpired(String token) {
+		final Date expiration = getExpirationDateFromToken(token);
+		if (expiration == null) {
+			return true;
+		}
+		return expiration.before(new Date());
 	}
 
+	public Boolean canTokenBeRefreshed(String token) {
+		final Date refreshDate = getRefreshDateFromToken(token);
+		if (refreshDate == null) {
+			return false;
+		}
+		return refreshDate.after(new Date());
+	}
+
+	public Boolean validateToken(String token, UserDetails userDetails) {
+		SecurityUser user = (SecurityUser) userDetails;
+		final String username = getUsernameFromToken(token);
+		return (username.equals(user.getUsername()) && !isTokenExpired(token));
+	}
 }

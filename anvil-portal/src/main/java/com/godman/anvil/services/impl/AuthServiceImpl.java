@@ -1,7 +1,6 @@
 package com.godman.anvil.services.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -25,20 +24,27 @@ public class AuthServiceImpl implements AuthService {
 	@Autowired
 	private JwtTokenUtil jwtTokenUtil;
 
-	@Value("${jwt.tokenHead}")
-	private String tokenHead;
-
 	@Override
-	public String login(String username, String password) {
+	public String createAuthenticationToken(String username, String password) {
 		UsernamePasswordAuthenticationToken upToken = new UsernamePasswordAuthenticationToken(username, password);
 
-		// Perform the security
 		final Authentication authentication = authenticationManager.authenticate(upToken);
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 
-		// Reload password post-security so we can generate token
 		final UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 		final String token = jwtTokenUtil.generateToken(userDetails);
+		return token;
+	}
+
+	@Override
+	public String refreshAuthenticationToken(String oldToken) {
+		String token = null;
+		if (!jwtTokenUtil.isTokenExpired(oldToken)) {
+			return oldToken;
+		}
+		if (jwtTokenUtil.canTokenBeRefreshed(oldToken)) {
+			token=jwtTokenUtil.refreshToken(oldToken);
+		}
 		return token;
 	}
 }
