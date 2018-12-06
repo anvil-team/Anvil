@@ -1,10 +1,15 @@
 import React from 'react'
 import { Route, Redirect } from 'react-router-dom'
 import isDev from 'src/utils/isDev'
+import { Spin, Icon } from 'antd'
 
 class AuthRoute extends React.PureComponent {
   state = {
     isPermissions: false,
+  }
+
+  componentDidMount() {
+    this.checkPermissions()
   }
 
   checkPermissions = async () => {
@@ -13,14 +18,21 @@ class AuthRoute extends React.PureComponent {
     if (typeof checker === 'function') {
       resultValue = await checker()
     }
-    this.setState({
-      isPermissions: isDev() ? true : resultValue ? true : false,
-    })
+    this.setState(
+      {
+        isPermissions: isDev() ? true : resultValue ? true : false,
+      },
+      () => {
+        if (!this.state.isPermissions) {
+          this.props.history.replace(this.props.redirect)
+        }
+      }
+    )
   }
 
   render() {
     const { isPermissions } = this.state
-    const { component: Component, redirect } = this.props
+    const { component: Component, render } = this.props
     return (
       <Route
         exact
@@ -28,9 +40,11 @@ class AuthRoute extends React.PureComponent {
           isPermissions ? (
             Component ? (
               <Component {...props} />
-            ) : null
+            ) : (
+              render(props)
+            )
           ) : (
-            <Redirect to={{ pathname: redirect, state: { from: props.location } }} />
+            <Spin size="large" indicator={<Icon type="loading" />} />
           )
         }
       />

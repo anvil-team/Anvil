@@ -1,20 +1,13 @@
 const path = require('path')
 const webpack = require('webpack')
-const autoprefixer = require('autoprefixer')
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const styleLoader = require('./config/styleLoader')
+const paths = require('./config/paths')
+const themeRc = require(paths.themePath)
 
 const isDev = process.env.NODE_ENV !== 'production'
-
-const postcssOption = {
-  ident: 'postcss',
-  plugins: () => [
-    autoprefixer({
-      browsers: ['>1%', 'last 4 versions', 'Firefox ESR', 'not ie < 9'],
-      flexbox: 'no-2009',
-    }),
-  ],
-}
 
 module.exports = {
   mode: process.env.NODE_ENV,
@@ -25,8 +18,7 @@ module.exports = {
       // 'webpack-dev-server/client?http://0.0.0.0:3000',
       '@babel/polyfill',
       require.resolve('react-dev-utils/webpackHotDevClient'),
-      'webpack/hot/only-dev-server',
-      path.resolve(__dirname, 'index.js'),
+      paths.appIndex,
     ],
   },
   output: {
@@ -45,27 +37,35 @@ module.exports = {
     rules: [
       {
         test: /\.jsx?$/,
-        use: ['babel-loader'],
+        use: [{ loader: 'babel-loader', query: { cacheDirectory: true } }],
         exclude: [path.resolve(__dirname, 'node_modules')],
       },
       {
-        test: /\.(s?css)|(less)$/,
         oneOf: [
           {
-            use: [
-              'style-loader',
-              { loader: 'css-loader', options: { importLoaders: 1 } },
-              'sass-loader',
-              { loader: 'postcss-loader', options: postcssOption },
-            ],
+            test: /\.(less|css)$/,
+            exclude: /\.module\.(css|less)$/,
+            use: styleLoader({
+              MiniCssExtractPlugin,
+              preprocessor: 'less',
+              preprocessorOption: {
+                javascriptEnabled: true,
+                modifyVars: themeRc.lessVars,
+              },
+            }),
           },
           {
-            use: [
-              'style-loader',
-              { loader: 'css-loader', options: { importLoaders: 1 } },
-              { loader: 'less-loader' },
-              { loader: 'postcss-loader', options: postcssOption },
-            ],
+            test: /\.module\.css$/,
+            use: styleLoader({ MiniCssExtractPlugin, cssModules: true }),
+          },
+          {
+            test: /\.(sass|scss)$/,
+            exclude: /\.module\.(sass|scss)$/,
+            use: styleLoader({ MiniCssExtractPlugin, preprocessor: 'sass' }),
+          },
+          {
+            test: /\.module\.(sass|scss)$/,
+            use: styleLoader({ MiniCssExtractPlugin, preprocessor: 'sass', cssModules: true }),
           },
         ],
       },
@@ -86,6 +86,6 @@ module.exports = {
   node: {},
   performance: {},
   optimization: {
-    minimize: isDev,
+    minimize: !isDev,
   },
 }

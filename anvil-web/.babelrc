@@ -9,7 +9,7 @@
     "@babel/react"
   ],
   "plugins": [
-    ["import", { "libraryName": "antd", "style": "css" }],
+    ["import", { "libraryName": "antd", "style": true }],
     "@babel/plugin-syntax-dynamic-import",
     "@babel/plugin-proposal-class-properties",
     "@babel/plugin-proposal-optional-chaining"

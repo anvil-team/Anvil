@@ -1,9 +1,9 @@
 import React from 'react'
 import Loadable from 'react-loadable'
-import { Skeleton } from 'antd'
+import { Spin, Icon } from 'antd'
 
 function Loading() {
-  return <Skeleton active />
+  return <Spin size="large" indicator={<Icon type="loading" />} />
 }
 
 const LazyLoad = (loader) => {

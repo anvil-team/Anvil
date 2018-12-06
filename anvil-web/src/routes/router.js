@@ -1,20 +1,25 @@
 import LazyLoad from 'src/components/LazyLoad'
 
-export const authRoutes = [
+export const routes = [
   {
     path: '/dashboard',
     auth: true,
-    component: LazyLoad(() => import('./Dashboard')),
+    children: [
+      {
+        path: '/',
+        title: '面板',
+        component: LazyLoad(() => import('./dashboard')),
+      },
+    ],
+  },
+  {
+    path: '/login',
+    title: '登录',
+    component: LazyLoad(() => import('./login')),
   },
   {
     path: '/',
-    redirect: '/dashboard',
-  },
-]
-
-export const routes = [
-  {
-    path: '/login',
-    component: LazyLoad(() => import('./Login')),
+    title: 'Anvil',
+    redirect: '/login',
   },
 ]
