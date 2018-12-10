@@ -1,5 +1,7 @@
 package com.godman.anvil.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.godman.anvil.domain.response.AuthTokenResponse;
+import com.godman.anvil.domain.response.CategoryResponse;
 import com.godman.anvil.domain.response.CommonResponse;
 import com.godman.anvil.enumtype.AuthTokenAccessbleType;
 import com.godman.anvil.services.AuthService;
@@ -46,6 +49,17 @@ public class AuthController {
 		CommonResponse<AuthTokenResponse> response = new CommonResponse<AuthTokenResponse>();
 		response.setSuccess(CommonResponse.SUCCESS_STATE);
 		response.setData(authTokenResponse);
+		return response;
+	}
+
+	@RequestMapping(value = "/auth/category", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public CommonResponse<List<CategoryResponse>> getCategory(HttpServletRequest request) {
+		String token = request.getHeader("token");
+		List<CategoryResponse> categoryResponse = authService.getCategory(token);
+
+		CommonResponse<List<CategoryResponse>> response = new CommonResponse<List<CategoryResponse>>();
+		response.setSuccess(CommonResponse.SUCCESS_STATE);
+		response.setData(categoryResponse);
 		return response;
 	}
 
