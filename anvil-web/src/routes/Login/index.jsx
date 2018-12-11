@@ -1,8 +1,13 @@
 import React from 'react'
 import { Form, Button, Input, Icon } from 'antd'
+import { connect } from 'react-redux'
 import styles from './index.module.scss'
 
 class Login extends React.Component {
+  componentDidMount() {
+    this.props.dispatch({ type: 'login/say', payload: '是咖啡机可大幅度' })
+  }
+
   render() {
     const { getFieldDecorator } = this.props.form
     return (
@@ -41,4 +46,6 @@ class Login extends React.Component {
   }
 }
 
-export default Form.create()(Login)
+const mapStateToProps = (state) => ({ login: state.login })
+
+export default connect(mapStateToProps)(Form.create()(Login))
