@@ -7,5 +7,5 @@ module.exports = {
   themePath: resolveApp('.theme-rc.js'),
   pkgPath: resolveApp('package.json'),
   webpackPath: resolveApp('webpack.config.js'),
-  appIndex: resolveApp('index.js')
+  appIndex: resolveApp('src/index.js')
 }
