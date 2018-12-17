@@ -9,7 +9,12 @@
     "@babel/react"
   ],
   "plugins": [
-    ["import", { "libraryName": "antd", "style": true }],
+    ["import", { "libraryName": "antd", "libraryDirectory": "es", "style": true }, "antd"],
+    [
+      "import",
+      { "libraryName": "lodash", "libraryDirectory": "", "camel2DashComponentName": false },
+      "lodash"
+    ],
     "@babel/plugin-syntax-dynamic-import",
     "@babel/plugin-proposal-class-properties",
     "@babel/plugin-proposal-optional-chaining"
