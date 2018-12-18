@@ -60,7 +60,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity httpSecurity) throws Exception {
-		httpSecurity.csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests().antMatchers(HttpMethod.OPTIONS, "/**").permitAll().antMatchers(HttpMethod.GET, "/*.html", "/favicon.ico", "/**/*.html", "/**/*.css", "/**/*.js").permitAll().antMatchers("/auth/**").permitAll().antMatchers("/admin/**").hasIpAddress("127.0.0.1").antMatchers("/admin/**").access("hasAuthority('ROLE_ADMIN')").anyRequest().authenticated();
+		httpSecurity.csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests().antMatchers(HttpMethod.OPTIONS, "/**").permitAll().antMatchers(HttpMethod.GET, "/*.html", "/favicon.ico", "/**/*.html", "/**/*.css", "/**/*.js").permitAll().antMatchers("/api/**/auth/**").permitAll().antMatchers("/api/**/admin/**").hasIpAddress("127.0.0.1").antMatchers("/api/**/admin/**").access("hasAuthority('ROLE_ADMIN')").anyRequest().authenticated();
 		httpSecurity.addFilterBefore(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter.class);
 		httpSecurity.headers().cacheControl();
 	}

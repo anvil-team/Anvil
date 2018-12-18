@@ -21,6 +21,7 @@ import com.godman.anvil.domain.response.CategoryChildResponse;
 import com.godman.anvil.domain.response.CategoryResponse;
 import com.godman.anvil.services.AuthService;
 import com.godman.anvil.utils.JwtTokenUtil;
+import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
 
 @Service
@@ -69,6 +70,9 @@ public class AuthServiceImpl implements AuthService {
 	public List<CategoryResponse> getCategory(String token) {
 		String userName = jwtTokenUtil.getUsernameFromToken(token);
 		AnvilUser user = anvilUserDao.findByUsername(userName);
+		if(Strings.isNullOrEmpty(userName)||user==null){
+			return null;
+		}
 
 		Map<Long, CategoryResponse> categoryMap = Maps.newHashMap();
 		List<AnvilCategory> categorys = anvilCategoryDao.findCategoryByRoleId(user.getRole().getId());

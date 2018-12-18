@@ -17,12 +17,13 @@ import com.godman.anvil.enumtype.AuthTokenAccessbleType;
 import com.godman.anvil.services.AuthService;
 
 @RestController
+@RequestMapping("/api/v1/auth")
 public class AuthController {
 
 	@Autowired
 	private AuthService authService;
 
-	@RequestMapping(value = "/auth/login", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/login", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public CommonResponse<AuthTokenResponse> createAuthenticationToken(String username, String password) {
 		String token = authService.createAuthenticationToken(username, password);
 
@@ -35,7 +36,7 @@ public class AuthController {
 		return response;
 	}
 
-	@RequestMapping(value = "/auth/refresh", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/refresh", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public CommonResponse<AuthTokenResponse> refreshAuthenticationToken(HttpServletRequest request) {
 		String oldToken = request.getHeader("token");
 		String token = authService.refreshAuthenticationToken(oldToken);
@@ -52,15 +53,18 @@ public class AuthController {
 		return response;
 	}
 
-	@RequestMapping(value = "/auth/category", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/category", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public CommonResponse<List<CategoryResponse>> getCategory(HttpServletRequest request) {
 		String token = request.getHeader("token");
 		List<CategoryResponse> categoryResponse = authService.getCategory(token);
-
+		
 		CommonResponse<List<CategoryResponse>> response = new CommonResponse<List<CategoryResponse>>();
 		response.setSuccess(CommonResponse.SUCCESS_STATE);
 		response.setData(categoryResponse);
+		if(categoryResponse==null){
+			response.setSuccess(CommonResponse.FAIL_STATE);
+			response.setMessage("token invalid");
+		}
 		return response;
 	}
-
 }
