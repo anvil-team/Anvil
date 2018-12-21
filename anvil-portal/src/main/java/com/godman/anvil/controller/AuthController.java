@@ -29,6 +29,7 @@ public class AuthController {
 
 		AuthTokenResponse authTokenResponse = new AuthTokenResponse();
 		authTokenResponse.setToken(token);
+		authTokenResponse.setIsAccessible(AuthTokenAccessbleType.ALLOW_ACCESS);
 
 		CommonResponse<AuthTokenResponse> response = new CommonResponse<AuthTokenResponse>();
 		response.setSuccess(CommonResponse.SUCCESS_STATE);
@@ -38,7 +39,7 @@ public class AuthController {
 
 	@RequestMapping(value = "/refresh", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public CommonResponse<AuthTokenResponse> refreshAuthenticationToken(HttpServletRequest request) {
-		String oldToken = request.getHeader("token");
+		String oldToken = request.getHeader("Authorization");
 		String token = authService.refreshAuthenticationToken(oldToken);
 
 		AuthTokenResponse authTokenResponse = new AuthTokenResponse(AuthTokenAccessbleType.NOTALLOW_ACCESS);
@@ -54,17 +55,16 @@ public class AuthController {
 	}
 
 	@RequestMapping(value = "/category", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public CommonResponse<List<CategoryResponse>> getCategory(HttpServletRequest request) {
-		String token = request.getHeader("token");
+	public CommonResponse<List<CategoryResponse>> getCategory(HttpServletRequest request) throws Exception {
+		String token = request.getHeader("Authorization");
 		List<CategoryResponse> categoryResponse = authService.getCategory(token);
+		if(categoryResponse==null){
+			throw new Exception("token invalid");
+		}
 		
 		CommonResponse<List<CategoryResponse>> response = new CommonResponse<List<CategoryResponse>>();
 		response.setSuccess(CommonResponse.SUCCESS_STATE);
 		response.setData(categoryResponse);
-		if(categoryResponse==null){
-			response.setSuccess(CommonResponse.FAIL_STATE);
-			response.setMessage("token invalid");
-		}
 		return response;
 	}
 }

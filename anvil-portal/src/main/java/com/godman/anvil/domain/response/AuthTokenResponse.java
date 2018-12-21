@@ -1,6 +1,7 @@
 package com.godman.anvil.domain.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.godman.anvil.enumtype.AuthTokenAccessbleType;
 
 public class AuthTokenResponse {
@@ -8,6 +9,7 @@ public class AuthTokenResponse {
 	@JsonInclude(JsonInclude.Include.NON_EMPTY)
 	private String token;
 
+	@JsonInclude(Include.NON_NULL)
 	private AuthTokenAccessbleType isAccessible;
 
 	public AuthTokenResponse() {

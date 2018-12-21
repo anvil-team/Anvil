@@ -22,6 +22,7 @@ import com.godman.anvil.domain.response.CategoryResponse;
 import com.godman.anvil.services.AuthService;
 import com.godman.anvil.utils.JwtTokenUtil;
 import com.google.common.base.Strings;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 @Service
@@ -83,19 +84,28 @@ public class AuthServiceImpl implements AuthService {
 			}
 			if (categoryMap.get(parentId) == null) {
 				CategoryResponse categoryResponse = new CategoryResponse();
+				List<CategoryChildResponse> childCategory=Lists.newArrayList();
+				categoryResponse.setChildCategory(childCategory);
 				categoryMap.put(parentId, categoryResponse);
 			}
+			
 			if (category.getId() != parentId) {
 				CategoryChildResponse categoryChildResponse = new CategoryChildResponse();
 				categoryChildResponse.setCategoryName(category.getCategoryName());
 				categoryChildResponse.setUrl(category.getUrl());
-				categoryMap.get(parentId).setChildCategory(categoryChildResponse);
+				categoryMap.get(parentId).getChildCategory().add(categoryChildResponse);
 			} else {
 				categoryMap.get(parentId).setParentName(category.getCategoryName());
 			}
 		}
-
-		List<CategoryResponse> response = new ArrayList<CategoryResponse>(categoryMap.values());
+		
+		List<CategoryResponse> response=Lists.newArrayList();
+		for(CategoryResponse categoryResponse:categoryMap.values()){
+			if(Strings.isNullOrEmpty(categoryResponse.getParentName())){
+				break;
+			}
+			response.add(categoryResponse);
+		}
 		return response;
 	}
 }
