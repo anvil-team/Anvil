@@ -1,5 +1,5 @@
 import React from 'react'
-import { Route, Redirect } from 'react-router-dom'
+import { Route } from 'react-router-dom'
 import isDev from 'src/utils/isDev'
 import { Spin, Icon } from 'antd'
 
