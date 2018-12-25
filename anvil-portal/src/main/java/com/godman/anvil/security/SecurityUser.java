@@ -58,7 +58,7 @@ public class SecurityUser implements UserDetails {
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		List<GrantedAuthority> auths = new ArrayList<>();
 		AnvilRole role = this.getRole();
-		auths.add(new SimpleGrantedAuthority(role.getRoleName()));
+		auths.add(new SimpleGrantedAuthority(role.getRoleCode()));
 		return auths;
 	}
 
