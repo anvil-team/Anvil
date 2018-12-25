@@ -20,13 +20,7 @@ module.exports = {
   devtool: isDev ? 'cheap-module-source-map' : 'source-map',
   entry: {
     app: isDev
-      ? [
-          // 'react-hot-loader/patch',
-          // 'webpack-dev-server/client?http://0.0.0.0:3000',
-          '@babel/polyfill',
-          require.resolve('react-dev-utils/webpackHotDevClient'),
-          paths.appIndex,
-        ]
+      ? ['@babel/polyfill', require.resolve('react-dev-utils/webpackHotDevClient'), paths.appIndex]
       : ['@babel/polyfill', paths.appIndex],
   },
   output: {
@@ -83,7 +77,11 @@ module.exports = {
   },
   plugins: [
     new webpack.DefinePlugin({
-      'process.env': process.env.NODE_ENV,
+      'process.env': {
+        NODE_ENV: `'${process.env.NODE_ENV}'`,
+        BASE_URL: `'${process.env.BASE_URL || ''}'`,
+        API_VERSION: `'${process.env.API_VERSION || ''}'`,
+      },
     }),
   ].concat(
     isDev

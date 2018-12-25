@@ -1,0 +1,18 @@
+os: osx
+language: nodejs
+node_js:
+  - "10"
+
+cache: npm
+
+env:
+  - NODE_ENV=production
+
+install:
+  - npm i
+
+script:
+  - npm run build
+
+deploy:
+  - 

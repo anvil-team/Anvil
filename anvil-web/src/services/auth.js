@@ -2,26 +2,26 @@
  * @Author: zhenglfsir@gmail.com
  * @Date: 2018-12-11 21:06:42
  * @Last Modified by: zhenglfsir@gmail.com
- * @Last Modified time: 2018-12-11 21:07:20
+ * @Last Modified time: 2018-12-21 10:29:26
  * auth http model
  */
-import invariant from 'invariant'
-import axios from 'axios'
+import invariant from 'invariant';
+import axios from 'axios';
 
 export function login(username, password) {
-  invariant(username)
-  invariant(password)
-  return axios.post('/auth/login')
+  invariant(username, 'need username');
+  invariant(password, 'need password');
+  return axios.post('/auth/login', { username, password });
 }
 
 export function refresh() {
-  return axios.get('/auth/refresh')
+  return axios.get('/auth/refresh');
 }
 
 export function category() {
-  return axios.get('/auth/category')
+  return axios.get('/auth/category');
 }
 
 export function userDetail() {
-  return axios.get('/auth/userDetail')
+  return axios.get('/auth/userDetail');
 }

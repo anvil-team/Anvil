@@ -2,23 +2,26 @@
  * @Author: zhenglfsir@gmail.com
  * @Date: 2018-12-03 23:27:30
  * @Last Modified by: zhenglfsir@gmail.com
- * @Last Modified time: 2018-12-07 17:08:14
+ * @Last Modified time: 2018-12-20 20:28:10
  */
-import React from 'react'
-import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom'
-import { Provider } from 'react-redux'
-import DocumentTitle from 'react-document-title'
-import { routes } from './routes/router'
-import AuthRoute from './components/AuthRoute'
-import BasicLayout from './layouts/BasicLayout'
-import { store } from './stores'
-import './app.scss'
+import React from 'react';
+import { Redirect, Route, Switch } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import DocumentTitle from 'react-document-title';
+import { ConnectedRouter } from 'connected-react-router';
+import { routes } from './routes/router';
+import AuthRoute from './components/AuthRoute';
+import BasicLayout from './layouts/BasicLayout';
+import './app.scss';
+
 
 class App extends React.Component {
   render() {
+    const { store, history } = this.props;
+
     return (
       <Provider store={store}>
-        <Router>
+        <ConnectedRouter history={history}>
           <Switch>
             {routes.map((route) =>
               route.redirect ? (
@@ -62,18 +65,18 @@ class App extends React.Component {
               )
             )}
           </Switch>
-        </Router>
+        </ConnectedRouter>
       </Provider>
-    )
+    );
   }
 
   checker = () => {
-    return sessionStorage.token
-  }
+    return sessionStorage.token;
+  };
 
   prefixTitle = (title) => {
-    return `Anvil - ${title}`
-  }
+    return `Anvil - ${title}`;
+  };
 }
 
-export default App
+export default App;

@@ -11,6 +11,7 @@ module.exports = {
   env: {
     browser: true,
     node: true,
+    es6: true,
   },
   rules: {
     'no-console': 0,
@@ -19,4 +20,4 @@ module.exports = {
   globals: {
     Promise: true,
   },
-}
+};

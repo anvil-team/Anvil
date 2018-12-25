@@ -1,19 +1,24 @@
-import { delay } from 'redux-saga'
-import { put } from 'redux-saga/effects'
+import { call, put, all } from 'redux-saga/effects';
+import { replace } from 'connected-react-router';
+import * as authService from '../../services/auth';
 
 const initialState = {
-  login: true,
-}
+  login: false,
+  tips: '登录成功, 正在获取权限...',
+};
 
-export const state = initialState
+export const state = initialState;
 
 export const effects = {
-  *say(action) {
-    console.log('action', action)
-    yield delay(1000)
-    console.log('一秒后输出')
-    yield put({ type: 'login/setState', payload: { login: false } })
+  *auth(action) {
+    const { payload } = action;
+    const response = yield call(authService.login, payload.username, payload.password);
+    if (response) {
+      sessionStorage.token = response.data.token;
+      // 请求数据
+      yield put({ type: 'login/setState', payload: { login: true } });
+      yield all([call(authService.category), call(authService.userDetail)]);
+      yield put(replace('/dashboard'));
+    }
   },
-}
-
-export const reducers = {}
+};
