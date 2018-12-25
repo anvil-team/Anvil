@@ -2,7 +2,7 @@
  * @Author: zhenglfsir@gmail.com
  * @Date: 2018-12-03 23:27:30
  * @Last Modified by: zhenglfsir@gmail.com
- * @Last Modified time: 2018-12-20 20:28:10
+ * @Last Modified time: 2018-12-25 22:41:16
  */
 import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
@@ -13,7 +13,6 @@ import { routes } from './routes/router';
 import AuthRoute from './components/AuthRoute';
 import BasicLayout from './layouts/BasicLayout';
 import './app.scss';
-
 
 class App extends React.Component {
   render() {
@@ -33,13 +32,13 @@ class App extends React.Component {
                   render={(props) => (
                     <BasicLayout {...props}>
                       {route.children ? (
-                        route.children.map((subRoute) => (
-                          <DocumentTitle title={this.prefixTitle(subRoute.title)} key={route.path}>
+                        route.children.map((sub) => (
+                          <DocumentTitle title={this.prefixTitle(sub.title)} key={route.path}>
                             <AuthRoute
                               {...props}
-                              path={subRoute.path}
+                              path={route.path + sub.path}
                               redirect="/login"
-                              render={(props) => <subRoute.component {...props} />}
+                              render={(props) => <sub.component {...props} />}
                             />
                           </DocumentTitle>
                         ))
