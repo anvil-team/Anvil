@@ -1,10 +1,16 @@
 package com.godman.anvil.domain.response;
 
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
 public class CategoryResponse {
 
 	private String parentName;
 
-	private CategoryChildResponse childCategory;
+	@JsonInclude(Include.NON_NULL)
+	private List<CategoryChildResponse> childCategory;
 
 	public String getParentName() {
 		return parentName;
@@ -14,11 +20,11 @@ public class CategoryResponse {
 		this.parentName = parentName;
 	}
 
-	public CategoryChildResponse getChildCategory() {
+	public List<CategoryChildResponse> getChildCategory() {
 		return childCategory;
 	}
 
-	public void setChildCategory(CategoryChildResponse childCategory) {
+	public void setChildCategory(List<CategoryChildResponse> childCategory) {
 		this.childCategory = childCategory;
 	}
 

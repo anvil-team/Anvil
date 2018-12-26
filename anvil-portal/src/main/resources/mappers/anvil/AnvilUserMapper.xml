@@ -1,18 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.godman.anvil.dao.AnvilCategoryDao">
+<mapper namespace="com.godman.anvil.dao.AnvilUserDao">
 
-	<select id="findCategoryByRoleId" parameterType="Map" resultType="AnvilCategory">
+	<resultMap id="AnvilUserResultMap" type="AnvilUser">
+		<result property="username" column="username" />
+		<result property="password" column="password" />
+		<result property="realName" column="real_name" />
+		<result property="department" column="department" />
+		<association property="role" javaType="AnvilRole" resultMap="AnvilRoleResultMap" />
+	</resultMap>
+
+	<resultMap id="AnvilRoleResultMap" type="AnvilRole">
+		<result property="id" column="role_id" />
+		<result property="roleCode" column="role_code" />
+		<result property="roleName" column="role_name" />
+	</resultMap>
+
+	<select id="findByUsername" parameterType="Map" resultMap="AnvilUserResultMap">
 		SELECT
-			c.id,
-			c.parent_id,
-			c.category_name,
-			c.url
-		FROM
-			anvil_role_assign a,
-			anvil_category c
-		WHERE
-			a.category_id = c.id AND a.role_id = #{roleId}
+		u.username,
+		u.password,
+		u.real_name,
+		u.department,
+		r.id as role_id,
+		r.role_code,
+		r.role_name
+		FROM anvil_user u, anvil_role r
+		WHERE u.username=#{username} and r.id=u.role
 	</select>
 
 </mapper>
