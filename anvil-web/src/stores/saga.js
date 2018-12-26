@@ -23,7 +23,7 @@ function appReducer(state = initialState) {
   return { ...state };
 }
 
-function handleActions(handlers, initialState) {
+function handleActions(handlers, initialState, namespace) {
   const reducers = Object.keys(handlers).map((type) => {
     return (state, action) => {
       if (action.type === type) {
@@ -37,7 +37,7 @@ function handleActions(handlers, initialState) {
       return r(s, action);
     }, state);
   return (state = initialState, action) => {
-    if (action.type.includes('setState')) {
+    if (action.type === `${namespace}/setState`) {
       return { ...state, ...action.payload };
     }
     return reducer(state, action);
@@ -47,7 +47,7 @@ function handleActions(handlers, initialState) {
 export function getReducers(history) {
   const mReducers = Object.keys(modules).reduce((rds, namespace) => {
     const m = modules[namespace];
-    rds[namespace + 'State'] = handleActions(m.reducers || {}, m.state);
+    rds[namespace + 'State'] = handleActions(m.reducers || {}, m.state, namespace);
     return rds;
   }, {});
   return combineReducers({
