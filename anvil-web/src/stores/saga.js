@@ -26,7 +26,7 @@ function appReducer(state = initialState) {
 function handleActions(handlers, initialState, namespace) {
   const reducers = Object.keys(handlers).map((type) => {
     return (state, action) => {
-      if (action.type === type) {
+      if (action.type === `${namespace}/${type}`) {
         return handlers[type](state, action);
       }
       return state;
