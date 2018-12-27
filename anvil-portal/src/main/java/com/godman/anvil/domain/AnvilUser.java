@@ -10,6 +10,8 @@ public class AnvilUser {
 
 	private String password;
 	
+	private String position;
+	
 	private String department;
 
 	private AnvilRole role;
@@ -44,6 +46,14 @@ public class AnvilUser {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public String getPosition() {
+		return position;
+	}
+
+	public void setPosition(String position) {
+		this.position = position;
 	}
 
 	public String getDepartment() {

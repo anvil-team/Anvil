@@ -3,15 +3,27 @@ package com.godman.anvil.domain.response;
 
 public class UserDetailResponse {
 
+	private Long id;
+	
 	private String username;
 	
 	private String realName;
+	
+	private String position;
 
 	private String department;
 
 	private String roleCode;
 
 	private String roleName;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 
 	public String getUsername() {
 		return username;
@@ -27,6 +39,14 @@ public class UserDetailResponse {
 
 	public void setRealName(String realName) {
 		this.realName = realName;
+	}
+
+	public String getPosition() {
+		return position;
+	}
+
+	public void setPosition(String position) {
+		this.position = position;
 	}
 
 	public String getDepartment() {

@@ -6,6 +6,7 @@
 		<result property="username" column="username" />
 		<result property="password" column="password" />
 		<result property="realName" column="real_name" />
+		<result property="position" column="position" />
 		<result property="department" column="department" />
 		<association property="role" javaType="AnvilRole" resultMap="AnvilRoleResultMap" />
 	</resultMap>
@@ -21,6 +22,7 @@
 		u.username,
 		u.password,
 		u.real_name,
+		u.position,
 		u.department,
 		r.id as role_id,
 		r.role_code,
@@ -29,4 +31,24 @@
 		WHERE u.username=#{username} and r.id=u.role
 	</select>
 
+	<select id="findByPaging" parameterType="Map" resultMap="AnvilUserResultMap">
+		SELECT
+		u.username,
+		u.password,
+		u.real_name,
+		u.position,
+		u.department,
+		r.id as role_id,
+		r.role_code,
+		r.role_name
+		FROM anvil_user u, anvil_role r 
+		WHERE r.id=u.role limit #{pageStart},#{pageSize}
+	</select>
+	
+	<select id="getSize" parameterType="Map" resultType="Integer">
+		SELECT
+		count(1)
+		FROM anvil_user u
+	</select>
+	
 </mapper>
