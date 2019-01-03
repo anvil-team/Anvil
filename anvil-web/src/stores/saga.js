@@ -11,7 +11,7 @@ const modules = {
   app,
 };
 
-const effects = Object.keys(modules).reduce((efs, mEffectsName) => {
+export const effects = Object.keys(modules).reduce((efs, mEffectsName) => {
   const mEffects = modules[mEffectsName].effects;
   efs = Object.keys(mEffects).reduce((efs, efKey) => {
     const e = mEffects[efKey];
@@ -59,11 +59,19 @@ export function getReducers(history) {
 }
 
 function* saga() {
-  try {
-    yield all(Object.keys(effects).map((key) => takeEvery(key, effects[key])));
-  } catch (error) {
-    console.log('saga caught:', error);
-  }
+  yield all(
+    Object.keys(effects).map((key) =>
+      takeEvery(key, function*(action) {
+        try {
+          const ret = yield effects[key](action);
+          action._resolve && action._resolve(ret);
+        } catch (err) {
+          console.error('take', err);
+          action._reject && action._reject(err);
+        }
+      })
+    )
+  );
 }
 
 export default saga;
