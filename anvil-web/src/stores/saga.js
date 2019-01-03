@@ -1,10 +1,14 @@
 import { combineReducers } from 'redux';
 import { all, takeEvery } from 'redux-saga/effects';
 import { connectRouter } from 'connected-react-router';
+import { persistReducer } from 'redux-persist';
+import session from 'redux-persist/lib/storage/session';
 import * as login from './module/login';
+import * as app from './app';
 
 const modules = {
   login,
+  app,
 };
 
 const effects = Object.keys(modules).reduce((efs, mEffectsName) => {
@@ -16,12 +20,6 @@ const effects = Object.keys(modules).reduce((efs, mEffectsName) => {
   }, efs);
   return efs;
 }, {});
-
-const initialState = {};
-
-function appReducer(state = initialState) {
-  return { ...state };
-}
 
 function handleActions(handlers, initialState, namespace) {
   const reducers = Object.keys(handlers).map((type) => {
@@ -51,9 +49,12 @@ export function getReducers(history) {
     return rds;
   }, {});
   return combineReducers({
-    app: appReducer,
     router: connectRouter(history),
     ...mReducers,
+    appState: persistReducer(
+      { key: 'app', keyPrefix: 'Anvil-', storage: session },
+      mReducers.appState
+    ),
   });
 }
 

@@ -1,8 +1,8 @@
-import LazyLoad from 'src/components/LazyLoad';
+import LazyLoad from 'components/LazyLoad';
 
 export const routes = [
   {
-    path: '/dashboard',
+    path: '/sys',
     auth: true,
     children: [
       {

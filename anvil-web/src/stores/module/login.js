@@ -17,8 +17,14 @@ export const effects = {
       sessionStorage.token = response.data.token;
       // 请求数据
       yield put({ type: 'login/setState', payload: { login: true } });
-      yield all([call(authService.category), call(authService.userDetail)]);
-      yield put(replace('/dashboard'));
+      const [categoryData] = yield all([
+        call(authService.category),
+        // call(authService.userDetail),
+      ]);
+      if (categoryData) {
+        yield put({ type: 'app/setState', payload: { userMenus: categoryData.data } });
+        yield put(replace('/sys'));
+      }
     }
   },
 };

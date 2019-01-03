@@ -13,11 +13,14 @@ import './config/axios';
 import './registerSw';
 
 const history = createBrowserHistory();
-const store = getStore(history);
+const { store, persistor } = getStore(history);
 runSaga();
 
 const render = (Component) => {
-  ReactDom.render(<Component history={history} store={store} />, document.getElementById('app'));
+  ReactDom.render(
+    <Component history={history} store={store} persistor={persistor} />,
+    document.getElementById('app')
+  );
 };
 
 render(App);

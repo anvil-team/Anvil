@@ -2,7 +2,7 @@
  * @Author: zhenglfsir@gmail.com
  * @Date: 2018-12-11 21:07:24
  * @Last Modified by: zhenglfsir@gmail.com
- * @Last Modified time: 2018-12-21 12:04:03
+ * @Last Modified time: 2018-12-26 21:51:53
  * basic http config
  */
 import axios from 'axios';
@@ -43,7 +43,7 @@ axios.interceptors.request.use(
   (config) => {
     NProgress.start();
     config.data = qs.stringify(config.data);
-    if (sessionStorage.token) config.headers['Authorization'] = `token ${sessionStorage.token}`;
+    if (sessionStorage.token) config.headers['Authorization'] = `${sessionStorage.token}`;
     return config;
   },
   (error) => {

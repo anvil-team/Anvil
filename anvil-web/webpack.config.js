@@ -32,6 +32,10 @@ module.exports = {
   },
   resolve: {
     alias: {
+      components: path.resolve(__dirname, 'src/components'),
+      config: path.resolve(__dirname, 'src/config'),
+      services: path.resolve(__dirname, 'src/services'),
+      utils: path.resolve(__dirname, 'src/utils'),
       src: path.resolve(__dirname, 'src/'),
       '@ant-design/icons/lib/dist$': paths.antdIcon,
     },
