@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.godman.anvil.dao.AnvilUserDao;
 import com.godman.anvil.domain.AnvilUser;
+import com.godman.anvil.domain.request.UserDetaiRequest;
 import com.godman.anvil.domain.response.UserBatchResponse;
 import com.godman.anvil.domain.response.UserDetailResponse;
 import com.godman.anvil.services.UserService;
@@ -24,6 +25,8 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private JwtTokenUtil jwtTokenUtil;
 
+	private static final String DEFAULT_PASSWORD = "12345678";
+
 	@Override
 	public UserDetailResponse getUserByAuthToken(String token) {
 		String userName = jwtTokenUtil.getUsernameFromToken(token);
@@ -36,9 +39,9 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public UserBatchResponse getUsersBatch(Integer currentPage, Integer pageSize) {
+	public UserBatchResponse getUsersBatch(String username, Integer currentPage, Integer pageSize) {
 		Integer total = anvilUserDao.getSize();
-		List<AnvilUser> users = anvilUserDao.findByPaging((currentPage - 1) * pageSize, pageSize);
+		List<AnvilUser> users = anvilUserDao.findByPaging(username, (currentPage - 1) * pageSize, pageSize);
 
 		List<UserDetailResponse> userDetails = Lists.newArrayList();
 		for (AnvilUser user : users) {
@@ -53,10 +56,30 @@ public class UserServiceImpl implements UserService {
 		return userBatchResponse;
 	}
 
+	@Override
+	public void deleteUsersBatch(Integer id) {
+		anvilUserDao.deleteUser(id);
+	}
+
+	@Override
+	public void addUserBatch(UserDetaiRequest userDetail) {
+		userDetail.setPassword(DEFAULT_PASSWORD);
+		AnvilUser user = new AnvilUser();
+		BeanUtils.copyProperties(userDetail, user);
+		anvilUserDao.addUser(user);
+	}
+
+	@Override
+	public void updateUserBatch(UserDetaiRequest userDetail) {
+		AnvilUser user = new AnvilUser();
+		BeanUtils.copyProperties(userDetail, user);
+		anvilUserDao.updateUser(user);
+	}
+
 	private UserDetailResponse genUserDetailResponse(AnvilUser user) {
 		UserDetailResponse userDetailResponse = new UserDetailResponse();
 		BeanUtils.copyProperties(user, userDetailResponse);
-		BeanUtils.copyProperties(user.getRole(), userDetailResponse);
+		BeanUtils.copyProperties(user.getRoleObject(), userDetailResponse);
 		return userDetailResponse;
 	}
 }

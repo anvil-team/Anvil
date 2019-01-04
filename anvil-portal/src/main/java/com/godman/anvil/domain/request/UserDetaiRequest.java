@@ -1,22 +1,27 @@
-package com.godman.anvil.domain;
+package com.godman.anvil.domain.request;
 
-public class AnvilUser {
+import org.hibernate.validator.constraints.NotBlank;
+
+public class UserDetaiRequest {
 
 	private Long id;
-	
+
+	@NotBlank(message = "realName is blank")
 	private String realName;
 
+	@NotBlank(message = "username is blank")
 	private String username;
 
 	private String password;
-	
-	private String position;
-	
+
+	@NotBlank(message = "department is blank")
 	private String department;
 
-	private Integer role;
-	
-	private AnvilRole roleObject;
+	@NotBlank(message = "position is blank")
+	private String position;
+
+	@NotBlank(message = "roleCode is blank")
+	private String roleCode;
 
 	public Long getId() {
 		return id;
@@ -50,14 +55,6 @@ public class AnvilUser {
 		this.password = password;
 	}
 
-	public String getPosition() {
-		return position;
-	}
-
-	public void setPosition(String position) {
-		this.position = position;
-	}
-
 	public String getDepartment() {
 		return department;
 	}
@@ -66,20 +63,20 @@ public class AnvilUser {
 		this.department = department;
 	}
 
-	public Integer getRole() {
-		return role;
+	public String getPosition() {
+		return position;
 	}
 
-	public void setRole(Integer role) {
-		this.role = role;
+	public void setPosition(String position) {
+		this.position = position;
 	}
 
-	public AnvilRole getRoleObject() {
-		return roleObject;
+	public String getRoleCode() {
+		return roleCode;
 	}
 
-	public void setRoleObject(AnvilRole roleObject) {
-		this.roleObject = roleObject;
+	public void setRoleCode(String roleCode) {
+		this.roleCode = roleCode;
 	}
 
 }

@@ -42,13 +42,52 @@
 		r.role_code,
 		r.role_name
 		FROM anvil_user u, anvil_role r 
-		WHERE r.id=u.role limit #{pageStart},#{pageSize}
+		WHERE r.id=u.role and u.username=#{username} limit #{pageStart},#{pageSize}
 	</select>
 	
 	<select id="getSize" parameterType="Map" resultType="Integer">
 		SELECT
 		count(1)
 		FROM anvil_user u
+	</select>
+	
+	<insert id="addUser" parameterType="AnvilUser">
+		INSERT INTO anvil_user
+		(username,
+		password,
+		real_name,
+		position,
+		department,
+		role,
+		create_time,
+		update_time)
+		VALUES
+		(#{username},
+		#{password},
+		#{realName},
+		#{position},
+		#{department},
+		#{role},
+		now(),
+		now()
+		)
+	</insert>
+	
+	<update id="updateUser" parameterType="AnvilUser">
+		UPDATE SET anvil_user
+		username=#{username},
+		password=#{password},
+		real_name=#{realName},
+		position=#{position},
+		department=#{department},
+		role=#{role},
+		update_time=now()
+		WHERE id=#{id}
+	</insert>
+	
+	<delete id="deleteUser" parameterType="Map">
+		DELETE FROM anvil_user
+		WHERE id=#{userId}
 	</select>
 	
 </mapper>
