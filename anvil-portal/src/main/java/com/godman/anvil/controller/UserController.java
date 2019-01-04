@@ -45,6 +45,26 @@ public class UserController {
 	}
 
 	/**
+	 * 用户信息修改接口（用户自身）
+	 * 
+	 * @param request
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/userDetail", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+	public CommonResponse<UserDetailResponse> updateUserDetail(HttpServletRequest request, @RequestParam("userDetail") UserDetaiRequest userDetail) throws Exception {
+		String token = request.getHeader("Authorization");
+		Boolean isUpdate = userService.updateUserByAuthToken(token, userDetail);
+		if (!isUpdate) {
+			throw new Exception("token invalid");
+		}
+
+		CommonResponse<UserDetailResponse> response = new CommonResponse<UserDetailResponse>();
+		response.setSuccess(CommonResponse.SUCCESS_STATE);
+		return response;
+	}
+
+	/**
 	 * 用户列表下发接口
 	 * 
 	 * @param username
@@ -55,7 +75,7 @@ public class UserController {
 	 */
 	@PreAuthorize("hasAuthority('SYSTEM_ADMIN','NORMAL_ADMIN')")
 	@RequestMapping(value = "/userBatch", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public CommonResponse<UserBatchResponse> addUserDetail(String username, @RequestParam("currentPage") Integer currentPage, @RequestParam("pageSize") Integer pageSize) throws Exception {
+	public CommonResponse<UserBatchResponse> getUserDetailList(String username, @RequestParam("currentPage") Integer currentPage, @RequestParam("pageSize") Integer pageSize) throws Exception {
 		UserBatchResponse userBatchResponse = userService.getUsersBatch(username, currentPage, pageSize);
 		CommonResponse<UserBatchResponse> response = new CommonResponse<UserBatchResponse>();
 		response.setSuccess(CommonResponse.SUCCESS_STATE);
@@ -72,7 +92,7 @@ public class UserController {
 	 */
 	@PreAuthorize("hasAuthority('SYSTEM_ADMIN')")
 	@RequestMapping(value = "/userBatch", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public CommonResponse<Void> updateUserDetail(@RequestParam("userDetail") UserDetaiRequest userDetail) throws Exception {
+	public CommonResponse<Void> updateUserDetailList(@RequestParam("userDetail") UserDetaiRequest userDetail) throws Exception {
 		Long id = userDetail.getId();
 		if (id == null) {
 			userService.addUserBatch(userDetail);
@@ -93,7 +113,7 @@ public class UserController {
 	 */
 	@PreAuthorize("hasAuthority('SYSTEM_ADMIN')")
 	@RequestMapping(value = "/userBatch", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public CommonResponse<Void> deleteUserDetail(@RequestParam("id") Integer id) throws Exception {
+	public CommonResponse<Void> deleteUserDetailList(@RequestParam("id") Integer id) throws Exception {
 		userService.deleteUsersBatch(id);
 		CommonResponse<Void> response = new CommonResponse<Void>();
 		response.setSuccess(CommonResponse.SUCCESS_STATE);

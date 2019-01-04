@@ -39,6 +39,24 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	public Boolean updateUserByAuthToken(String token, UserDetaiRequest userDetail) {
+		String userName = jwtTokenUtil.getUsernameFromToken(token);
+		AnvilUser user = anvilUserDao.findByUsername(userName);
+		if (Strings.isNullOrEmpty(userName) || user == null) {
+			return false;
+		}
+
+		AnvilUser updateUser = new AnvilUser();
+		BeanUtils.copyProperties(userDetail, updateUser);
+
+		// 确保ID和username不变
+		updateUser.setId(user.getId());
+		updateUser.setUsername(user.getUsername());
+		anvilUserDao.updateUser(user);
+		return true;
+	}
+
+	@Override
 	public UserBatchResponse getUsersBatch(String username, Integer currentPage, Integer pageSize) {
 		Integer total = anvilUserDao.getSize();
 		List<AnvilUser> users = anvilUserDao.findByPaging(username, (currentPage - 1) * pageSize, pageSize);
@@ -82,4 +100,5 @@ public class UserServiceImpl implements UserService {
 		BeanUtils.copyProperties(user.getRoleObject(), userDetailResponse);
 		return userDetailResponse;
 	}
+
 }

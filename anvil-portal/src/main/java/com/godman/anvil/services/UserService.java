@@ -5,7 +5,7 @@ import com.godman.anvil.domain.response.UserBatchResponse;
 import com.godman.anvil.domain.response.UserDetailResponse;
 
 public interface UserService {
-	
+
 	/**
 	 * 根据token获取用户信息
 	 * 
@@ -13,6 +13,14 @@ public interface UserService {
 	 * @return
 	 */
 	UserDetailResponse getUserByAuthToken(String token);
+
+	/**
+	 * 根据token更新用户信息
+	 * 
+	 * @param token
+	 * @return
+	 */
+	Boolean updateUserByAuthToken(String token, UserDetaiRequest userDetail);
 
 	/**
 	 * 获取用户分页列表

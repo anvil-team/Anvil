@@ -19,6 +19,7 @@
 
 	<select id="findByUsername" parameterType="Map" resultMap="AnvilUserResultMap">
 		SELECT
+		u.id,
 		u.username,
 		u.password,
 		u.real_name,
@@ -33,6 +34,7 @@
 
 	<select id="findByPaging" parameterType="Map" resultMap="AnvilUserResultMap">
 		SELECT
+		u.id,
 		u.username,
 		u.password,
 		u.real_name,
@@ -83,11 +85,11 @@
 		role=#{role},
 		update_time=now()
 		WHERE id=#{id}
-	</insert>
+	</update>
 	
 	<delete id="deleteUser" parameterType="Map">
 		DELETE FROM anvil_user
 		WHERE id=#{userId}
-	</select>
+	</delete>
 	
 </mapper>
