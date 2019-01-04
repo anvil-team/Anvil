@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
 
-import com.godman.anvil.domain.request.UserDetaiRequest;
+import com.godman.anvil.domain.request.UserDetailRequest;
 import com.godman.anvil.utils.JsonUnify;
 import com.google.common.base.Strings;
 
@@ -19,7 +19,7 @@ import com.google.common.base.Strings;
  * userDetailRequest自定义converter
  * @author chenzihao
  */
-public class UserDetaiConverter implements Converter<String, UserDetaiRequest> {
+public class UserDetaiConverter implements Converter<String, UserDetailRequest> {
 	
 	private Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -27,8 +27,8 @@ public class UserDetaiConverter implements Converter<String, UserDetaiRequest> {
     private Validator validator;
 	
 	@Override
-	public UserDetaiRequest convert(String userDetailJson) {
-		UserDetaiRequest userDetailObj = null;
+	public UserDetailRequest convert(String userDetailJson) {
+		UserDetailRequest userDetailObj = null;
 		try {
 			if (Strings.isNullOrEmpty(userDetailJson)) {
 				logger.error("UserDetaiRequest is empty");
@@ -36,8 +36,8 @@ public class UserDetaiConverter implements Converter<String, UserDetaiRequest> {
 			}
 
 			// UserDetaiRequest json转化为对象
-			userDetailObj = generatePhead(userDetailJson);
-			Set<ConstraintViolation<UserDetaiRequest>> violations = validator.validate(userDetailObj);
+			userDetailObj = generateUserDetailRequest(userDetailJson);
+			Set<ConstraintViolation<UserDetailRequest>> violations = validator.validate(userDetailObj);
             if (!violations.isEmpty()) {
                 ConstraintViolationException ex = new ConstraintViolationException(violations);
                 throw ex;
@@ -51,12 +51,12 @@ public class UserDetaiConverter implements Converter<String, UserDetaiRequest> {
 
 	/**
 	 * 生成UserDetaiRequest对象
-	 * @param phead
+	 * @param userDetailJson
 	 * @return
 	 */
-	public static UserDetaiRequest generatePhead(String phead) {
+	public static UserDetailRequest generateUserDetailRequest(String userDetailJson) {
 		// 生成UserDetaiRequest对象
-		UserDetaiRequest userDetailObj = JsonUnify.fromJson(phead, UserDetaiRequest.class);
+		UserDetailRequest userDetailObj = JsonUnify.fromJson(userDetailJson, UserDetailRequest.class);
 		return userDetailObj;
 	}
 

@@ -1,6 +1,6 @@
 package com.godman.anvil.services;
 
-import com.godman.anvil.domain.request.UserDetaiRequest;
+import com.godman.anvil.domain.request.UserDetailRequest;
 import com.godman.anvil.domain.response.UserBatchResponse;
 import com.godman.anvil.domain.response.UserDetailResponse;
 
@@ -20,7 +20,7 @@ public interface UserService {
 	 * @param token
 	 * @return
 	 */
-	Boolean updateUserByAuthToken(String token, UserDetaiRequest userDetail);
+	Boolean updateUserByAuthToken(String token, UserDetailRequest userDetail);
 
 	/**
 	 * 获取用户分页列表
@@ -37,14 +37,14 @@ public interface UserService {
 	 * 
 	 * @param userDetail
 	 */
-	void addUserBatch(UserDetaiRequest userDetail);
+	void addUserBatch(UserDetailRequest userDetail);
 
 	/**
 	 * 修改用户
 	 * 
 	 * @param userDetail
 	 */
-	void updateUserBatch(UserDetaiRequest userDetail);
+	void updateUserBatch(UserDetailRequest userDetail);
 
 	/**
 	 * 删除用户

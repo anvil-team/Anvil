@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.godman.anvil.dao.AnvilUserDao;
 import com.godman.anvil.domain.AnvilUser;
-import com.godman.anvil.domain.request.UserDetaiRequest;
+import com.godman.anvil.domain.request.UserDetailRequest;
 import com.godman.anvil.domain.response.UserBatchResponse;
 import com.godman.anvil.domain.response.UserDetailResponse;
 import com.godman.anvil.services.UserService;
@@ -39,7 +39,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public Boolean updateUserByAuthToken(String token, UserDetaiRequest userDetail) {
+	public Boolean updateUserByAuthToken(String token, UserDetailRequest userDetail) {
 		String userName = jwtTokenUtil.getUsernameFromToken(token);
 		AnvilUser user = anvilUserDao.findByUsername(userName);
 		if (Strings.isNullOrEmpty(userName) || user == null) {
@@ -80,7 +80,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void addUserBatch(UserDetaiRequest userDetail) {
+	public void addUserBatch(UserDetailRequest userDetail) {
 		userDetail.setPassword(DEFAULT_PASSWORD);
 		AnvilUser user = new AnvilUser();
 		BeanUtils.copyProperties(userDetail, user);
@@ -88,7 +88,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void updateUserBatch(UserDetaiRequest userDetail) {
+	public void updateUserBatch(UserDetailRequest userDetail) {
 		AnvilUser user = new AnvilUser();
 		BeanUtils.copyProperties(userDetail, user);
 		anvilUserDao.updateUser(user);

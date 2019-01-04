@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.godman.anvil.domain.request.UserDetaiRequest;
+import com.godman.anvil.domain.request.UserDetailRequest;
 import com.godman.anvil.domain.response.CommonResponse;
 import com.godman.anvil.domain.response.UserBatchResponse;
 import com.godman.anvil.domain.response.UserDetailResponse;
@@ -52,7 +52,7 @@ public class UserController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/userDetail", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-	public CommonResponse<UserDetailResponse> updateUserDetail(HttpServletRequest request, @RequestParam("userDetail") UserDetaiRequest userDetail) throws Exception {
+	public CommonResponse<UserDetailResponse> updateUserDetail(HttpServletRequest request, @RequestParam("userDetail") UserDetailRequest userDetail) throws Exception {
 		String token = request.getHeader("Authorization");
 		Boolean isUpdate = userService.updateUserByAuthToken(token, userDetail);
 		if (!isUpdate) {
@@ -92,7 +92,7 @@ public class UserController {
 	 */
 	@PreAuthorize("hasAuthority('SYSTEM_ADMIN')")
 	@RequestMapping(value = "/userBatch", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public CommonResponse<Void> updateUserDetailList(@RequestParam("userDetail") UserDetaiRequest userDetail) throws Exception {
+	public CommonResponse<Void> updateUserDetailList(@RequestParam("userDetail") UserDetailRequest userDetail) throws Exception {
 		Long id = userDetail.getId();
 		if (id == null) {
 			userService.addUserBatch(userDetail);

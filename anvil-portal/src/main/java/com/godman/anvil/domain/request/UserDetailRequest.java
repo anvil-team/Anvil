@@ -2,7 +2,7 @@ package com.godman.anvil.domain.request;
 
 import org.hibernate.validator.constraints.NotBlank;
 
-public class UserDetaiRequest {
+public class UserDetailRequest {
 
 	private Long id;
 
