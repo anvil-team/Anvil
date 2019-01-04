@@ -17,6 +17,13 @@ public class TestController {
 	@Autowired
 	private AuthService authService;
 
+	/**
+	 * 权限测试接口
+	 * 
+	 * @param username
+	 * @param password
+	 * @return
+	 */
 	@PreAuthorize("hasAuthority('SYSTEM_ADMIN')")
 	@RequestMapping(value = "/test", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public CommonResponse<String> createAuthenticationToken(String username, String password) {

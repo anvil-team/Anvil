@@ -23,6 +23,13 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 
+	/**
+	 * 用户信息下发接口（用户自身）
+	 * 
+	 * @param request
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value = "/userDetail", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public CommonResponse<UserDetailResponse> getUserDetail(HttpServletRequest request) throws Exception {
 		String token = request.getHeader("Authorization");
@@ -37,6 +44,15 @@ public class UserController {
 		return response;
 	}
 
+	/**
+	 * 用户列表下发接口
+	 * 
+	 * @param username
+	 * @param currentPage
+	 * @param pageSize
+	 * @return
+	 * @throws Exception
+	 */
 	@PreAuthorize("hasAuthority('SYSTEM_ADMIN','NORMAL_ADMIN')")
 	@RequestMapping(value = "/userBatch", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public CommonResponse<UserBatchResponse> addUserDetail(String username, @RequestParam("currentPage") Integer currentPage, @RequestParam("pageSize") Integer pageSize) throws Exception {
@@ -47,6 +63,13 @@ public class UserController {
 		return response;
 	}
 
+	/**
+	 * 用户列表新增/修改接口
+	 * 
+	 * @param userDetail
+	 * @return
+	 * @throws Exception
+	 */
 	@PreAuthorize("hasAuthority('SYSTEM_ADMIN')")
 	@RequestMapping(value = "/userBatch", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public CommonResponse<Void> updateUserDetail(@RequestParam("userDetail") UserDetaiRequest userDetail) throws Exception {
@@ -61,6 +84,13 @@ public class UserController {
 		return response;
 	}
 
+	/**
+	 * 用户列表删除接口
+	 * 
+	 * @param id
+	 * @return
+	 * @throws Exception
+	 */
 	@PreAuthorize("hasAuthority('SYSTEM_ADMIN')")
 	@RequestMapping(value = "/userBatch", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public CommonResponse<Void> deleteUserDetail(@RequestParam("id") Integer id) throws Exception {
