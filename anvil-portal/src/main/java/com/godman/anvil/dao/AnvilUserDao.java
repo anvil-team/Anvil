@@ -10,10 +10,16 @@ import com.godman.anvil.domain.AnvilUser;
 @Mapper
 public interface AnvilUserDao {
 
+	public Integer getSize();
+
 	public AnvilUser findByUsername(@Param("username") String userName);
 
-	public List<AnvilUser> findByPaging(@Param("pageStart") Integer pageStart, @Param("pageSize") Integer pageSize);
+	public List<AnvilUser> findByPaging(@Param("username") String userName, @Param("pageStart") Integer pageStart, @Param("pageSize") Integer pageSize);
 
-	public Integer getSize();
+	public void addUser(AnvilUser user);
+
+	public void updateUser(AnvilUser user);
+
+	public void deleteUser(@Param("userId") Integer id);
 
 }

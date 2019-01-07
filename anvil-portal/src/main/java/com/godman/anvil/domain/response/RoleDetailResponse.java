@@ -1,13 +1,13 @@
-package com.godman.anvil.domain;
+package com.godman.anvil.domain.response;
 
-public class AnvilRole {
+public class RoleDetailResponse {
 
 	private Long id;
 
 	private String roleCode;
-	
+
 	private String roleName;
-	
+
 	private String roleDesc;
 
 	public Long getId() {

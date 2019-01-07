@@ -1,13 +1,18 @@
-package com.godman.anvil.domain;
+package com.godman.anvil.domain.request;
 
-public class AnvilRole {
+import org.hibernate.validator.constraints.NotBlank;
+
+public class RoleRequest  extends CommonRequest{
 
 	private Long id;
 
-	private String roleCode;
-	
+	@NotBlank(message = "realCode is blank")
+	private String realCode;
+
+	@NotBlank(message = "roleName is blank")
 	private String roleName;
-	
+
+	@NotBlank(message = "roleDesc is blank")
 	private String roleDesc;
 
 	public Long getId() {
@@ -18,12 +23,12 @@ public class AnvilRole {
 		this.id = id;
 	}
 
-	public String getRoleCode() {
-		return roleCode;
+	public String getRealCode() {
+		return realCode;
 	}
 
-	public void setRoleCode(String roleCode) {
-		this.roleCode = roleCode;
+	public void setRealCode(String realCode) {
+		this.realCode = realCode;
 	}
 
 	public String getRoleName() {

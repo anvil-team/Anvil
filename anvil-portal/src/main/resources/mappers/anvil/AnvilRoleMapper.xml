@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.godman.anvil.dao.AnvilRoleDao">
+
+	<select id="findByPaging" parameterType="Map" resultType="AnvilRole">
+		SELECT
+		r.id,
+		r.role_code,
+		r.role_name,
+		r.role_desc,
+		r.create_time,
+		r.update_time 
+		FROM anvil_role r 
+		<if test="roleCode != null">
+		and r.role_code=#{roleCode} 
+		</if>
+		limit #{pageStart},#{pageSize}
+	</select>
+	
+	<select id="getCombo" parameterType="Map" resultType="AnvilRole">
+		SELECT
+		r.id,
+		r.role_code,
+		r.role_name 
+		FROM anvil_role r 
+	</select>
+	
+	<select id="getSize" parameterType="Map" resultType="Integer">
+		SELECT
+		count(1)
+		FROM anvil_role u
+	</select>
+	
+	<insert id="addRole" parameterType="AnvilRole">
+		INSERT INTO anvil_role
+		(role_code,
+		role_name,
+		role_desc,
+		create_time,
+		update_time
+		)
+		VALUES
+		(#{roleCode},
+		#{roleName},
+		#{roleDesc},
+		now(),
+		now()
+		)
+	</insert>
+	
+	<update id="updateRole" parameterType="AnvilRole">
+		UPDATE  anvil_role SET
+		role_code=#{roleCode},
+		role_name=#{roleName},
+		role_desc=#{roleDesc},
+		update_time=now()
+		WHERE id=#{id}
+	</update>
+	
+	<delete id="deleteRole" parameterType="Map">
+		DELETE FROM anvil_role
+		WHERE id=#{roleId}
+	</delete>
+	
+</mapper>

@@ -23,6 +23,13 @@ public class AuthController {
 	@Autowired
 	private AuthService authService;
 
+	/**
+	 * 授权认证接口
+	 * 
+	 * @param username
+	 * @param password
+	 * @return
+	 */
 	@RequestMapping(value = "/login", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public CommonResponse<AuthTokenResponse> createAuthenticationToken(String username, String password) {
 		String token = authService.createAuthenticationToken(username, password);
@@ -37,6 +44,12 @@ public class AuthController {
 		return response;
 	}
 
+	/**
+	 * 授权token刷新接口
+	 * 
+	 * @param request
+	 * @return
+	 */
 	@RequestMapping(value = "/refresh", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public CommonResponse<AuthTokenResponse> refreshAuthenticationToken(HttpServletRequest request) {
 		String oldToken = request.getHeader("Authorization");
@@ -54,14 +67,21 @@ public class AuthController {
 		return response;
 	}
 
+	/**
+	 * 目录下发接口
+	 * 
+	 * @param request
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value = "/category", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public CommonResponse<List<CategoryResponse>> getCategory(HttpServletRequest request) throws Exception {
 		String token = request.getHeader("Authorization");
 		List<CategoryResponse> categoryResponse = authService.getCategory(token);
-		if(categoryResponse==null){
+		if (categoryResponse == null) {
 			throw new Exception("token invalid");
 		}
-		
+
 		CommonResponse<List<CategoryResponse>> response = new CommonResponse<List<CategoryResponse>>();
 		response.setSuccess(CommonResponse.SUCCESS_STATE);
 		response.setData(categoryResponse);

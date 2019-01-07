@@ -75,7 +75,7 @@ public class AuthServiceImpl implements AuthService {
 		}
 
 		Map<Long, CategoryResponse> categoryMap = Maps.newHashMap();
-		List<AnvilCategory> categorys = anvilCategoryDao.findCategoryByRoleId(user.getRole().getId());
+		List<AnvilCategory> categorys = anvilCategoryDao.findCategoryByRoleId(user.getRoleObject().getId());
 		for (AnvilCategory category : categorys) {
 			Long parentId = category.getParentId();
 			if (category.getParentId() == null) {
