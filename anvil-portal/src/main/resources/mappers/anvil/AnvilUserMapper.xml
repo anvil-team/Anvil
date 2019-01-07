@@ -44,7 +44,11 @@
 		r.role_code,
 		r.role_name
 		FROM anvil_user u, anvil_role r 
-		WHERE r.id=u.role and u.username=#{username} limit #{pageStart},#{pageSize}
+		WHERE r.id=u.role 
+		<if test="username != null">
+		and u.username=#{username} 
+		</if>
+		limit #{pageStart},#{pageSize}
 	</select>
 	
 	<select id="getSize" parameterType="Map" resultType="Integer">

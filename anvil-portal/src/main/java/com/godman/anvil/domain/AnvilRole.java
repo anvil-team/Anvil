@@ -7,6 +7,8 @@ public class AnvilRole {
 	private String roleCode;
 	
 	private String roleName;
+	
+	private String roleDesc;
 
 	public Long getId() {
 		return id;
@@ -30,6 +32,14 @@ public class AnvilRole {
 
 	public void setRoleName(String roleName) {
 		this.roleName = roleName;
+	}
+
+	public String getRoleDesc() {
+		return roleDesc;
+	}
+
+	public void setRoleDesc(String roleDesc) {
+		this.roleDesc = roleDesc;
 	}
 
 }

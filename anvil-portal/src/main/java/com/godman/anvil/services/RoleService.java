@@ -1,7 +1,10 @@
 package com.godman.anvil.services;
 
+import java.util.List;
+
 import com.godman.anvil.domain.request.RoleRequest;
 import com.godman.anvil.domain.response.RoleBatchResponse;
+import com.godman.anvil.domain.response.RoleComboResponse;
 
 public interface RoleService {
 
@@ -14,6 +17,12 @@ public interface RoleService {
 	 * @return
 	 */
 	RoleBatchResponse getRolesBatch(String roleCode, Integer currentPage, Integer pageSize);
+
+	/**
+	 * 获取角色Combo
+	 * @return
+	 */
+	List<RoleComboResponse> getRoleCombo();
 
 	/**
 	 * 新增角色

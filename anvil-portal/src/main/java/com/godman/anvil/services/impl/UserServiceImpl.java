@@ -75,11 +75,6 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void deleteUsersBatch(Integer id) {
-		anvilUserDao.deleteUser(id);
-	}
-
-	@Override
 	public void addUserBatch(UserDetailRequest userDetail) {
 		userDetail.setPassword(DEFAULT_PASSWORD);
 		AnvilUser user = new AnvilUser();
@@ -94,6 +89,11 @@ public class UserServiceImpl implements UserService {
 		anvilUserDao.updateUser(user);
 	}
 
+	@Override
+	public void deleteUsersBatch(Integer id) {
+		anvilUserDao.deleteUser(id);
+	}
+	
 	private UserDetailResponse genUserDetailResponse(AnvilUser user) {
 		UserDetailResponse userDetailResponse = new UserDetailResponse();
 		BeanUtils.copyProperties(user, userDetailResponse);

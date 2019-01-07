@@ -10,7 +10,7 @@ public class RoleBatchResponse {
 
 	private Integer pageSize;
 
-	private List<UserDetailResponse> userDetails;
+	private List<RoleDetailResponse> roles;
 
 	public Integer getTotal() {
 		return total;
@@ -36,12 +36,12 @@ public class RoleBatchResponse {
 		this.pageSize = pageSize;
 	}
 
-	public List<UserDetailResponse> getUserDetails() {
-		return userDetails;
+	public List<RoleDetailResponse> getRoles() {
+		return roles;
 	}
 
-	public void setUserDetails(List<UserDetailResponse> userDetails) {
-		this.userDetails = userDetails;
+	public void setRoles(List<RoleDetailResponse> roles) {
+		this.roles = roles;
 	}
 
 }

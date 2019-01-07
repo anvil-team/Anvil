@@ -1,18 +1,13 @@
-package com.godman.anvil.domain.request;
+package com.godman.anvil.domain.response;
 
-import org.hibernate.validator.constraints.NotBlank;
-
-public class RoleRequest {
+public class RoleDetailResponse {
 
 	private Long id;
 
-	@NotBlank(message = "realCode is blank")
-	private String realCode;
+	private String roleCode;
 
-	@NotBlank(message = "roleName is blank")
 	private String roleName;
 
-	@NotBlank(message = "roleDesc is blank")
 	private String roleDesc;
 
 	public Long getId() {
@@ -23,12 +18,12 @@ public class RoleRequest {
 		this.id = id;
 	}
 
-	public String getRealCode() {
-		return realCode;
+	public String getRoleCode() {
+		return roleCode;
 	}
 
-	public void setRealCode(String realCode) {
-		this.realCode = realCode;
+	public void setRoleCode(String roleCode) {
+		this.roleCode = roleCode;
 	}
 
 	public String getRoleName() {
