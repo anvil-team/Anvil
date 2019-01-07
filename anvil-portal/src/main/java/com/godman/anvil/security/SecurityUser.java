@@ -20,7 +20,7 @@ public class SecurityUser implements UserDetails {
 
 	private String password;
 
-	private AnvilRole role;
+	private AnvilRole roleObject;
 
 	public Long getId() {
 		return id;
@@ -46,18 +46,18 @@ public class SecurityUser implements UserDetails {
 		this.password = password;
 	}
 
-	public AnvilRole getRole() {
-		return role;
+	public AnvilRole getRoleObject() {
+		return roleObject;
 	}
 
-	public void setRole(AnvilRole role) {
-		this.role = role;
+	public void setRoleObject(AnvilRole roleObject) {
+		this.roleObject = roleObject;
 	}
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		List<GrantedAuthority> auths = new ArrayList<>();
-		AnvilRole role = this.getRole();
+		AnvilRole role = this.getRoleObject();
 		auths.add(new SimpleGrantedAuthority(role.getRoleCode()));
 		return auths;
 	}

@@ -36,8 +36,9 @@ public interface UserService {
 	 * 新增用户
 	 * 
 	 * @param userDetail
+	 * @throws Exception 
 	 */
-	void addUserBatch(UserDetailRequest userDetail);
+	void addUserBatch(UserDetailRequest userDetail) throws Exception;
 
 	/**
 	 * 修改用户

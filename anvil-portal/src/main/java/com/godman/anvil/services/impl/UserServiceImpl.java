@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
 import com.godman.anvil.dao.AnvilUserDao;
@@ -15,6 +16,7 @@ import com.godman.anvil.services.UserService;
 import com.godman.anvil.utils.JwtTokenUtil;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
+import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -75,11 +77,15 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void addUserBatch(UserDetailRequest userDetail) {
-		userDetail.setPassword(DEFAULT_PASSWORD);
-		AnvilUser user = new AnvilUser();
-		BeanUtils.copyProperties(userDetail, user);
-		anvilUserDao.addUser(user);
+	public void addUserBatch(UserDetailRequest userDetail) throws Exception {
+		try {
+			userDetail.setPassword(DEFAULT_PASSWORD);
+			AnvilUser user = new AnvilUser();
+			BeanUtils.copyProperties(userDetail, user);
+			anvilUserDao.addUser(user);
+		} catch (DuplicateKeyException e) {
+			throw new Exception("username : "+userDetail.getUsername()+" is already exist.");
+		}
 	}
 
 	@Override
@@ -93,7 +99,7 @@ public class UserServiceImpl implements UserService {
 	public void deleteUsersBatch(Integer id) {
 		anvilUserDao.deleteUser(id);
 	}
-	
+
 	private UserDetailResponse genUserDetailResponse(AnvilUser user) {
 		UserDetailResponse userDetailResponse = new UserDetailResponse();
 		BeanUtils.copyProperties(user, userDetailResponse);

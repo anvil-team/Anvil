@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.godman.anvil.dao.AnvilRoleDao;
 import com.godman.anvil.domain.AnvilRole;
@@ -14,6 +15,7 @@ import com.godman.anvil.domain.response.RoleDetailResponse;
 import com.godman.anvil.services.RoleService;
 import com.google.common.collect.Lists;
 
+@Service
 public class RoleServiceImpl implements RoleService {
 
 	@Autowired

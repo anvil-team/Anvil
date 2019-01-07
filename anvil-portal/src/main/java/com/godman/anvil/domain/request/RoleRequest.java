@@ -2,7 +2,7 @@ package com.godman.anvil.domain.request;
 
 import org.hibernate.validator.constraints.NotBlank;
 
-public class RoleRequest {
+public class RoleRequest  extends CommonRequest{
 
 	private Long id;
 

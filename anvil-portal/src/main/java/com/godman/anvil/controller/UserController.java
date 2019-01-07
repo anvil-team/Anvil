@@ -53,6 +53,15 @@ public class UserController {
 	 */
 	@RequestMapping(value = "/userDetail", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
 	public CommonResponse<UserDetailResponse> updateUserDetail(HttpServletRequest request, @RequestParam("userDetail") UserDetailRequest userDetail) throws Exception {
+		
+		if(userDetail==null){
+			throw new Exception("userDetail is null or structure error");
+		}
+		
+		if(userDetail.getConstraintViolationException()!=null){
+			throw userDetail.getConstraintViolationException();
+		}
+		
 		String token = request.getHeader("Authorization");
 		Boolean isUpdate = userService.updateUserByAuthToken(token, userDetail);
 		if (!isUpdate) {
@@ -73,7 +82,7 @@ public class UserController {
 	 * @return
 	 * @throws Exception
 	 */
-	@PreAuthorize("hasAuthority('SYSTEM_ADMIN','NORMAL_ADMIN')")
+	@PreAuthorize("hasAuthority('SYSTEM_ADMIN') OR hasAuthority('NORMAL_ADMIN')")
 	@RequestMapping(value = "/userBatch", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public CommonResponse<UserBatchResponse> getUserDetailList(String username, @RequestParam("currentPage") Integer currentPage, @RequestParam("pageSize") Integer pageSize) throws Exception {
 		UserBatchResponse userBatchResponse = userService.getUsersBatch(username, currentPage, pageSize);
@@ -93,6 +102,15 @@ public class UserController {
 	@PreAuthorize("hasAuthority('SYSTEM_ADMIN')")
 	@RequestMapping(value = "/userBatch", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public CommonResponse<Void> updateUserDetailList(@RequestParam("userDetail") UserDetailRequest userDetail) throws Exception {
+		
+		if(userDetail==null){
+			throw new Exception("userDetail is null or structure error");
+		}
+		
+		if(userDetail.getConstraintViolationException()!=null){
+			throw userDetail.getConstraintViolationException();
+		}
+		
 		Long id = userDetail.getId();
 		if (id == null) {
 			userService.addUserBatch(userDetail);

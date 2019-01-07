@@ -32,7 +32,7 @@ public class RoleController {
 	 * @return
 	 * @throws Exception
 	 */
-	@PreAuthorize("hasAuthority('SYSTEM_ADMIN','NORMAL_ADMIN')")
+	@PreAuthorize("hasAuthority('SYSTEM_ADMIN') OR hasAuthority('NORMAL_ADMIN')")
 	@RequestMapping(value = "/roleBatch", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public CommonResponse<RoleBatchResponse> getRoleDetailList(String roleCode, @RequestParam("currentPage") Integer currentPage, @RequestParam("pageSize") Integer pageSize) throws Exception {
 		RoleBatchResponse roleBatchResponse = roleService.getRolesBatch(roleCode, currentPage, pageSize);
@@ -70,6 +70,15 @@ public class RoleController {
 	@PreAuthorize("hasAuthority('SYSTEM_ADMIN')")
 	@RequestMapping(value = "/roleBatch", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public CommonResponse<Void> updateRoleDetailList(@RequestParam("role") RoleRequest role) throws Exception {
+		
+		if(role==null){
+			throw new Exception("role is null or structure error");
+		}
+		
+		if(role.getConstraintViolationException()!=null){
+			throw role.getConstraintViolationException();
+		}
+		
 		Long id = role.getId();
 		if (id == null) {
 			roleService.addRolesBatch(role);

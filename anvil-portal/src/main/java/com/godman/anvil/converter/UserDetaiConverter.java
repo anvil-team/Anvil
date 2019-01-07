@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
+import org.springframework.stereotype.Component;
 
 import com.godman.anvil.domain.request.UserDetailRequest;
 import com.godman.anvil.utils.JsonUnify;
@@ -19,6 +20,7 @@ import com.google.common.base.Strings;
  * userDetailRequest自定义converter
  * @author chenzihao
  */
+@Component(value = "userDetaiConverter")
 public class UserDetaiConverter implements Converter<String, UserDetailRequest> {
 	
 	private Logger logger = LoggerFactory.getLogger(getClass());
@@ -40,10 +42,10 @@ public class UserDetaiConverter implements Converter<String, UserDetailRequest> 
 			Set<ConstraintViolation<UserDetailRequest>> violations = validator.validate(userDetailObj);
             if (!violations.isEmpty()) {
                 ConstraintViolationException ex = new ConstraintViolationException(violations);
-                throw ex;
+                userDetailObj.setConstraintViolationException(ex);
             }
 		} catch (Exception e) {
-			logger.error("converter UserDetaiRequest error:" + userDetailJson, e);
+			logger.error("converter UserDetaiRequest error:" + userDetailJson);
 			return null;
 		}
 		return userDetailObj;

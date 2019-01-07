@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
+import org.springframework.stereotype.Component;
 
 import com.godman.anvil.domain.request.RoleRequest;
 import com.godman.anvil.utils.JsonUnify;
@@ -20,6 +21,7 @@ import com.google.common.base.Strings;
  * 
  * @author chenzihao
  */
+@Component(value = "roleConverter")
 public class RoleConverter implements Converter<String, RoleRequest> {
 
 	private Logger logger = LoggerFactory.getLogger(getClass());
@@ -41,10 +43,10 @@ public class RoleConverter implements Converter<String, RoleRequest> {
 			Set<ConstraintViolation<RoleRequest>> violations = validator.validate(roleObject);
 			if (!violations.isEmpty()) {
 				ConstraintViolationException ex = new ConstraintViolationException(violations);
-				throw ex;
+				roleObject.setConstraintViolationException(ex);
 			}
 		} catch (Exception e) {
-			logger.error("converter UserDetaiRequest error:" + roleJson, e);
+			logger.error("converter RoleRequest error:" + roleJson);
 			return null;
 		}
 		return roleObject;

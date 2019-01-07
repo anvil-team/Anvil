@@ -19,6 +19,7 @@
 	
 	<select id="getCombo" parameterType="Map" resultType="AnvilRole">
 		SELECT
+		r.id,
 		r.role_code,
 		r.role_name 
 		FROM anvil_role r 
@@ -48,7 +49,7 @@
 	</insert>
 	
 	<update id="updateRole" parameterType="AnvilRole">
-		UPDATE SET anvil_role
+		UPDATE  anvil_role SET
 		role_code=#{roleCode},
 		role_name=#{roleName},
 		role_desc=#{roleDesc},

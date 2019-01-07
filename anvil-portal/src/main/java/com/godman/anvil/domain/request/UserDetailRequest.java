@@ -1,8 +1,10 @@
 package com.godman.anvil.domain.request;
 
+import javax.validation.constraints.NotNull;
+
 import org.hibernate.validator.constraints.NotBlank;
 
-public class UserDetailRequest {
+public class UserDetailRequest extends CommonRequest{
 
 	private Long id;
 
@@ -20,8 +22,8 @@ public class UserDetailRequest {
 	@NotBlank(message = "position is blank")
 	private String position;
 
-	@NotBlank(message = "roleCode is blank")
-	private String roleCode;
+	@NotNull(message = "role is null")
+	private Integer role;
 
 	public Long getId() {
 		return id;
@@ -71,12 +73,12 @@ public class UserDetailRequest {
 		this.position = position;
 	}
 
-	public String getRoleCode() {
-		return roleCode;
+	public Integer getRole() {
+		return role;
 	}
 
-	public void setRoleCode(String roleCode) {
-		this.roleCode = roleCode;
+	public void setRole(Integer role) {
+		this.role = role;
 	}
 
 }

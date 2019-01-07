@@ -3,12 +3,14 @@
 <mapper namespace="com.godman.anvil.dao.AnvilUserDao">
 
 	<resultMap id="AnvilUserResultMap" type="AnvilUser">
+		<result property="id" column="id" />
 		<result property="username" column="username" />
 		<result property="password" column="password" />
 		<result property="realName" column="real_name" />
 		<result property="position" column="position" />
 		<result property="department" column="department" />
-		<association property="role" javaType="AnvilRole" resultMap="AnvilRoleResultMap" />
+		<result property="role" column="role" />
+		<association property="roleObject" javaType="AnvilRole" resultMap="AnvilRoleResultMap" />
 	</resultMap>
 
 	<resultMap id="AnvilRoleResultMap" type="AnvilRole">
@@ -25,6 +27,7 @@
 		u.real_name,
 		u.position,
 		u.department,
+		u.role,
 		r.id as role_id,
 		r.role_code,
 		r.role_name
@@ -40,6 +43,7 @@
 		u.real_name,
 		u.position,
 		u.department,
+		u.role,
 		r.id as role_id,
 		r.role_code,
 		r.role_name
@@ -80,7 +84,7 @@
 	</insert>
 	
 	<update id="updateUser" parameterType="AnvilUser">
-		UPDATE SET anvil_user
+		UPDATE  anvil_user SET
 		username=#{username},
 		password=#{password},
 		real_name=#{realName},
