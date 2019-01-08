@@ -1,22 +1,22 @@
-import React from 'react'
-import { Route } from 'react-router-dom'
-import isDev from 'src/utils/isDev'
-import { Spin, Icon } from 'antd'
+import React from 'react';
+import { Route } from 'react-router-dom';
+import isDev from 'src/utils/isDev';
+import { Spin, Icon } from 'antd';
 
 class AuthRoute extends React.PureComponent {
   state = {
     isPermissions: false,
-  }
+  };
 
   componentDidMount() {
-    this.checkPermissions()
+    this.checkPermissions();
   }
 
   checkPermissions = async () => {
-    const { checker } = this.props
-    let resultValue = checker
+    const { checker } = this.props;
+    let resultValue = checker;
     if (typeof checker === 'function') {
-      resultValue = await checker()
+      resultValue = await checker();
     }
     this.setState(
       {
@@ -24,18 +24,19 @@ class AuthRoute extends React.PureComponent {
       },
       () => {
         if (!this.state.isPermissions) {
-          this.props.history.replace(this.props.redirect)
+          this.props.history.replace(this.props.redirect);
         }
       }
-    )
-  }
+    );
+  };
 
   render() {
-    const { isPermissions } = this.state
-    const { component: Component, render } = this.props
+    const { isPermissions } = this.state;
+    const { component: Component, render, ...restProps } = this.props;
     return (
       <Route
         exact
+        {...restProps}
         render={(props) =>
           isPermissions ? (
             Component ? (
@@ -48,8 +49,8 @@ class AuthRoute extends React.PureComponent {
           )
         }
       />
-    )
+    );
   }
 }
 
-export default AuthRoute
+export default AuthRoute;

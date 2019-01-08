@@ -1,3 +1,11 @@
+/*
+ * @Author: zhenglfsir@gmail.com
+ * @Date: 2019-01-07 22:01:12
+ * @Last Modified by: zhenglfsir@gmail.com
+ * @Last Modified time: 2019-01-07 22:01:12
+ * 角色服务
+ */
+
 import axios from 'axios';
 import invariant from 'invariant';
 

@@ -2,7 +2,7 @@
  * @Author: zhenglfsir@gmail.com
  * @Date: 2018-12-11 21:06:42
  * @Last Modified by: zhenglfsir@gmail.com
- * @Last Modified time: 2018-12-21 10:29:26
+ * @Last Modified time: 2019-01-07 22:01:30
  * auth http model
  */
 import invariant from 'invariant';

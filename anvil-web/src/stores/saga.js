@@ -3,13 +3,11 @@ import { all, takeEvery } from 'redux-saga/effects';
 import { connectRouter } from 'connected-react-router';
 import { persistReducer } from 'redux-persist';
 import session from 'redux-persist/lib/storage/session';
-import * as login from './module/login';
 import * as app from './app';
+import * as login from './module/login';
+import * as user from './module/user';
 
-const modules = {
-  login,
-  app,
-};
+const modules = { login, app, user };
 
 export const effects = Object.keys(modules).reduce((efs, mEffectsName) => {
   const mEffects = modules[mEffectsName].effects;

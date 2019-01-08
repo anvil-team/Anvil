@@ -10,6 +10,11 @@ export const routes = [
         title: '面板',
         component: LazyLoad(() => import('./dashboard/Dashboard')),
       },
+      {
+        path: '/user',
+        title: '用户管理',
+        component: LazyLoad(() => import('./permission/UserManage')),
+      },
     ],
   },
   {
