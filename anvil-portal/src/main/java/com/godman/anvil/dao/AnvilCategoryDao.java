@@ -11,5 +11,7 @@ import com.godman.anvil.domain.AnvilCategory;
 public interface AnvilCategoryDao {
 
 	public List<AnvilCategory> findCategoryByRoleId(@Param("roleId") Long roleId);
-
+	
+	public List<AnvilCategory> findAll();
+	
 }

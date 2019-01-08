@@ -1,6 +1,7 @@
-package com.godman.anvil.domain;
+package com.godman.anvil.domain.response;
 
-public class AnvilCategory {
+
+public class CategoryBatchResponse {
 
 	private Long id;
 
@@ -9,11 +10,11 @@ public class AnvilCategory {
 	private String categoryName;
 
 	private String url;
-	
+
 	private Integer priority;
-	
+
 	private String createTime;
-	
+
 	private String updateTime;
 
 	public Long getId() {
