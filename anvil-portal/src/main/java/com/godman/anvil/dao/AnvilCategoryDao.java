@@ -11,7 +11,13 @@ import com.godman.anvil.domain.AnvilCategory;
 public interface AnvilCategoryDao {
 
 	public List<AnvilCategory> findCategoryByRoleId(@Param("roleId") Long roleId);
-	
+
 	public List<AnvilCategory> findAll();
-	
+
+	public void addCategory(AnvilCategory category);
+
+	public void updateCategory(AnvilCategory category);
+
+	public void deleteCategory(@Param("categoryId") Integer id);
+
 }

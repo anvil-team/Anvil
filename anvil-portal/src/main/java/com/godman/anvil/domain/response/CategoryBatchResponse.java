@@ -1,14 +1,19 @@
 package com.godman.anvil.domain.response;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
 
 public class CategoryBatchResponse {
 
 	private Long id;
 
+	@JsonInclude(Include.NON_NULL)
 	private Long parentId;
 
 	private String categoryName;
 
+	@JsonInclude(JsonInclude.Include.NON_EMPTY)
 	private String url;
 
 	private Integer priority;

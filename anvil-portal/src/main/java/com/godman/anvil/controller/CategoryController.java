@@ -76,7 +76,7 @@ public class CategoryController {
 	 * @throws Exception
 	 */
 	@PreAuthorize("hasAuthority('SYSTEM_ADMIN')")
-	@RequestMapping(value = "/roleBatch", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/categoryBatch", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public CommonResponse<Void> deleteCategoryList(@RequestParam("id") Integer id) throws Exception {
 		categoryService.deleteCategoryBatch(id);
 		CommonResponse<Void> response = new CommonResponse<Void>();
