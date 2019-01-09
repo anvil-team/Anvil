@@ -2,7 +2,7 @@
  * @Author: zhenglfsir@gmail.com
  * @Date: 2019-01-07 22:01:36
  * @Last Modified by: zhenglfsir@gmail.com
- * @Last Modified time: 2019-01-07 22:13:47
+ * @Last Modified time: 2019-01-09 22:23:38
  * 用户服务
  */
 
@@ -23,13 +23,12 @@ export function deleteUser(params) {
 }
 
 export function addUser(params) {
-  invariant(params.realName, '姓名');
-  invariant(params.username, '缺少用户名称');
-  invariant(params.department, '缺少部门');
-  invariant(params.position, '缺少职位');
-  invariant(params.roleCode, '缺少角色编码');
-  invariant(params.roleName, '缺少角色名称');
-  return axios.post('/user/userDetail');
+  invariant(params.realName, 'miss realName');
+  invariant(params.username, 'miss username');
+  invariant(params.department, 'miss department');
+  invariant(params.position, 'miss position');
+  invariant(params.roleId, 'miss roleId');
+  return axios.post('/user/userDetail', params);
 }
 
 export function getUserList(params) {

@@ -2,7 +2,7 @@
  * @Author: zhenglfsir@gmail.com
  * @Date: 2019-01-07 22:01:12
  * @Last Modified by: zhenglfsir@gmail.com
- * @Last Modified time: 2019-01-07 22:01:12
+ * @Last Modified time: 2019-01-09 22:21:40
  * 角色服务
  */
 
@@ -29,13 +29,13 @@ export function getRoleList(params) {
  * @param {*} params
  */
 export function editRole(params) {
-  invariant(params.roleCode, '缺少 roleCode');
-  invariant(params.roleName, '缺少 roleName');
-  invariant(params.roleDesc, '缺少roleDesc');
+  invariant(params.roleCode, 'miss roleCode');
+  invariant(params.roleName, 'miss roleName');
+  invariant(params.roleDesc, 'miss roleDesc');
   return axios.post('/role/roleBatch', { role: params });
 }
 
 export function deleteRole(params) {
-  invariant(params.id, '缺少 id');
+  invariant(params.id, 'miss id');
   return axios.delete('/role/roleBatch', { params });
 }

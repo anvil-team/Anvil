@@ -2,7 +2,7 @@
  * @Author: zhenglfsir@gmail.com
  * @Date: 2018-12-03 23:27:30
  * @Last Modified by: zhenglfsir@gmail.com
- * @Last Modified time: 2019-01-07 22:07:21
+ * @Last Modified time: 2019-01-09 22:36:39
  */
 import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
@@ -35,7 +35,7 @@ class App extends React.Component {
                       <BasicLayout {...props}>
                         {route.children ? (
                           route.children.map((sub) => (
-                            <DocumentTitle title={this.prefixTitle(sub.title)} key={route.path}>
+                            <DocumentTitle title={this.prefixTitle(sub.title)} key={sub.path}>
                               <AuthRoute
                                 {...props}
                                 path={route.path + sub.path}

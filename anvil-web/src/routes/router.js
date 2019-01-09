@@ -15,6 +15,11 @@ export const routes = [
         title: '用户管理',
         component: LazyLoad(() => import('./permission/UserManage')),
       },
+      {
+        path: '/category',
+        title: '目录管理',
+        component: LazyLoad(() => import('./system/CategoryManage')),
+      },
     ],
   },
   {

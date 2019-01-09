@@ -6,8 +6,9 @@ import session from 'redux-persist/lib/storage/session';
 import * as app from './app';
 import * as login from './module/login';
 import * as user from './module/user';
+import * as category from './module/category';
 
-const modules = { login, app, user };
+const modules = { login, app, user, category };
 
 export const effects = Object.keys(modules).reduce((efs, mEffectsName) => {
   const mEffects = modules[mEffectsName].effects;
