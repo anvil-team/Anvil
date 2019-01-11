@@ -1,20 +1,22 @@
-package com.godman.anvil.domain;
+package com.godman.anvil.domain.request;
 
-public class AnvilCategory {
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.NotBlank;
+
+public class CategoryRequest extends CommonRequest {
 
 	private Long id;
 
 	private Long parentId;
 
+	@NotBlank(message = "categoryName is blank")
 	private String categoryName;
 
 	private String url;
-	
+
+	@NotNull(message = "priority is null")
 	private Integer priority;
-	
-	private String createTime;
-	
-	private String updateTime;
 
 	public Long getId() {
 		return id;
@@ -54,22 +56,6 @@ public class AnvilCategory {
 
 	public void setPriority(Integer priority) {
 		this.priority = priority;
-	}
-
-	public String getCreateTime() {
-		return createTime;
-	}
-
-	public void setCreateTime(String createTime) {
-		this.createTime = createTime;
-	}
-
-	public String getUpdateTime() {
-		return updateTime;
-	}
-
-	public void setUpdateTime(String updateTime) {
-		this.updateTime = updateTime;
 	}
 
 }

@@ -16,7 +16,6 @@ import com.godman.anvil.services.UserService;
 import com.godman.anvil.utils.JwtTokenUtil;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
-import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -84,7 +83,7 @@ public class UserServiceImpl implements UserService {
 			BeanUtils.copyProperties(userDetail, user);
 			anvilUserDao.addUser(user);
 		} catch (DuplicateKeyException e) {
-			throw new Exception("username : "+userDetail.getUsername()+" is already exist.");
+			throw new Exception("username : " + userDetail.getUsername() + " is already exist.");
 		}
 	}
 
