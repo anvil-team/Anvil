@@ -11,3 +11,9 @@ body,
   width: 100vw;
   height: 100vh;
 }
+
+.anvil-btn {
+  & > * {
+    margin-right: 5px;
+  }
+}

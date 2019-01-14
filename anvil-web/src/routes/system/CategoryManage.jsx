@@ -1,18 +1,55 @@
 import React from 'react';
-import { Table } from 'antd';
+import { Table, Popconfirm, Modal, Form, Input, InputNumber } from 'antd';
 import { connect } from 'react-redux';
 import dayjs from 'dayjs';
 
+const formItemLayout = {
+  labelCol: { span: 4 },
+  wrapperCol: { span: 8 },
+};
+
 class CategoryManage extends React.Component {
+  state = {
+    visible: false,
+    current: null,
+  };
+
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({ type: 'category/getList' });
   }
 
   render() {
-    const { categoryState } = this.props;
+    const {
+      categoryState,
+      form: { getFieldDecorator },
+    } = this.props;
+    const { visible } = this.state;
 
-    return <Table rowKey="id" columns={this.getColumns()} dataSource={categoryState.list} />;
+    return (
+      <>
+        <Table
+          rowKey="id"
+          columns={this.getColumns()}
+          pagination={categoryState.pagination}
+          dataSource={categoryState.list}
+        />
+        <Modal visible={visible} title="更新目录" onCancel={this.handleCancel}>
+          <Form layout="vertical">
+            <Form.Item label="名称" {...formItemLayout}>
+              {getFieldDecorator('categoryName', {
+                initialValue: categoryState.current?.categoryName,
+              })(<Input />)}
+            </Form.Item>
+            <Form.Item label="优先级" {...formItemLayout}>
+              {getFieldDecorator('priority', {
+                initialValue: categoryState.current?.priority,
+              })(<InputNumber precision={0} />)}
+            </Form.Item>
+          </Form>
+        </Modal>
+      </>
+    );
   }
 
   getColumns = () => {
@@ -32,8 +69,44 @@ class CategoryManage extends React.Component {
         dataIndex: 'updateTime',
         render: (text) => <span>{dayjs(text).format('YYYY-MM-DD hh:mm:ss')}</span>,
       },
+      {
+        title: '操作',
+        render: (text, record) => (
+          <div className="anvil-btn">
+            <a onClick={this.handleToEdit(record)}>修改</a>
+            <Popconfirm
+              title="是否继续?"
+              cancelText="取消"
+              okText="确定"
+              onConfirm={this.handleConfirmDelete(record)}
+            >
+              <a>删除</a>
+            </Popconfirm>
+          </div>
+        ),
+      },
     ];
+  };
+
+  handleCancel = () => {
+    this.setState((prevState) => ({ visible: !prevState.visible }));
+  };
+
+  handleToEdit = (record) => {
+    return () => {
+      const { dispatch } = this.props;
+      dispatch({ type: 'category/setState', payload: { current: record } });
+      this.setState({ visible: true });
+    };
+  };
+
+  handleConfirmDelete = (record) => {
+    return () => {};
   };
 }
 
-export default connect(({ categoryState }) => ({ categoryState }))(CategoryManage);
+export default connect(({ categoryState }) => ({ categoryState }))(
+  Form.create({
+    mapPropsToFields: (props) => props.current,
+  })(CategoryManage)
+);

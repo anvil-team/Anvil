@@ -3,6 +3,8 @@ import * as categoryApi from 'services/category';
 
 const initialState = {
   list: [],
+  pagination: { current: 1, pageSize: 100 },
+  current: null,
 };
 
 export const state = initialState;
