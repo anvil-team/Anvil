@@ -101,7 +101,10 @@ class CategoryManage extends React.Component {
   };
 
   handleConfirmDelete = (record) => {
-    return () => {};
+    return async () => {
+      const { dispatch } = this.props;
+      await dispatch({ type: 'category/deleteCategory', payload: record });
+    };
   };
 }
 

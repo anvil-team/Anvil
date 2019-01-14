@@ -1,4 +1,4 @@
-import { call, put, all } from 'redux-saga/effects';
+import { call, put } from 'redux-saga/effects';
 import { replace } from 'connected-react-router';
 import * as authService from '../../services/auth';
 
@@ -17,14 +17,11 @@ export const effects = {
       sessionStorage.token = response.data.token;
       // 请求数据
       yield put({ type: 'login/setState', payload: { login: true } });
-      const [categoryData] = yield all([
-        call(authService.category),
-        // call(authService.userDetail),
-      ]);
-      if (categoryData) {
-        yield put({ type: 'app/setState', payload: { userMenus: categoryData.data } });
+      const ret = yield put({ type: 'app/syncApp' });
+      if (ret) {
+        yield put({ type: 'app/notify.success', payload: { content: '登录成功' } });
         yield put(replace('/sys'));
-      }
+      } else yield put({ type: 'app/notify.warn', payload: { content: '登录成功' } });
     }
   },
 };
