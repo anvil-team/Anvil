@@ -52,7 +52,7 @@ module.exports = {
         oneOf: [
           {
             test: /\.(less|css)$/,
-            exclude: /\.module\.(css|less)$/,
+            exclude: /\.global\.(css|less)$/,
             use: styleLoader({
               MiniCssExtractPlugin,
               preprocessor: 'less',
@@ -63,17 +63,17 @@ module.exports = {
             }),
           },
           {
-            test: /\.module\.css$/,
+            test: /\.css$/,
             use: styleLoader({ MiniCssExtractPlugin, cssModules: true }),
           },
           {
             test: /\.(sass|scss)$/,
-            exclude: /\.module\.(sass|scss)$/,
-            use: styleLoader({ MiniCssExtractPlugin, preprocessor: 'sass' }),
+            exclude: /\.global\.(sass|scss)$/,
+            use: styleLoader({ MiniCssExtractPlugin, preprocessor: 'sass', cssModules: true }),
           },
           {
-            test: /\.module\.(sass|scss)$/,
-            use: styleLoader({ MiniCssExtractPlugin, preprocessor: 'sass', cssModules: true }),
+            test: /\.global\.(sass|scss)$/,
+            use: styleLoader({ MiniCssExtractPlugin, preprocessor: 'sass' }),
           },
         ],
       },

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Form, Button, Input, Icon, Spin } from 'antd';
 import { connect } from 'react-redux';
-import styles from './index.module.scss';
+import styles from './index.scss';
 
 class Login extends React.Component {
   render() {

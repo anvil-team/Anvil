@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table, Popconfirm, Modal, Form, Input, InputNumber } from 'antd';
+import { Table, Popconfirm, Modal, Form, Input, InputNumber, Select } from 'antd';
 import { connect } from 'react-redux';
 import dayjs from 'dayjs';
 
@@ -41,6 +41,17 @@ class CategoryManage extends React.Component {
                 initialValue: categoryState.current?.categoryName,
               })(<Input />)}
             </Form.Item>
+            <Form.Item label="父级目录" {...formItemLayout}>
+              {getFieldDecorator('parentId')(
+                <Select>
+                  {categoryState.list.map((c) => (
+                    <Select.Option key={c.id} value={c.id}>
+                      {c.categoryName}
+                    </Select.Option>
+                  ))}
+                </Select>
+              )}
+            </Form.Item>
             <Form.Item label="优先级" {...formItemLayout}>
               {getFieldDecorator('priority', {
                 initialValue: categoryState.current?.priority,
@@ -55,7 +66,7 @@ class CategoryManage extends React.Component {
   getColumns = () => {
     return [
       { title: 'ID', dataIndex: 'id' },
-      { title: '父节点ID', dataIndex: 'parent_id' },
+      { title: '父节点ID', dataIndex: 'parentId' },
       { title: '菜单名称', dataIndex: 'categoryName' },
       { title: '地址', dataIndex: 'url' },
       { title: '优先级', dataIndex: 'priority' },

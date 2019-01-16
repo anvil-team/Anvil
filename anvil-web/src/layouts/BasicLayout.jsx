@@ -2,7 +2,7 @@ import React from 'react';
 import { Layout, Menu } from 'antd';
 import { connect } from 'react-redux';
 // import menus from '../config/menus';
-import styles from './layouts.module.scss';
+import styles from './layouts.scss';
 
 class BasicLayout extends React.Component {
   render() {
