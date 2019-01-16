@@ -8,6 +8,7 @@ const paths = require('../config/paths');
 const webpackConfig = require(paths.webpackPath);
 const fse = require('fs-extra');
 
+
 const complier = webpack(webpackConfig);
 const spinner = ora();
 
@@ -28,6 +29,17 @@ function build() {
 }
 
 function printStats(stats) {
+  process.stdout.write(
+    '\n\n' +
+      stats.toString({
+        colors: true,
+        modules: false,
+        children: false,
+        chunks: false,
+        chunkModules: false,
+      }) +
+      '\n\n'
+  );
   console.log('\n used time:', (stats.endTime - stats.startTime) / 1000, 's');
 }
 

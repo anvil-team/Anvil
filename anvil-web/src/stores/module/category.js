@@ -24,6 +24,15 @@ export const effects = {
       yield put({ type: 'category/getList' });
     } else yield put({ type: 'app/notify.warn', payload: { content: '删除失败' } });
   },
+  *updateCategory({ payload }) {
+    const { category } = payload;
+    const res = yield call(categoryApi.editCategory, category, category.id);
+    if (res) {
+      yield put({ type: 'app/notify.success', payload: '操作成功' });
+    } else {
+      yield put({ type: 'app/notify.warn', payload: '操作失败' });
+    }
+  },
 };
 
 export const reducers = {
@@ -36,7 +45,6 @@ export const reducers = {
       }
       return l;
     });
-    console.log(state);
     return { ...state };
   },
 };

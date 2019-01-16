@@ -5,7 +5,7 @@ import dayjs from 'dayjs';
 
 const formItemLayout = {
   labelCol: { span: 4 },
-  wrapperCol: { span: 8 },
+  wrapperCol: { span: 12 },
 };
 
 class CategoryManage extends React.Component {
@@ -34,15 +34,23 @@ class CategoryManage extends React.Component {
           pagination={categoryState.pagination}
           dataSource={categoryState.list}
         />
-        <Modal visible={visible} title="更新目录" onCancel={this.handleCancel}>
+        <Modal
+          visible={visible}
+          title="更新目录"
+          onCancel={this.handleCancel}
+          onOk={this.handleConfirm}
+        >
           <Form layout="vertical">
             <Form.Item label="名称" {...formItemLayout}>
               {getFieldDecorator('categoryName', {
                 initialValue: categoryState.current?.categoryName,
               })(<Input />)}
             </Form.Item>
+            <Form.Item label="地址" {...formItemLayout}>
+              {getFieldDecorator('url', { initialValue: categoryState.current?.url })(<Input />)}
+            </Form.Item>
             <Form.Item label="父级目录" {...formItemLayout}>
-              {getFieldDecorator('parentId')(
+              {getFieldDecorator('parentId', { initialValue: categoryState.current?.parentId })(
                 <Select>
                   {categoryState.list.map((c) => (
                     <Select.Option key={c.id} value={c.id}>
@@ -65,16 +73,16 @@ class CategoryManage extends React.Component {
 
   getColumns = () => {
     return [
-      { title: 'ID', dataIndex: 'id' },
-      { title: '父节点ID', dataIndex: 'parentId' },
+      {
+        title: '父节点ID',
+        dataIndex: 'parentId',
+        render: (text, record) => {
+          return text ? record.parent.categoryName : '-';
+        },
+      },
       { title: '菜单名称', dataIndex: 'categoryName' },
       { title: '地址', dataIndex: 'url' },
       { title: '优先级', dataIndex: 'priority' },
-      {
-        title: '创建时间',
-        dataIndex: 'createTime',
-        render: (text) => <span>{dayjs(text).format('YYYY-MM-DD hh:mm:ss')}</span>,
-      },
       {
         title: '更新时间',
         dataIndex: 'updateTime',
@@ -97,6 +105,23 @@ class CategoryManage extends React.Component {
         ),
       },
     ];
+  };
+
+  handleConfirm = () => {
+    const {
+      form: { validateFields },
+      dispatch,
+      categoryState,
+    } = this.props;
+    validateFields((err, values) => {
+      if (!err) {
+        if (categoryState.current?.id) values.id = categoryState.current?.id;
+        dispatch({
+          type: 'category/updateCategory',
+          payload: { category: values },
+        });
+      }
+    });
   };
 
   handleCancel = () => {

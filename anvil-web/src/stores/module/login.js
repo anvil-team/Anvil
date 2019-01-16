@@ -19,9 +19,9 @@ export const effects = {
       yield put({ type: 'login/setState', payload: { login: true } });
       const ret = yield put({ type: 'app/syncApp' });
       if (ret) {
-        yield put({ type: 'app/notify.success', payload: { content: '登录成功' } });
+        yield put({ type: 'app/notify.success', payload: '登录成功' });
         yield put(replace('/sys'));
-      } else yield put({ type: 'app/notify.warn', payload: { content: '登录成功' } });
-    }
+      } else yield put({ type: 'app/notify.warn', payload: '同步数据失败，请稍后重试' });
+    } else yield put({ type: 'app/notify.warn', payload: '账号或者密码错误' });
   },
 };

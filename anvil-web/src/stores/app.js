@@ -21,10 +21,12 @@ export const effects = {
 };
 
 export const reducers = {
-  ['notify.success']({ payload }) {
-    message.success(payload.content);
+  ['notify.success'](state, { payload }) {
+    message.success(payload);
+    return { ...state };
   },
-  ['notify.warn']({ payload }) {
-    message.warn(payload.content);
+  ['notify.warn'](state, { payload }) {
+    message.warn(payload);
+    return { ...state };
   },
 };
