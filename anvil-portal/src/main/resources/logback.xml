@@ -69,9 +69,19 @@
 			<onMismatch>DENY</onMismatch>
 		</filter>
 	</appender>
+	
+	<appender name="Sentry" class="com.getsentry.raven.logback.SentryAppender">
+        <!--每个项目生成不通的key-->
+        <dsn>https://f109fc6c66124e92b58b9cb2dd8702f0@sentry.luoyangfu.com/4</dsn>
+        <!-- 设置拦截的最低级别为warn 警告-->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>WARN</level>
+        </filter>
+    </appender>
 
 	<root level="INFO">
-		<appender-ref ref="CONSOLE" />
+		<appender-ref ref="INFOLOG" />
+		<appender-ref ref="FAILLOG" />
 	</root>
 
 </configuration>
