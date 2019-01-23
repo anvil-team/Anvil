@@ -5,6 +5,10 @@ node_js:
 
 cache: npm
 
+branches:
+  only:
+    - master
+
 env:
   - NODE_ENV = production
   - TRAVIC = $TRAVIC
@@ -23,7 +27,7 @@ install:
 script:
   - npm run build
 
-after_script:
+before_deploy:
   - ssh-keygen
   - expect eof
   - expect eof
@@ -34,7 +38,8 @@ after_script:
   - interact
   - expect eof
 
-
 deploy:
+  - provider: script
+    script: cd anvil-web
   - provider: script
     script: node script/deploy.js
