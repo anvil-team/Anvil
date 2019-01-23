@@ -1,0 +1,40 @@
+os: osx
+language: nodejs
+node_js:
+  - '10'
+
+cache: npm
+
+env:
+  - NODE_ENV = production
+  - TRAVIC = $TRAVIC
+  - U_HOST = $U_HOST
+  - U_NAME = $U_NAME
+  - U_PASS = $U_PASS
+  - U_DIR = $U_DIR
+  - U_PORT = $U_PORT
+
+before_install:
+  - cd anvil-web
+
+install:
+  - npm i
+
+script:
+  - npm run build
+
+after_script:
+  - ssh-keygen
+  - expect eof
+  - expect eof
+  - expect eof
+  - ssh-copy-id $U_NAME@$U_HOST
+  - expect '*assword*'
+  - send $U_PASS
+  - interact
+  - expect eof
+
+
+deploy:
+  - provider: script
+    script: node script/deploy.js
