@@ -26,8 +26,6 @@ install:
 
 script:
   - npm run build
-
-before_deploy:
   - ssh-keygen
   - expect eof
   - expect eof
