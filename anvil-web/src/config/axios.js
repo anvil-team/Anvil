@@ -2,7 +2,7 @@
  * @Author: zhenglfsir@gmail.com
  * @Date: 2018-12-11 21:07:24
  * @Last Modified by: zhenglfsir@gmail.com
- * @Last Modified time: 2019-01-16 22:26:05
+ * @Last Modified time: 2019-01-17 11:55:01
  * basic http config
  */
 import axios from 'axios';
@@ -14,7 +14,7 @@ import isDev from '../utils/isDev';
 
 NProgress.configure({});
 
-axios.defaults.baseURL = (isDev() ? 'http://127.0.0.1:3000/api' : BASE_URL) + '/' + API_VERSION;
+axios.defaults.baseURL = (isDev() ? 'http://127.0.0.1:3333/api' : BASE_URL) + '/' + API_VERSION;
 
 const errorMap = new Map([
   [

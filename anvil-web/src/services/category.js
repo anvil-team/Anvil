@@ -17,7 +17,7 @@ export function editCategory(params, isAdd = false) {
     invariant(params.categoryName, 'miss categoryName');
     invariant(params.priority, 'miss priority');
   }
-  return axios.post('/category/categoryBatch', { category: params });
+  return axios.post('/category/categoryBatch', { category: JSON.stringify(params) });
 }
 
 /**

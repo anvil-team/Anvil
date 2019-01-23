@@ -11,5 +11,5 @@ module.exports = {
   appPublic: resolveApp('public'),
   appIndex: resolveApp('src/index.js'),
   antdIcon: resolveApp('src/icons.js'),
-  appBuild: resolveApp('dist')
+  appBuild: resolveApp('app/public')
 };

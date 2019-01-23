@@ -85,6 +85,7 @@ module.exports = {
         NODE_ENV: `'${process.env.NODE_ENV}'`,
         BASE_URL: `'${process.env.BASE_URL || ''}'`,
         API_VERSION: `'${process.env.API_VERSION || ''}'`,
+        VERSION: `'${process.env.VERSION}'`,
       },
     }),
   ].concat(
