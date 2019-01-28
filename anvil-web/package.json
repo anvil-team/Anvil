@@ -17,16 +17,12 @@
   "license": "ISC",
   "dependencies": {
     "@ant-design/icons": "^1.1.16",
-    "@babel/register": "^7.0.0",
     "@sentry/browser": "^4.5.1",
     "antd": "^3.11.0",
     "axios": "^0.18.0",
     "connected-react-router": "^5.0.1",
     "dayjs": "^1.7.7",
-    "http-proxy": "^1.17.0",
     "invariant": "^2.2.4",
-    "koa": "^2.6.2",
-    "koa-static": "^5.0.0",
     "lodash": "^4.17.11",
     "nprogress": "^0.2.0",
     "qs": "^6.6.0",
@@ -80,6 +76,7 @@
     "uglifyjs-webpack-plugin": "^2.0.1",
     "url-loader": "^1.1.2",
     "webpack": "^4.26.1",
-    "webpack-dev-server": "^3.1.14"
+    "webpack-dev-server": "^3.1.14",
+    "webpack-manifest-plugin": "^2.0.4"
   }
 }

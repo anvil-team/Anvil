@@ -1,2 +1,10 @@
-require('@babel/register')
-require('../serve')
+require('@babel/register');
+
+/**
+|--------------------------------------------------
+| process
+|--------------------------------------------------
+*/
+process.env.U_PORT = 3333;
+
+require('../serve');

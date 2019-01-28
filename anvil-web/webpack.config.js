@@ -6,6 +6,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin');
 const UglifyJsWebpackPlugin = require('uglifyjs-webpack-plugin');
 const OptimizeCssAssetsWebpackPlugin = require('optimize-css-assets-webpack-plugin');
+const ManifestPlugin = require('webpack-manifest-plugin');
 const styleLoader = require('./config/styleLoader');
 const paths = require('./config/paths');
 const themeRc = require(paths.themePath);
@@ -13,20 +14,22 @@ const plugins = require('./config/plugins');
 
 const isDev = process.env.NODE_ENV !== 'production';
 const cssFilename = 'static/css/[name].[contenthash:8].css';
-const cssChunkFilename = 'static/css/[id].[hash].css';
+const cssChunkFilename = 'static/css/[id].[contenthash:8].css';
 
 module.exports = {
   mode: process.env.NODE_ENV,
   devtool: isDev ? 'cheap-module-source-map' : 'source-map',
-  entry: {
-    app: isDev
-      ? ['@babel/polyfill', require.resolve('react-dev-utils/webpackHotDevClient'), paths.appIndex]
-      : ['@babel/polyfill', paths.appIndex],
-  },
+  entry: isDev
+    ? ['@babel/polyfill', require.resolve('react-dev-utils/webpackHotDevClient'), paths.appIndex]
+    : {
+        app: ['@babel/polyfill', paths.appIndex],
+        react: ['react', 'react-dom', 'redux', 'react-redux', 'react-router-dom'],
+      },
+
   output: {
     path: paths.appBuild,
     publicPath: '/',
-    filename: '[name].js',
+    filename: '[name].[chunkhash:8].js',
     libraryTarget: 'umd',
     chunkFilename: isDev ? '[name].[chunkhash].js' : 'static/js/[name].[chunkhash].js',
   },
@@ -100,6 +103,8 @@ module.exports = {
           new FriendlyErrorsPlugin(),
         ]
       : [
+          new ManifestPlugin({ fileName: 'asset-manifest.json' }),
+          new webpack.HashedModuleIdsPlugin(),
           new HtmlWebpackPlugin({
             inject: true,
             template: paths.appHtml,
@@ -147,6 +152,20 @@ module.exports = {
   performance: {},
   optimization: {
     nodeEnv: process.env.NODE_ENV,
+    splitChunks: isDev
+      ? {}
+      : {
+          chunks: 'async',
+          name: true,
+          cacheGroups: {
+            external: {
+              name: 'external',
+              chunks: 'all',
+              priority: -10,
+              test: /[\\/]node_modules[\\/](dayjs|nprogress|connected-react-router)[\\/]/,
+            },
+          },
+        },
     minimize: !isDev,
     minimizer: isDev
       ? []

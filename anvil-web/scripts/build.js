@@ -12,11 +12,11 @@ const fse = require('fs-extra');
 const complier = webpack(webpackConfig);
 const spinner = ora();
 
-fse.emptyDirSync(paths.appBuild);
+// fse.emptyDirSync(paths.appBuild);
 fse.copySync(paths.appPublic, paths.appBuild);
 
 function build() {
-  spinner.start('start building ...');
+  spinner.start('start build ...');
   return new Promise((resolve, reject) => {
     complier.run((errors, stats) => {
       if (errors) {
