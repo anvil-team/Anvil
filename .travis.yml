@@ -3,7 +3,10 @@ language: node_js
 node_js:
   - '10'
 
-cache: npm
+cache:
+  directories:
+    - anvil-web/node_modules
+    - anvil-web/dist
 
 branches:
   only:
@@ -23,12 +26,12 @@ install:
 script:
   - npm run build
 
-local-dir: avil-web/dist
-
 deploy:
   provider: pages
   skip-cleanup: true
   github-token: $TOKEN
   keep-history: true
+  local-dir: avil-web/dist
+  target-branch: deploy
   on:
-    branch: deploy
+    all_branches: true
