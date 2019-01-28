@@ -34,5 +34,6 @@ deploy:
   local-dir: anvil-web/dist
   project-name: Anvil
   target-branch: deploy
+  verbose: true
   on:
     all_branches: true
