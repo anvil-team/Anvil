@@ -31,7 +31,8 @@ deploy:
   skip-cleanup: true
   github-token: $TOKEN
   keep-history: true
-  local-dir: avil-web/dist
+  local-dir: anvil-web/dist
+  project-name: Anvil
   target-branch: deploy
   on:
     all_branches: true
