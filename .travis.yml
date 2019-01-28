@@ -33,7 +33,7 @@ deploy:
   keep-history: true
   local-dir: anvil-web/dist
   project-name: Anvil
-  target-branch: deploy
+  target-branch: web-deploy
   verbose: true
   on:
     all_branches: true
