@@ -1,5 +1,5 @@
 os: osx
-language: nodejs
+language: node_js
 node_js:
   - '10'
 
@@ -10,13 +10,9 @@ branches:
     - master
 
 env:
-  - NODE_ENV = production
-  - TRAVIC = $TRAVIC
-  - U_HOST = $U_HOST
-  - U_NAME = $U_NAME
-  - U_PASS = $U_PASS
-  - U_DIR = $U_DIR
-  - U_PORT = $U_PORT
+  global:
+    - NODE_ENV = production
+    - TRAVIC = $TRAVIC
 
 before_install:
   - cd anvil-web
@@ -26,18 +22,13 @@ install:
 
 script:
   - npm run build
-  - ssh-keygen
-  - expect eof
-  - expect eof
-  - expect eof
-  - ssh-copy-id $U_NAME@$U_HOST
-  - expect '*assword*'
-  - send $U_PASS
-  - interact
-  - expect eof
+
+local-dir: avil-web/dist
 
 deploy:
-  - provider: script
-    script: cd anvil-web
-  - provider: script
-    script: node script/deploy.js
+  provider: pages
+  skip-cleanup: true
+  github-token: $TOKEN
+  keep-history: true
+  on:
+    branch: deploy
