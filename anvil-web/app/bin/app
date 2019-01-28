@@ -1,10 +1,17 @@
-require('@babel/register');
+const { spawnSync } = require('child_process');
 
-/**
+try {
+  require('@babel/register');
+
+  /**
 |--------------------------------------------------
 | process
 |--------------------------------------------------
 */
-process.env.U_PORT = 3333;
+  process.env.U_PORT = 3333;
 
-require('../serve');
+  require('../serve');
+} catch (error) {
+  spawnSync('npm', 'install');
+  spawnSync('npx', ['pm2', 'restart', 'anvil-web']);
+}
