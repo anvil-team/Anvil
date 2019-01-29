@@ -9,6 +9,7 @@ exports.restart = () => {
     const buildPath = resolveApp('public');
 
     if (fs.existsSync(`${buildPath}/.git`)) {
+      console.log('upgrade public success.');
       spawnSync('git', ['pull', 'origin', 'web-deploy'], {
         cwd: buildPath,
       });

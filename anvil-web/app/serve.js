@@ -2,10 +2,11 @@
  * @Author: zhenglfsir@gmail.com
  * @Date: 2019-01-14 13:02:41
  * @Last Modified by: zhenglfsir@gmail.com
- * @Last Modified time: 2019-01-29 12:56:30
+ * @Last Modified time: 2019-01-29 14:49:49
  * 实现代理请求以及渲染html
  */
 const path = require('path');
+const fs = require('fs');
 const Koa = require('koa');
 const httpProxy = require('http-proxy');
 const koaStatic = require('koa-static');
@@ -46,6 +47,10 @@ app.use(async (ctx, next) => {
   return await next();
 });
 app.use(koaStatic(staticPath, {}));
+
+app.use(async (ctx) => {
+  ctx.body = fs.readFileSync(staticPath + '/index.html').toString();
+});
 
 app.listen(port, () => {
   console.log('serve run on:', port);
