@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
+    "se-sync": "DEV=true node scripts/sync-app.js",
     "deploy": "node scripts/deploy.js"
   },
   "keywords": [],
@@ -50,6 +51,8 @@
     "babel-eslint": "^10.0.1",
     "babel-loader": "^8.0.4",
     "babel-plugin-import": "^1.11.0",
+    "chalk": "^2.4.2",
+    "chokidar": "^2.0.4",
     "css-loader": "^1.0.1",
     "eslint": "^5.9.0",
     "eslint-plugin-jsx-a11y": "^6.1.2",

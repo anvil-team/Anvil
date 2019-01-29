@@ -14,7 +14,7 @@ const plugins = require('./config/plugins');
 
 const isDev = process.env.NODE_ENV !== 'production';
 const cssFilename = 'static/css/[name].[contenthash:8].css';
-const cssChunkFilename = 'static/css/[id].[contenthash:8].css';
+const cssChunkFilename = 'static/css/[id].[hash].css';
 
 module.exports = {
   mode: process.env.NODE_ENV,
@@ -29,7 +29,7 @@ module.exports = {
   output: {
     path: paths.appBuild,
     publicPath: '/',
-    filename: '[name].[chunkhash:8].js',
+    filename: '[name].[hash].js',
     libraryTarget: 'umd',
     chunkFilename: isDev ? '[name].[chunkhash].js' : 'static/js/[name].[chunkhash].js',
   },

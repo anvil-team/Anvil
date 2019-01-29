@@ -9,6 +9,7 @@ const ora = require('ora');
 const openBrowser = require('react-dev-utils/openBrowser');
 const errorOverlayMiddleware = require('react-dev-utils/errorOverlayMiddleware');
 const noopServiceWorkerMiddleware = require('react-dev-utils/noopServiceWorkerMiddleware');
+const syncApp = require('./syncApp');
 
 const host = process.env.HOST || '0.0.0.0';
 const port = parseInt(process.env.PORT, 10) || 3333;
@@ -43,7 +44,7 @@ function start() {
       console.error(error);
     }
     spinner.succeed();
-    openBrowser('http://127.0.0.1:3000');
+    openBrowser(`http://127.0.0.1:${port}`);
 
     const sigList = ['SIGINT', 'SIGTERM'];
     sigList.forEach(function(sig) {
@@ -55,3 +56,5 @@ function start() {
   });
 }
 start();
+
+syncApp.start();

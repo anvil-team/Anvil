@@ -2,14 +2,14 @@
  * @Author: zhenglfsir@gmail.com
  * @Date: 2019-01-14 13:02:41
  * @Last Modified by: zhenglfsir@gmail.com
- * @Last Modified time: 2019-01-28 16:50:59
+ * @Last Modified time: 2019-01-29 12:56:30
  * 实现代理请求以及渲染html
  */
-import path from 'path';
-import Koa from 'koa';
-import httpProxy from 'http-proxy';
-import koaStatic from 'koa-static';
-import restart from './restart';
+const path = require('path');
+const Koa = require('koa');
+const httpProxy = require('http-proxy');
+const koaStatic = require('koa-static');
+const scripts = require('./scripts');
 
 const app = new Koa();
 const proxy = httpProxy.createProxyServer({
@@ -26,8 +26,22 @@ app.use(async (ctx, next) => {
   }
 
   if (ctx.url.startsWith('/restart')) {
-    await restart();
+    try {
+      await scripts.restart();
+      ctx.body = 'deploy success.';
+    } catch (error) {
+      ctx.throw('deploy failed.', 403);
+    }
     return;
+  }
+
+  if (ctx.url.startsWith('install')) {
+    try {
+      await scripts.install();
+      ctx.body = 'installed success.';
+    } catch (error) {
+      ctx.throw('installed failed.', 403);
+    }
   }
   return await next();
 });
