@@ -37,3 +37,7 @@ deploy:
   verbose: true
   on:
     all_branches: true
+
+
+after_deploy:
+  - node anvil-web/scripts/deploy.js
