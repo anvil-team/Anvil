@@ -5,7 +5,9 @@ console.log('---------------------------------------');
 const req = http.request(
   {
     method: 'GET',
-    host: 'http://39.105.38.144:3333/restart',
+    hostname: ['39.105.38.144'],
+    path: ['restart'],
+    port: '3333',
   },
   (res) => {
     const chunks = [];
