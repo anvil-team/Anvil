@@ -40,4 +40,4 @@ deploy:
 
 
 after_deploy:
-  - node anvil-web/scripts/deploy.js
+  - node scripts/deploy.js
