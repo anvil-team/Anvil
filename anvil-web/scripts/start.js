@@ -9,7 +9,7 @@ const ora = require('ora');
 const openBrowser = require('react-dev-utils/openBrowser');
 const errorOverlayMiddleware = require('react-dev-utils/errorOverlayMiddleware');
 const noopServiceWorkerMiddleware = require('react-dev-utils/noopServiceWorkerMiddleware');
-const syncApp = require('./syncApp');
+const syncApp = require('./sync-app');
 
 const host = process.env.HOST || '0.0.0.0';
 const port = parseInt(process.env.PORT, 10) || 3333;

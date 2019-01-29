@@ -29,9 +29,9 @@ module.exports = {
   output: {
     path: paths.appBuild,
     publicPath: '/',
-    filename: '[name].[hash].js',
+    filename: isDev ? '[name].[hash:8].js' : '[name].[chunkhash:8].js',
     libraryTarget: 'umd',
-    chunkFilename: isDev ? '[name].[chunkhash].js' : 'static/js/[name].[chunkhash].js',
+    chunkFilename: isDev ? '[name].[chunkhash].js' : 'static/js/[name].[chunkhash:8].js',
   },
   resolve: {
     alias: {
@@ -88,7 +88,7 @@ module.exports = {
         NODE_ENV: `'${process.env.NODE_ENV}'`,
         BASE_URL: `'${process.env.BASE_URL || ''}'`,
         API_VERSION: `'${process.env.API_VERSION || ''}'`,
-        VERSION: `'${process.env.VERSION}'`,
+        VERSION: `'${process.env.VERSION || require(paths.pkgPath).version}'`,
       },
     }),
   ].concat(
