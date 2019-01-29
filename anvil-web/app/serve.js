@@ -2,7 +2,7 @@
  * @Author: zhenglfsir@gmail.com
  * @Date: 2019-01-14 13:02:41
  * @Last Modified by: zhenglfsir@gmail.com
- * @Last Modified time: 2019-01-29 14:49:49
+ * @Last Modified time: 2019-01-29 15:05:12
  * 实现代理请求以及渲染html
  */
 const path = require('path');
@@ -28,6 +28,7 @@ app.use(async (ctx, next) => {
 
   if (ctx.url.startsWith('/restart')) {
     try {
+      console.log('start sync public...');
       await scripts.restart();
       ctx.body = 'deploy success.';
     } catch (error) {
