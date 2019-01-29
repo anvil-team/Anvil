@@ -2,7 +2,7 @@
  * @Author: zhenglfsir@gmail.com
  * @Date: 2018-12-03 23:27:30
  * @Last Modified by: zhenglfsir@gmail.com
- * @Last Modified time: 2019-01-14 23:11:33
+ * @Last Modified time: 2019-01-29 15:46:56
  */
 import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
@@ -40,6 +40,7 @@ class App extends React.Component {
                                 {...props}
                                 path={route.path + sub.path}
                                 redirect="/login"
+                                checker={this.checker}
                                 render={(props) => <sub.component {...props} />}
                               />
                             </DocumentTitle>
