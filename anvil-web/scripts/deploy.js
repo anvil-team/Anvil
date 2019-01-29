@@ -5,7 +5,7 @@ console.log('---------------------------------------');
 const req = http.request(
   {
     method: 'GET',
-    hostname: [39, 105, 38, 144],
+    hostname: '39.105.38.144',
     path: ['restart'],
     port: '3333',
   },
