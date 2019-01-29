@@ -17,7 +17,7 @@ export const effects = {
       sessionStorage.token = response.data.token;
       // 请求数据
       yield put({ type: 'login/setState', payload: { login: true } });
-      const ret = yield put({ type: 'app/syncApp' });
+      const ret = yield put.resolve({ type: 'app/syncApp' });
       if (ret) {
         yield put({ type: 'app/notify.success', payload: '登录成功' });
         yield put(replace('/sys'));
