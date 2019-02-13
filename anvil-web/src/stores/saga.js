@@ -4,11 +4,9 @@ import { connectRouter } from 'connected-react-router';
 import { persistReducer } from 'redux-persist';
 import session from 'redux-persist/lib/storage/session';
 import * as app from './app';
-import * as login from './module/login';
-import * as user from './module/user';
-import * as category from './module/category';
+import models from './models';
 
-const modules = { login, app, user, category };
+const modules = { app, ...models };
 
 export const effects = Object.keys(modules).reduce((efs, mEffectsName) => {
   const mEffects = modules[mEffectsName].effects;
