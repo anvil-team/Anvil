@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table, Popconfirm, Modal, Form, Input, InputNumber, Select } from 'antd';
+import { Table, Popconfirm, Modal, Form, Input, InputNumber, Select, Button } from 'antd';
 import { connect } from 'react-redux';
 import dayjs from 'dayjs';
 
@@ -25,9 +25,15 @@ class CategoryManage extends React.Component {
       form: { getFieldDecorator },
     } = this.props;
     const { visible } = this.state;
+    const { current } = categoryState;
 
     return (
       <>
+        <div>
+          <Button type="primary" onClick={this.handleToAdd}>
+            添加目录
+          </Button>
+        </div>
         <Table
           rowKey="id"
           columns={this.getColumns()}
@@ -36,7 +42,7 @@ class CategoryManage extends React.Component {
         />
         <Modal
           visible={visible}
-          title="更新目录"
+          title={current ? '更新目录' : '增加目录'}
           onCancel={this.handleCancel}
           onOk={this.handleConfirm}
         >
@@ -107,6 +113,10 @@ class CategoryManage extends React.Component {
     ];
   };
 
+  handleToAdd = () => {
+    this.setState({ visible: true });
+  };
+
   handleConfirm = () => {
     const {
       form: { validateFields },
@@ -116,10 +126,9 @@ class CategoryManage extends React.Component {
     validateFields((err, values) => {
       if (!err) {
         if (categoryState.current?.id) values.id = categoryState.current?.id;
-        dispatch({
-          type: 'category/updateCategory',
-          payload: { category: values },
-        });
+        dispatch({ type: 'category/updateCategory', payload: { category: values, current: null } });
+
+        this.setState({ visible: false });
       }
     });
   };

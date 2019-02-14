@@ -19,11 +19,15 @@ class BasicLayout extends React.Component {
                 menu.childCategory ? (
                   <Menu.SubMenu key={menu.parentName} title={menu.parentName}>
                     {menu.childCategory.map((subMenu) => (
-                      <Menu.Item key={subMenu.url}>{subMenu.categoryName}</Menu.Item>
+                      <Menu.Item key={subMenu.url}>
+                        <a href={subMenu.url}>{subMenu.categoryName}</a>
+                      </Menu.Item>
                     ))}
                   </Menu.SubMenu>
                 ) : (
-                  <Menu.Item key={menu.parentName}>{menu.parentName}</Menu.Item>
+                  <Menu.Item key={menu.parentName}>
+                    <a href={menu.url}>{menu.parentName}</a>
+                  </Menu.Item>
                 )
               )}
             </Menu>

@@ -28,6 +28,7 @@ export const effects = {
     const { category } = payload;
     const res = yield call(categoryApi.editCategory, category, category.id);
     if (res) {
+      yield put({ type: 'category/getList' });
       yield put({ type: 'app/notify.success', payload: '操作成功' });
     } else {
       yield put({ type: 'app/notify.warn', payload: '操作失败' });
