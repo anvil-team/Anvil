@@ -4,6 +4,7 @@ const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin');
+const CompressionWebpackPlugin = require('compression-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const OptimizeCssAssetsWebpackPlugin = require('optimize-css-assets-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
@@ -146,6 +147,9 @@ module.exports = {
             staticFileGlobsIgnorePatterns: [/\.map$/, /asset-manifest\.json$/],
           }),
           new plugins.FilterCssConflictingWarning(),
+          new CompressionWebpackPlugin({
+            threshold: 10 * 1024,
+          }),
         ]
   ),
   node: {},
