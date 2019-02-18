@@ -10,11 +10,6 @@ export const routes = [
         title: '面板',
         component: LazyLoad(() => import('./dashboard/Dashboard')),
       },
-      // {
-      //   path: '/user',
-      //   title: '用户管理',
-      //   component: LazyLoad(() => import('./permission/UserManage')),
-      // },
       {
         path: '/category',
         title: '目录管理',
@@ -40,6 +35,38 @@ export const routes = [
         path: '/person-center',
         title: '个人中心',
         component: LazyLoad(() => import('./permission/PersonalCenter')),
+      },
+    ],
+  },
+  {
+    path: '/project',
+    auth: true,
+    children: [
+      {
+        path: '/',
+        title: '项目配置',
+        component: LazyLoad(() => import('./project/ProjectConfiguration')),
+      },
+      {
+        path: '/cluster',
+        title: '集群配置',
+        component: LazyLoad(() => import('./project/ClusterConfiguration')),
+      },
+    ],
+  },
+  {
+    path: '/configuration',
+    auth: true,
+    children: [
+      {
+        path: '/publish',
+        title: '配置发布',
+        component: LazyLoad(() => import('./configuration/Publish')),
+      },
+      {
+        path: '/approval',
+        title: '配置审核',
+        component: LazyLoad(() => import('./configuration/Approval')),
       },
     ],
   },

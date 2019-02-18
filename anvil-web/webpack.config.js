@@ -4,7 +4,7 @@ const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin');
-const UglifyJsWebpackPlugin = require('uglifyjs-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 const OptimizeCssAssetsWebpackPlugin = require('optimize-css-assets-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const styleLoader = require('./config/styleLoader');
@@ -153,7 +153,9 @@ module.exports = {
   optimization: {
     nodeEnv: process.env.NODE_ENV,
     splitChunks: isDev
-      ? {}
+      ? {
+          runtimeChunk: true,
+        }
       : {
           chunks: 'async',
           name: true,
@@ -170,20 +172,15 @@ module.exports = {
     minimizer: isDev
       ? []
       : [
-          new UglifyJsWebpackPlugin({
+          new TerserPlugin({
             parallel: true,
-            sourceMap: false,
+            sourceMap: true,
             cache: true,
-            uglifyOptions: {
-              compress: {
-                warnings: false,
-                comparisons: false,
-              },
-              mangle: true,
-              output: {
-                comments: false,
-                ascii_only: true,
-              },
+            terserOptions: {
+              parse: { ecma: 8 },
+              compress: { ecma: 5, warnings: false, comparisons: false, inline: 2 },
+              mangle: { safari10: true },
+              output: { ecma: 5, comments: false, ascii_only: true },
             },
           }),
           new OptimizeCssAssetsWebpackPlugin({

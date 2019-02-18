@@ -12,7 +12,7 @@ const fse = require('fs-extra');
 const complier = webpack(webpackConfig);
 const spinner = ora();
 
-// fse.emptyDirSync(paths.appBuild);
+fse.emptyDirSync(paths.appBuild);
 fse.copySync(paths.appPublic, paths.appBuild);
 
 function build() {

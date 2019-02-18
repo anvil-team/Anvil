@@ -48,6 +48,7 @@ export function getReducers(history) {
   return combineReducers({
     router: connectRouter(history),
     ...mReducers,
+    // todo: encrypt by redux-persis-transform-encrypt
     appState: persistReducer(
       { key: 'app', keyPrefix: 'Anvil-', storage: session },
       mReducers.appState

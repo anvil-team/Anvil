@@ -20,8 +20,9 @@ export const effects = {
     const res = yield call(categoryApi.deleteCategory, { id: action.payload.id });
     if (res) {
       yield put({ type: 'app/notify.success', payload: { content: '删除成功' } });
-      yield put({ type: 'app/syncApp' });
       yield put({ type: 'category/getList' });
+
+      yield put.resolve({ type: 'app/syncMenu' });
     } else yield put({ type: 'app/notify.warn', payload: { content: '删除失败' } });
   },
   *updateCategory({ payload }) {
@@ -30,6 +31,8 @@ export const effects = {
     if (res) {
       yield put({ type: 'category/getList' });
       yield put({ type: 'app/notify.success', payload: '操作成功' });
+
+      yield put.resolve({ type: 'app/syncMenu' });
     } else {
       yield put({ type: 'app/notify.warn', payload: '操作失败' });
     }

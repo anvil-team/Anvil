@@ -1,4 +1,4 @@
-import { put, call, all } from 'redux-saga/effects';
+import { put, call } from 'redux-saga/effects';
 import { message } from 'antd';
 import * as authService from 'services/auth';
 
@@ -11,12 +11,19 @@ export const state = initialState;
 
 export const effects = {
   *syncApp() {
-    const [categoryData] = yield all([call(authService.category)]);
-    if (categoryData) {
-      yield put({ type: 'app/setState', payload: { userMenus: categoryData.data } });
+    try {
+      yield put.resolve({ type: 'app/syncMenu' });
       return true;
+    } catch (error) {
+      return false;
     }
-    return false;
+  },
+
+  *syncMenu() {
+    const res = yield call(authService.category);
+    if (res) {
+      yield put({ type: 'app/setState', payload: { userMenus: res.data } });
+    } else throw new Error('sync menu failed.');
   },
 };
 
