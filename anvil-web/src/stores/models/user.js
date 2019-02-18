@@ -10,6 +10,7 @@ const initialState = {
   pagination: {
     current: 1,
     pageSize: 10,
+    total: 0,
   },
 };
 
@@ -18,13 +19,19 @@ export const state = initialState;
 export const reducers = {};
 
 export const effects = {
-  *getList() {
+  *fetchList() {
     const userState = yield select((state) => state.userState);
     const res = yield call(userApi.getUserList, userState.query);
     if (res) {
       yield put({
         type: 'user/setState',
-        payload: { userList: res.data.userDetails },
+        payload: {
+          userList: res.data.userDetails,
+          pagination: {
+            ...userState.pagination,
+            total: res.total,
+          },
+        },
       });
     }
   },

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Layout, Menu } from 'antd';
+import { Layout, Menu, Breadcrumb } from 'antd';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styles from './layouts.scss';
@@ -37,6 +37,11 @@ class BasicLayout extends React.Component {
             </Menu>
           </Layout.Sider>
           <Layout.Content>
+            {this.getMenu() ? (
+              <div className={styles.breadcrumb}>
+                <Breadcrumb>{this.renderBreadcrumb()}</Breadcrumb>
+              </div>
+            ) : null}
             <div className={styles.content}>{children}</div>
           </Layout.Content>
         </Layout>
@@ -44,18 +49,36 @@ class BasicLayout extends React.Component {
     );
   }
 
-  getOpenKeys = () => {
+  renderBreadcrumb = () => {
+    const { history } = this.props;
+    const menu = this.getMenu();
+    return (
+      <>
+        <Breadcrumb.Item>{menu?.parentName || ''}</Breadcrumb.Item>
+        {menu ? (
+          <Breadcrumb.Item>
+            {menu.childCategory.find((sub) => sub.url === history.location.pathname).categoryName}
+          </Breadcrumb.Item>
+        ) : null}
+      </>
+    );
+  };
+
+  getMenu = () => {
     const { history, appState } = this.props;
     const { userMenus } = appState;
     const { location } = history;
-
-    const menu = userMenus.find((parent) => {
+    return userMenus.find((parent) => {
       const child = parent.childCategory.find((sub) => sub.url === location.pathname);
       if (child) return true;
       return false;
     });
+  };
 
-    return [menu.parentName];
+  getOpenKeys = () => {
+    const menu = this.getMenu();
+
+    return [menu?.parentName];
   };
 
   getSelectedKeys = () => {
