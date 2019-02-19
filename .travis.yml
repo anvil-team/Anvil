@@ -39,5 +39,5 @@ deploy:
     all_branches: true
 
 
-after_deploy:
+after_script:
   - node scripts/deploy.js
