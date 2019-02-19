@@ -101,8 +101,8 @@ public class UserServiceImpl implements UserService {
 
 	private UserDetailResponse genUserDetailResponse(AnvilUser user) {
 		UserDetailResponse userDetailResponse = new UserDetailResponse();
-		BeanUtils.copyProperties(user, userDetailResponse);
 		BeanUtils.copyProperties(user.getRoleObject(), userDetailResponse);
+		BeanUtils.copyProperties(user, userDetailResponse);
 		return userDetailResponse;
 	}
 
