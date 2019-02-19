@@ -156,10 +156,9 @@ module.exports = {
   performance: {},
   optimization: {
     nodeEnv: process.env.NODE_ENV,
+    runtimeChunk: isDev,
     splitChunks: isDev
-      ? {
-          runtimeChunk: true,
-        }
+      ? {}
       : {
           chunks: 'async',
           name: true,
