@@ -2,8 +2,6 @@ import isDev from './utils/isDev';
 
 const log = (...args) => console.log.apply(null, ['[anvil]'].concat(args));
 
-log('installing sw.');
-
 if (!isDev() && 'serviceWorker' in navigator) {
   navigator.serviceWorker
     .register('/sw.js', {
