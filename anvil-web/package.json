@@ -1,6 +1,6 @@
 {
   "name": "anvil-web",
-  "version": "0.1.5",
+  "version": "0.1.5-alpha",
   "description": "Cluster management framework",
   "main": "webpack.config.js",
   "scripts": {

@@ -1,5 +1,6 @@
 import isDev from './utils/isDev';
 
+
 if (!isDev() && 'serviceWorker' in navigator) {
   const log = (...args) => console.log.apply(null, ['[anvil]'].concat(args));
   navigator.serviceWorker
