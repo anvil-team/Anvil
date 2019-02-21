@@ -1,5 +1,6 @@
 import { put, call, select } from 'redux-saga/effects';
 import * as userApi from 'services/user';
+import * as roleApi from 'services/role';
 
 const initialState = {
   query: {
@@ -12,6 +13,7 @@ const initialState = {
     pageSize: 10,
     total: 0,
   },
+  roleList: [],
 };
 
 export const state = initialState;
@@ -19,7 +21,7 @@ export const state = initialState;
 export const reducers = {};
 
 export const effects = {
-  *fetchList() {
+  *fetchUserList() {
     const userState = yield select((state) => state.userState);
     const res = yield call(userApi.getUserList, userState.query);
     if (res) {
@@ -33,6 +35,14 @@ export const effects = {
           },
         },
       });
+    }
+  },
+
+  *fetchRoleList() {
+    const res = yield call(roleApi.getRoleList);
+
+    if (res) {
+      yield put({ type: 'user/setState', payload: { roleList: res.data.roles } });
     }
   },
 };

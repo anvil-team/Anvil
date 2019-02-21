@@ -2,7 +2,7 @@
  * @Author: zhenglfsir@gmail.com
  * @Date: 2019-01-03 22:08:18
  * @Last Modified by: zhenglfsir@gmail.com
- * @Last Modified time: 2019-02-18 20:27:23
+ * @Last Modified time: 2019-02-21 09:33:37
  * 用户管理
  */
 
@@ -13,7 +13,7 @@ import { Table } from 'antd';
 class UserManage extends React.Component {
   componentDidMount() {
     const { dispatch } = this.props;
-    dispatch({ type: 'user/fetchList' });
+    dispatch({ type: 'user/fetchUserList' });
   }
 
   render() {
