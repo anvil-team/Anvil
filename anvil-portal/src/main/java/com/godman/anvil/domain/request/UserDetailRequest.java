@@ -1,8 +1,7 @@
 package com.godman.anvil.domain.request;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-
-import org.hibernate.validator.constraints.NotBlank;
 
 public class UserDetailRequest extends CommonRequest{
 

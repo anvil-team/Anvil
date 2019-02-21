@@ -1,7 +1,7 @@
 package com.godman.anvil;
 
 import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.boot.web.support.SpringBootServletInitializer;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
 /**
  * Tomcat,Jetty容器启动服务入口。
