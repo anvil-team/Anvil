@@ -9,6 +9,7 @@ import javax.validation.Validator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.ConfigurationPropertiesBinding;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
@@ -21,6 +22,7 @@ import com.google.common.base.Strings;
  * @author chenzihao
  */
 @Component(value = "userDetaiConverter")
+@ConfigurationPropertiesBinding
 public class UserDetaiConverter implements Converter<String, UserDetailRequest> {
 	
 	private Logger logger = LoggerFactory.getLogger(getClass());

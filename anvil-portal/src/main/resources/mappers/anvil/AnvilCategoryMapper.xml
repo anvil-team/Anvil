@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.godman.anvil.dao.AnvilCategoryDao">
+
+	<select id="findAll" parameterType="Map" resultType="AnvilCategory">
+		SELECT
+			c.id,
+			c.parent_id,
+			c.category_name,
+			c.url,
+			c.priority,
+			c.create_time,
+			c.update_time
+		FROM
+			anvil_category c
+		ORDER BY c.priority asc
+	</select>
+	
+	<select id="findCategoryByRoleId" parameterType="Map" resultType="AnvilCategory">
+		SELECT
+			c.id,
+			c.parent_id,
+			c.category_name,
+			c.url
+		FROM
+			anvil_role_assign a,
+			anvil_category c
+		WHERE
+			a.category_id = c.id AND a.role_id = #{roleId}
+	</select>
+	
+	<insert id="addCategory" parameterType="AnvilCategory">
+		INSERT INTO anvil_category
+		(parent_id,
+		category_name,
+		url,
+		priority,
+		create_time,
+		update_time
+		)
+		VALUES
+		(#{parentId},
+		#{categoryName},
+		#{url},
+		#{priority},
+		now(),
+		now()
+		)
+	</insert>
+	
+	<update id="updateCategory" parameterType="AnvilCategory">
+		UPDATE  anvil_category SET
+		parent_id=#{parentId},
+		category_name=#{categoryName},
+		url=#{url},
+		priority=#{priority},
+		update_time=now()
+		WHERE id=#{id}
+	</update>
+	
+	<delete id="deleteCategory" parameterType="Map">
+		DELETE FROM anvil_category
+		WHERE id=#{categoryId}
+	</delete>
+
+
+</mapper>

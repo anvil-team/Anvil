@@ -1,23 +1,25 @@
-package com.godman.anvil.domain.response;
+package com.godman.anvil.domain;
 
-public class ApplicationDetailResponse {
+public class AnvilApplication {
 
 	private Long id;
 
 	private String applicationCode;
-
+	
 	private String applicationName;
-
+	
 	private String description;
 	
+	private Long personInCharge;
+	
 	private Long chargePersonId;
-
+	
 	private String chargePersonName;
-
+	
 	private Integer shouldReviewed;
 	
 	private String createTime;
-
+	
 	private String updateTime;
 
 	public Long getId() {
@@ -50,6 +52,14 @@ public class ApplicationDetailResponse {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+	
+	public Long getPersonInCharge() {
+		return personInCharge;
+	}
+
+	public void setPersonInCharge(Long personInCharge) {
+		this.personInCharge = personInCharge;
 	}
 
 	public Long getChargePersonId() {
