@@ -38,9 +38,7 @@ class BasicLayout extends React.Component {
           </Layout.Sider>
           <Layout.Content>
             {this.getMenu() ? (
-              <div className={styles.breadcrumb}>
-                <Breadcrumb>{this.renderBreadcrumb()}</Breadcrumb>
-              </div>
+              <div className={styles.breadcrumb}>{this.renderBreadcrumb()}</div>
             ) : null}
             <div className={styles.content}>{children}</div>
           </Layout.Content>
@@ -53,14 +51,14 @@ class BasicLayout extends React.Component {
     const { history } = this.props;
     const menu = this.getMenu();
     return (
-      <>
+      <Breadcrumb>
         <Breadcrumb.Item>{menu?.parentName || ''}</Breadcrumb.Item>
         {menu ? (
           <Breadcrumb.Item>
             {menu.childCategory.find((sub) => sub.url === history.location.pathname).categoryName}
           </Breadcrumb.Item>
         ) : null}
-      </>
+      </Breadcrumb>
     );
   };
 

@@ -2,7 +2,7 @@
  * @Author: zhenglfsir@gmail.com
  * @Date: 2018-12-03 23:27:30
  * @Last Modified by: zhenglfsir@gmail.com
- * @Last Modified time: 2019-02-18 20:06:13
+ * @Last Modified time: 2019-02-25 22:08:51
  */
 import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
@@ -13,7 +13,7 @@ import { PersistGate } from 'redux-persist/integration/react';
 import { routes } from './routes/router';
 import AuthRoute from 'components/AuthRoute';
 import BasicLayout from './layouts/BasicLayout';
-import './app.global.scss';
+import './app.scss';
 
 class App extends React.Component {
   render() {

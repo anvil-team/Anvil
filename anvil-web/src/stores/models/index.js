@@ -1,17 +1,18 @@
 class Model {
-  modelList = [];
-
-  use(name) {
-    try {
-      const model = require(`./${name}`);
-      this.modelList.push({ [name]: model });
-    } catch (err) {
-      console.warn('not exist the model of', name);
-    }
+  models = [];
+  constructor() {
+    const context = require.context('./', false, /\.js$/);
+    context.keys().forEach((k) => {
+      if (!k.includes('index')) {
+        const name = k.replace(/(.*\/)*([^.]+).*/gi, '$2');
+        this.models.push({ [name]: context(k) });
+      }
+    });
   }
 
+
   toModels() {
-    return this.modelList.reduce((acc, m) => {
+    return this.models.reduce((acc, m) => {
       acc = { ...acc, ...m };
       return acc;
     }, {});
@@ -19,9 +20,5 @@ class Model {
 }
 
 const model = new Model();
-
-model.use('login');
-model.use('user');
-model.use('category');
 
 export default model.toModels();

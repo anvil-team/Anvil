@@ -2,13 +2,13 @@
  * @Author: zhenglfsir@gmail.com
  * @Date: 2019-01-03 22:08:18
  * @Last Modified by: zhenglfsir@gmail.com
- * @Last Modified time: 2019-02-21 09:33:37
+ * @Last Modified time: 2019-02-25 22:15:34
  * 用户管理
  */
 
 import React from 'react';
 import { connect } from 'react-redux';
-import { Table } from 'antd';
+import { Table, Divider } from 'antd';
 
 class UserManage extends React.Component {
   componentDidMount() {
@@ -41,6 +41,21 @@ class UserManage extends React.Component {
       { title: '职位', dataIndex: 'position' },
       { title: '角色编码', dataIndex: 'roleCode' },
       { title: '角色名称', dataIndex: 'roleName' },
+      {
+        title: '操作',
+        width: 200,
+        render: (txt, record) => {
+          return (
+            <>
+              <a>编辑</a>
+              <Divider type="vertical" />
+              <a>分配项目</a>
+              <Divider type="vertical" />
+              <a>删除</a>
+            </>
+          );
+        },
+      },
     ];
   };
 }
