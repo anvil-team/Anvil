@@ -82,7 +82,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 	@ExceptionHandler({ Error.class, Exception.class, Throwable.class })
 	@ResponseBody
 	public ResponseEntity<String> processException(Throwable ex) throws Exception {
-		logger.error("Encounter exception while processing request", ex.getMessage());
+		logger.error("Encounter exception while processing request", ex.getMessage(),ex);
 		CommonResponse<String> stateResponse = new CommonResponse<String>();
 
 		stateResponse.setSuccess(CommonResponse.FAIL_STATE);
