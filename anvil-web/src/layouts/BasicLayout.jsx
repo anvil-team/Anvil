@@ -1,5 +1,5 @@
 import React from 'react';
-import { Layout, Menu, Breadcrumb } from 'antd';
+import { Layout, Menu, Breadcrumb, Dropdown, Tag } from 'antd';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styles from './layouts.scss';
@@ -11,6 +11,11 @@ class BasicLayout extends React.Component {
       <Layout className={styles.layout}>
         <Layout.Header className={styles.header}>
           <div className={styles.logo}>Anvil</div>
+          <div className={styles['header-menu']}>
+            <Dropdown overlay={this.renderDropdown()}>
+              <a>{appState.user.username}</a>
+            </Dropdown>
+          </div>
         </Layout.Header>
         <Layout>
           <Layout.Sider theme="light">
@@ -46,6 +51,21 @@ class BasicLayout extends React.Component {
       </Layout>
     );
   }
+
+  renderDropdown = () => {
+    return (
+      <Menu onClick={this.handleHeaderClick}>
+        <Menu.Item>
+          <span>
+            about: <Tag color="black">v{process.env.VERSION}</Tag>
+          </span>
+        </Menu.Item>
+        <Menu.Item key="0">
+          <span>退出</span>
+        </Menu.Item>
+      </Menu>
+    );
+  };
 
   renderBreadcrumb = () => {
     const { history } = this.props;
@@ -83,6 +103,11 @@ class BasicLayout extends React.Component {
     const { history } = this.props;
 
     return [history.location.pathname];
+  };
+
+  handleHeaderClick = (params) => {
+    const { dispatch } = this.props;
+    if (params.key === '0') dispatch({ type: 'login/logout' });
   };
 }
 

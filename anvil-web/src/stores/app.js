@@ -1,18 +1,15 @@
 import { put, call } from 'redux-saga/effects';
 import { message } from 'antd';
 import * as authService from 'services/auth';
+import * as userApi from 'services/user';
 
-const initialState = {
-  userMenus: [],
-  user: {},
-};
-
-export const state = initialState;
+export const state = { userMenus: [], user: {} };
 
 export const effects = {
   *syncApp() {
     try {
       yield put.resolve({ type: 'app/syncMenu' });
+      yield put.resolve({ type: 'app/fetchUserInfo' });
       return true;
     } catch (error) {
       return false;
@@ -24,6 +21,14 @@ export const effects = {
     if (res) {
       yield put({ type: 'app/setState', payload: { userMenus: res.data } });
     } else throw new Error('sync menu failed.');
+  },
+
+  *fetchUserInfo() {
+    const res = yield call(userApi.getUserDetail);
+    if (res) {
+      yield put({ type: 'app/setState', payload: { user: res.data } });
+      return res.data;
+    } else throw new Error('fetch user detail failed.');
   },
 };
 

@@ -24,4 +24,10 @@ export const effects = {
       } else yield put({ type: 'app/notify.warn', payload: '同步数据失败，请稍后重试' });
     } else yield put({ type: 'app/notify.warn', payload: '账号或者密码错误' });
   },
+
+  *logout() {
+    yield put({ type: 'app/setState', payload: { token: '', user: {} } });
+    yield put({ type: 'login/setState', payload: { login: false } });
+    yield put(replace('/login'));
+  },
 };

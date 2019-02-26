@@ -2,13 +2,14 @@
  * @Author: zhenglfsir@gmail.com
  * @Date: 2019-01-03 22:08:18
  * @Last Modified by: zhenglfsir@gmail.com
- * @Last Modified time: 2019-02-25 22:15:34
+ * @Last Modified time: 2019-02-26 13:39:22
  * 用户管理
  */
 
 import React from 'react';
 import { connect } from 'react-redux';
 import { Table, Divider } from 'antd';
+import BlankContent from 'src/layouts/BlankContent';
 
 class UserManage extends React.Component {
   componentDidMount() {
@@ -22,12 +23,14 @@ class UserManage extends React.Component {
 
     return (
       <>
-        <Table
-          rowKey="username"
-          dataSource={userList}
-          columns={this.getColumns()}
-          pagination={{ showQuickJumper: true, showSizeChanger: true, ...pagination }}
-        />
+        <BlankContent>
+          <Table
+            rowKey="username"
+            dataSource={userList}
+            columns={this.getColumns()}
+            pagination={{ showQuickJumper: true, showSizeChanger: true, ...pagination }}
+          />
+        </BlankContent>
       </>
     );
   }
@@ -44,7 +47,7 @@ class UserManage extends React.Component {
       {
         title: '操作',
         width: 200,
-        render: (txt, record) => {
+        render: () => {
           return (
             <>
               <a>编辑</a>

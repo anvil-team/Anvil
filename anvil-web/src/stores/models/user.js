@@ -2,7 +2,7 @@ import { put, call, select } from 'redux-saga/effects';
 import * as userApi from 'services/user';
 import * as roleApi from 'services/role';
 
-const initialState = {
+export const state = {
   query: {
     currentPage: 1,
     pageSize: 10,
@@ -15,8 +15,6 @@ const initialState = {
   },
   roleList: [],
 };
-
-export const state = initialState;
 
 export const reducers = {};
 

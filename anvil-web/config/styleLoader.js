@@ -9,7 +9,7 @@ module.exports = (styleOptions) => {
   const cssOptions = { importLoaders: 1 + styleOptions.preprocessor ? 1 : 0, minimize: !isDev }
   if (styleOptions.cssModules) {
     cssOptions.modules = true
-    cssOptions.localIdentName = 'anvil-[folder]__[local]___[hash:base64:5]'
+    cssOptions.localIdentName = 'anvil-[name]__[local]___[hash:base64:5]'
   }
   loaders.push({ loader: 'css-loader', options: cssOptions })
 

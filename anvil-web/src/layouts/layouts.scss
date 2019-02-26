@@ -10,13 +10,17 @@
 
 .content {
   margin: 15px;
-  padding: 15px;
+}
+
+.blank-content {
   background-color: #fff;
+  padding: 15px;
 }
 
 .logo {
   font-size: 24px;
   color: #fff;
+  float: left;
 }
 
 .breadcrumb {
@@ -25,4 +29,9 @@
   height: 50px;
   padding: 15px;
   box-sizing: border-box;
+}
+
+.header-menu {
+  float: right;
+  color: #fff;
 }

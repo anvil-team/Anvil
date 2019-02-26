@@ -40,3 +40,6 @@ export { default as PushpinOutline } from '@ant-design/icons/lib/outline/Pushpin
 export { default as DisconnectOutline } from '@ant-design/icons/lib/outline/DisconnectOutline'
 export { default as CaretUpFill } from '@ant-design/icons/lib/fill/CaretUpFill'
 export { default as CaretDownFill } from '@ant-design/icons/lib/fill/CaretDownFill'
+export { default as GiftOutline } from '@ant-design/icons/lib/outline/GiftOutline'
+export { default as ClusterOutline } from '@ant-design/icons/lib/outline/ClusterOutline'
+export { default as EnvironmentOutline } from '@ant-design/icons/lib/outline/EnvironmentOutline'

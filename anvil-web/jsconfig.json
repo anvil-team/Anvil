@@ -11,7 +11,7 @@
       "config/*": ["./src/config/*"],
       "components/*": ["./src/components/*"],
       "services/*": ["./src/services/*"],
-      "utils/*": ["./src/utils/*"]
+      "utils/*": ["./src/utils/*"],
     }
   },
   "exclude": ["node_modules"],
