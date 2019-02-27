@@ -2,7 +2,7 @@
  * @Author: zhenglfsir@gmail.com
  * @Date: 2019-01-03 22:08:11
  * @Last Modified by: zhenglfsir@gmail.com
- * @Last Modified time: 2019-02-26 13:34:51
+ * @Last Modified time: 2019-02-27 22:17:07
  * 个人中心
  */
 
@@ -10,6 +10,8 @@ import React from 'react';
 import { Row, Col, Card, Avatar, Icon } from 'antd';
 import { connect } from 'react-redux';
 import styles from './permission.scss';
+import userImage from 'assets/user.png';
+import projectImage from 'assets/project.png';
 
 class PersonCenter extends React.Component {
   render() {
@@ -18,15 +20,12 @@ class PersonCenter extends React.Component {
 
     return (
       <>
-        <Row>
+        <Row gutter={20}>
           <Col span={6}>
             <Card className={styles['person-card']} bordered={false}>
               <div className={styles['person-card-header']}>
-                <Avatar
-                  size={80}
-                  src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-                />
-                <h3>{user.username}</h3>
+                <Avatar size={80} src={userImage} />
+                <h3 style={{ marginTop: 10 }}>{user.username}</h3>
                 <p>哈纳百川</p>
               </div>
               <div className={styles['person-desc']}>
@@ -50,7 +49,38 @@ class PersonCenter extends React.Component {
             </Card>
           </Col>
           <Col span={18}>
-            <Row>{}</Row>
+            <Row gutter={10}>
+              <Col span={8} style={{ marginBottom: 10 }}>
+                <Card hoverable cover={<img src={projectImage} />}>
+                  <Card.Meta title="Alipy" description="w" />
+                </Card>
+              </Col>
+              <Col span={8} style={{ marginBottom: 10 }}>
+                <Card hoverable cover={<img src={projectImage} />}>
+                  <Card.Meta title="Alipy" description="w" />
+                </Card>
+              </Col>
+              <Col span={8} style={{ marginBottom: 10 }}>
+                <Card hoverable cover={<img src={projectImage} />}>
+                  <Card.Meta title="Alipy" description="w" />
+                </Card>
+              </Col>
+              <Col span={8} style={{ marginBottom: 10 }}>
+                <Card hoverable cover={<img src={projectImage} />}>
+                  <Card.Meta title="Alipy" description="w" />
+                </Card>
+              </Col>
+              <Col span={8} style={{ marginBottom: 10 }}>
+                <Card hoverable cover={<img src={projectImage} />}>
+                  <Card.Meta title="Alipy" description="w" />
+                </Card>
+              </Col>
+              <Col span={8} style={{ marginBottom: 10 }}>
+                <Card hoverable cover={<img src={projectImage} />}>
+                  <Card.Meta title="Alipy" description="w" />
+                </Card>
+              </Col>
+            </Row>
           </Col>
         </Row>
       </>

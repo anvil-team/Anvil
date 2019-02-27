@@ -2,14 +2,15 @@
  * @Author: zhenglfsir@gmail.com
  * @Date: 2019-01-03 22:08:18
  * @Last Modified by: zhenglfsir@gmail.com
- * @Last Modified time: 2019-02-26 13:39:22
+ * @Last Modified time: 2019-02-27 22:31:10
  * 用户管理
  */
 
 import React from 'react';
 import { connect } from 'react-redux';
-import { Table, Divider } from 'antd';
+import { Table, Divider, Form, Input, Button } from 'antd';
 import BlankContent from 'src/layouts/BlankContent';
+import SearchBox from 'src/components/UI/SearchBox';
 
 class UserManage extends React.Component {
   componentDidMount() {
@@ -18,12 +19,21 @@ class UserManage extends React.Component {
   }
 
   render() {
-    const { userState } = this.props;
+    const { userState, form } = this.props;
     const { userList, pagination } = userState;
+    const { getFieldDecorator } = form;
 
     return (
       <>
         <BlankContent>
+          <SearchBox>
+            <Form layout="inline">
+              <Form.Item>{getFieldDecorator('keyword')(<Input placeholder="请输入" />)}</Form.Item>
+              <Form.Item>
+                <Button type="primary">搜索</Button>
+              </Form.Item>
+            </Form>
+          </SearchBox>
           <Table
             rowKey="username"
             dataSource={userList}
@@ -65,4 +75,4 @@ class UserManage extends React.Component {
 
 export default connect((state) => ({
   userState: state.userState,
-}))(UserManage);
+}))(Form.create()(UserManage));

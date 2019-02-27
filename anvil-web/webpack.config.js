@@ -40,6 +40,7 @@ module.exports = {
       config: path.resolve(__dirname, 'src/config'),
       services: path.resolve(__dirname, 'src/services'),
       utils: path.resolve(__dirname, 'src/utils'),
+      assets: path.resolve(__dirname, 'src/assets'),
       src: path.resolve(__dirname, 'src/'),
       '@ant-design/icons/lib/dist$': paths.antdIcon,
     },
@@ -51,6 +52,13 @@ module.exports = {
         test: /\.jsx?$/,
         use: [{ loader: 'babel-loader', query: { cacheDirectory: true } }],
         exclude: [path.resolve(__dirname, 'node_modules')],
+      },
+      {
+        test: /\.(png|jpe?g|gif)$/i,
+        loader: {
+          loader: require.resolve('url-loader'),
+          options: { limit: 8192, name: 'static/assets/[name].[hash:8].[ext]' },
+        },
       },
       {
         oneOf: [

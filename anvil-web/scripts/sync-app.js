@@ -33,7 +33,7 @@ const start = () => {
 
 function initial() {
   spawnSync('scp', ['r', `${appPath}/`, 'zsirfs@39.105.38.144:/home/zsirfs/webroot/']);
-  console.log(chalk.bgGreen('sync serve app success.'));
+  console.log(chalk.green('sync serve app success.'));
 }
 
 function syncApp(absolutePath) {

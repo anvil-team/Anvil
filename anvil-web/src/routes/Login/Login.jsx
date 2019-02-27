@@ -12,22 +12,19 @@ class Login extends React.Component {
         <Form className={styles.loginForm}>
           <Spin indicator={<Icon type="loading" />} size="large" spinning={login} tip={tips}>
             <div className={styles.loginTitle}>
-              Login For Anvil <span className={styles['login-version']}>v{process.env.VERSION}</span>
+              Login For Anvil{' '}
+              <span className={styles['login-version']}>v{process.env.VERSION}</span>
             </div>
             <Form.Item>
               {getFieldDecorator('username', {
                 rules: [{ required: true, message: 'please input your username' }],
-              })(<Input prefix={<Icon type="user" />} placeholder="input your username" />)}
+              })(<Input prefix={<Icon type="user" />} placeholder="Your username" />)}
             </Form.Item>
             <Form.Item>
               {getFieldDecorator('password', {
                 rules: [{ required: true, message: 'please input your password' }],
               })(
-                <Input
-                  type="password"
-                  prefix={<Icon type="lock" />}
-                  placeholder="input your password"
-                />
+                <Input type="password" prefix={<Icon type="lock" />} placeholder="Your password" />
               )}
             </Form.Item>
             <Form.Item>
