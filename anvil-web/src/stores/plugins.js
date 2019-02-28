@@ -2,9 +2,10 @@
  * @Author: zhenglfsir@gmail.com
  * @Date: 2019-01-03 22:23:37
  * @Last Modified by: zhenglfsir@gmail.com
- * @Last Modified time: 2019-01-03 22:28:29
+ * @Last Modified time: 2019-02-28 13:08:21
  * redux 中间件
  */
+import * as Sentry from '@sentry/browser';
 
 export const createPromiseMiddleware = (effects) => {
   return () => (next) => (action) => {
@@ -22,11 +23,16 @@ export const createPromiseMiddleware = (effects) => {
 };
 
 export const crashReporterMiddleware = () => {
-  return () => (next) => (action) => {
+  return (store) => (next) => (action) => {
     try {
       return next(action);
     } catch (err) {
       console.error('crash reporter:', err);
+      Sentry.withScope((scope) => {
+        scope.setExtra('action', action);
+        scope.setExtra('state', store.getState());
+      });
+      Sentry.captureException(err);
     }
   };
 };

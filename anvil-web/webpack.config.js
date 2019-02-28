@@ -21,9 +21,14 @@ module.exports = {
   mode: process.env.NODE_ENV,
   devtool: isDev ? 'cheap-module-source-map' : 'source-map',
   entry: isDev
-    ? ['@babel/polyfill', require.resolve('react-dev-utils/webpackHotDevClient'), paths.appIndex]
+    ? [
+        '@babel/polyfill',
+        require.resolve('react-dev-utils/webpackHotDevClient'),
+        require.resolve('./src/sentry.js'),
+        paths.appIndex,
+      ]
     : {
-        app: ['@babel/polyfill', paths.appIndex],
+        app: ['@babel/polyfill', require.resolve('./src/sentry.js'), paths.appIndex],
         react: ['react', 'react-dom', 'redux', 'react-redux', 'react-router-dom'],
       },
 

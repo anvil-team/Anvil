@@ -1,8 +1,9 @@
 import { combineReducers } from 'redux';
-import { all, takeEvery } from 'redux-saga/effects';
+import { all, takeEvery, select } from 'redux-saga/effects';
 import { connectRouter } from 'connected-react-router';
 import { persistReducer } from 'redux-persist';
 import session from 'redux-persist/lib/storage/session';
+import * as Sentry from '@sentry/browser';
 import * as app from './app';
 import models from './models';
 
@@ -64,7 +65,13 @@ function* saga() {
           const ret = yield effects[key](action);
           action._resolve && action._resolve(ret);
         } catch (err) {
+          const state = yield select();
           console.error('take', err);
+          Sentry.withScope((scope) => {
+            scope.setExtra('action', action);
+            scope.setExtra('state', state);
+          });
+          Sentry.captureException(err);
           action._reject && action._reject(err);
         }
       })

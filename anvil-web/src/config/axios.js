@@ -2,12 +2,13 @@
  * @Author: zhenglfsir@gmail.com
  * @Date: 2018-12-11 21:07:24
  * @Last Modified by: zhenglfsir@gmail.com
- * @Last Modified time: 2019-01-17 11:55:01
+ * @Last Modified time: 2019-02-28 13:18:13
  * basic http config
  */
 import axios from 'axios';
 import NProgress from 'nprogress';
 import qs from 'qs';
+import * as Sentry from '@sentry/browser';
 import { message } from 'antd';
 import { RESPONSE_STATUS, BASE_URL, HTTP_STATUS_CODE, API_VERSION } from './constants';
 import isDev from '../utils/isDev';
@@ -49,6 +50,7 @@ axios.interceptors.request.use(
   },
   (error) => {
     NProgress.done();
+    Sentry.captureException(error);
     console.error('caught:', error);
     return null;
   }
@@ -65,6 +67,9 @@ axios.interceptors.response.use(
   },
   (error) => {
     NProgress.done();
+
+    Sentry.captureException(error);
+
     const response = error?.response;
     if (errorMap.get(response?.status)) errorMap.get(response.status)();
     console.error('caught:', error);
