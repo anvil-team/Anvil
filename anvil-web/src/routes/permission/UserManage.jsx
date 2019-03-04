@@ -2,15 +2,16 @@
  * @Author: zhenglfsir@gmail.com
  * @Date: 2019-01-03 22:08:18
  * @Last Modified by: zhenglfsir@gmail.com
- * @Last Modified time: 2019-02-27 22:31:10
+ * @Last Modified time: 2019-03-04 22:41:48
  * 用户管理
  */
 
 import React from 'react';
 import { connect } from 'react-redux';
-import { Table, Divider, Form, Input, Button } from 'antd';
+import { Divider, Form, Input, Button } from 'antd';
 import BlankContent from 'src/layouts/BlankContent';
 import SearchBox from 'src/components/UI/SearchBox';
+import UserTableForm from './components/UserTableForm';
 
 class UserManage extends React.Component {
   componentDidMount() {
@@ -20,7 +21,7 @@ class UserManage extends React.Component {
 
   render() {
     const { userState, form } = this.props;
-    const { userList, pagination } = userState;
+    const { userList } = userState;
     const { getFieldDecorator } = form;
 
     return (
@@ -34,42 +35,24 @@ class UserManage extends React.Component {
               </Form.Item>
             </Form>
           </SearchBox>
-          <Table
-            rowKey="username"
-            dataSource={userList}
-            columns={this.getColumns()}
-            pagination={{ showQuickJumper: true, showSizeChanger: true, ...pagination }}
+          <UserTableForm
+            value={userList}
+            pagination={false}
+            onChange={this.handleTableFormChange}
           />
         </BlankContent>
       </>
     );
   }
 
-  getColumns = () => {
-    return [
-      { title: 'ID', dataIndex: 'id' },
-      { title: '姓名', dataIndex: 'realName' },
-      { title: '用户名', dataIndex: 'username' },
-      { title: '部门信息', dataIndex: 'department' },
-      { title: '职位', dataIndex: 'position' },
-      { title: '角色编码', dataIndex: 'roleCode' },
-      { title: '角色名称', dataIndex: 'roleName' },
-      {
-        title: '操作',
-        width: 200,
-        render: () => {
-          return (
-            <>
-              <a>编辑</a>
-              <Divider type="vertical" />
-              <a>分配项目</a>
-              <Divider type="vertical" />
-              <a>删除</a>
-            </>
-          );
-        },
-      },
-    ];
+  handleTableFormChange = (form) => {
+    console.log(form);
+  };
+
+  handleToAddUser = () => {
+    const { dispatch } = this.props;
+
+    dispatch({ type: 'user/setState', payload: { editVis: true } });
   };
 }
 

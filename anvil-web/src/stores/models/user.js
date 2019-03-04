@@ -14,6 +14,7 @@ export const state = {
     total: 0,
   },
   roleList: [],
+  editVis: false,
 };
 
 export const reducers = {};
