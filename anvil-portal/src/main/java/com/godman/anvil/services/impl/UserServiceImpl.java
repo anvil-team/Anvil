@@ -8,6 +8,7 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
 import com.godman.anvil.dao.AnvilUserDao;
+import com.godman.anvil.domain.AnvilRole;
 import com.godman.anvil.domain.AnvilUser;
 import com.godman.anvil.domain.request.UserDetailRequest;
 import com.godman.anvil.domain.response.UserBatchResponse;
@@ -101,8 +102,12 @@ public class UserServiceImpl implements UserService {
 
 	private UserDetailResponse genUserDetailResponse(AnvilUser user) {
 		UserDetailResponse userDetailResponse = new UserDetailResponse();
-		BeanUtils.copyProperties(user.getRoleObject(), userDetailResponse);
 		BeanUtils.copyProperties(user, userDetailResponse);
+		
+		AnvilRole role=user.getRoleObject();
+		userDetailResponse.setRoleId(role.getId());
+		userDetailResponse.setRoleCode(role.getRoleCode());
+		userDetailResponse.setRoleName(role.getRoleName());
 		return userDetailResponse;
 	}
 
