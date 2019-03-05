@@ -12,6 +12,8 @@ public class UserDetailResponse {
 	private String position;
 
 	private String department;
+	
+	private Long roleId;
 
 	private String roleCode;
 
@@ -55,6 +57,14 @@ public class UserDetailResponse {
 
 	public void setDepartment(String department) {
 		this.department = department;
+	}
+
+	public Long getRoleId() {
+		return roleId;
+	}
+
+	public void setRoleId(Long roleId) {
+		this.roleId = roleId;
 	}
 
 	public String getRoleCode() {
