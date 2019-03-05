@@ -2,21 +2,22 @@
  * @Author: zhenglfsir@gmail.com
  * @Date: 2019-01-03 22:08:18
  * @Last Modified by: zhenglfsir@gmail.com
- * @Last Modified time: 2019-03-04 22:41:48
+ * @Last Modified time: 2019-03-05 15:07:07
  * 用户管理
  */
 
 import React from 'react';
 import { connect } from 'react-redux';
-import { Divider, Form, Input, Button } from 'antd';
+import { Form, Input, Button } from 'antd';
 import BlankContent from 'src/layouts/BlankContent';
 import SearchBox from 'src/components/UI/SearchBox';
-import UserTableForm from './components/UserTableForm';
+import UserTableForm from './UserTableForm';
 
 class UserManage extends React.Component {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({ type: 'user/fetchUserList' });
+    dispatch({ type: 'user/fetchRoleList' });
   }
 
   render() {
@@ -47,12 +48,6 @@ class UserManage extends React.Component {
 
   handleTableFormChange = (form) => {
     console.log(form);
-  };
-
-  handleToAddUser = () => {
-    const { dispatch } = this.props;
-
-    dispatch({ type: 'user/setState', payload: { editVis: true } });
   };
 }
 

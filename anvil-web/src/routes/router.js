@@ -29,7 +29,7 @@ export const routes = [
       {
         path: '/user',
         title: '用户',
-        component: LazyLoad(() => import('./permission/UserManage')),
+        component: LazyLoad(() => import('./permission/user/UserManage')),
       },
       {
         path: '/person-center',

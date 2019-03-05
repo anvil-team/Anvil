@@ -11,7 +11,7 @@ export const state = initialState;
 
 export const effects = {
   *getList() {
-    const res = yield call(categoryApi.getCategoryList);
+    const res = yield call(categoryApi.requestCategoryList);
     if (res) {
       yield put({ type: 'category/setCategoryList', payload: { list: res.data } });
     }

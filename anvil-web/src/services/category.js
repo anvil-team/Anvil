@@ -4,7 +4,7 @@ import invariant from 'invariant';
 /**
  * 目录列表
  */
-export function getCategoryList() {
+export function requestCategoryList() {
   return axios.get('/category/categoryBatch');
 }
 

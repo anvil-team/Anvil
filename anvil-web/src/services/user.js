@@ -22,13 +22,13 @@ export function deleteUser(params) {
   return axios.delete('/user/userDetail');
 }
 
-export function addUser(params) {
+export function editUser(params) {
   invariant(params.realName, 'miss realName');
   invariant(params.username, 'miss username');
   invariant(params.department, 'miss department');
   invariant(params.position, 'miss position');
   invariant(params.role, 'miss role');
-  return axios.post('/user/userDetail', params);
+  return axios.post('/user/userBatch', params);
 }
 
 export function getUserList(params) {

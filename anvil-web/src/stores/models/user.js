@@ -14,10 +14,9 @@ export const state = {
     total: 0,
   },
   roleList: [],
-  editVis: false,
+  userVis: { distributionVis: false },
+  userNow: {},
 };
-
-export const reducers = {};
 
 export const effects = {
   *fetchUserList() {
@@ -38,10 +37,24 @@ export const effects = {
   },
 
   *fetchRoleList() {
-    const res = yield call(roleApi.getRoleList);
+    const res = yield call(roleApi.getRoleList, { currentPage: 1, pageSize: 100 });
 
     if (res) {
       yield put({ type: 'user/setState', payload: { roleList: res.data.roles } });
     }
+  },
+
+  *editUser({ payload }) {
+    const { data } = payload;
+    const res = yield call(userApi.editUser, data);
+    if (res) yield put.resolve({ type: 'user/fetchUserList' });
+  },
+};
+
+export const reducers = {
+  setUserVis(state, { payload }) {
+    state.userVis = { ...state.userVis, ...payload.data };
+
+    return { ...state };
   },
 };
