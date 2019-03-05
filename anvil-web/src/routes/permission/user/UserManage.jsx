@@ -2,7 +2,7 @@
  * @Author: zhenglfsir@gmail.com
  * @Date: 2019-01-03 22:08:18
  * @Last Modified by: zhenglfsir@gmail.com
- * @Last Modified time: 2019-03-05 15:07:07
+ * @Last Modified time: 2019-03-05 21:43:40
  * 用户管理
  */
 
@@ -12,12 +12,13 @@ import { Form, Input, Button } from 'antd';
 import BlankContent from 'src/layouts/BlankContent';
 import SearchBox from 'src/components/UI/SearchBox';
 import UserTableForm from './UserTableForm';
+import DistributionProjectModal from './DistributionProjectModal';
 
 class UserManage extends React.Component {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({ type: 'user/fetchUserList' });
-    dispatch({ type: 'user/fetchRoleList' });
+    dispatch({ type: 'user/fetchRoleComboList' });
   }
 
   render() {
@@ -36,18 +37,16 @@ class UserManage extends React.Component {
               </Form.Item>
             </Form>
           </SearchBox>
-          <UserTableForm
-            value={userList}
-            pagination={false}
-            onChange={this.handleTableFormChange}
-          />
+          <UserTableForm value={userList} pagination={false} />
         </BlankContent>
+        <DistributionProjectModal onClose={this.handleClose('distributionVis')} />
       </>
     );
   }
 
-  handleTableFormChange = (form) => {
-    console.log(form);
+  handleClose = (field) => () => {
+    const { dispatch } = this.props;
+    dispatch({ type: 'user/setUserVis', payload: { data: { [field]: false } } });
   };
 }
 

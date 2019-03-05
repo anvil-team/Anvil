@@ -2,7 +2,7 @@
  * @Author: zhenglfsir@gmail.com
  * @Date: 2019-01-07 22:01:12
  * @Last Modified by: zhenglfsir@gmail.com
- * @Last Modified time: 2019-01-09 22:21:40
+ * @Last Modified time: 2019-03-05 21:13:53
  * 角色服务
  */
 
@@ -13,7 +13,7 @@ import invariant from 'invariant';
  * 得到所有角色类型
  */
 export function getRoleCombo() {
-  return axios.get('/role/roleComo');
+  return axios.get('/role/roleCombo');
 }
 
 /**

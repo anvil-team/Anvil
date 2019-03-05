@@ -2,18 +2,21 @@
  * @Author: zhenglfsir@gmail.com
  * @Date: 2018-12-03 23:27:30
  * @Last Modified by: zhenglfsir@gmail.com
- * @Last Modified time: 2019-02-25 22:08:51
+ * @Last Modified time: 2019-03-05 20:58:44
  */
 import React from 'react';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import DocumentTitle from 'react-document-title';
+import { Spin, Icon } from 'antd';
 import { ConnectedRouter } from 'connected-react-router';
 import { PersistGate } from 'redux-persist/integration/react';
 import { routes } from './routes/router';
 import AuthRoute from 'components/AuthRoute';
 import BasicLayout from './layouts/BasicLayout';
 import './app.scss';
+
+Spin.setDefaultIndicator(<Icon type="loading" />);
 
 class App extends React.Component {
   render() {

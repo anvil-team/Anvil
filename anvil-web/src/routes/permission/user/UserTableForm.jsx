@@ -19,6 +19,8 @@ class TableForm extends PureComponent {
     };
   }
 
+  static defaultProps = { onChange() {} };
+
   static getDerivedStateFromProps(nextProps, preState) {
     if (isEqual(nextProps.value, preState.value)) {
       return null;
@@ -157,6 +159,7 @@ class TableForm extends PureComponent {
           columns={this.getColumns()}
           dataSource={data}
           pagination={false}
+          size="middle"
         />
         <Button
           style={{ width: '100%', marginTop: 16, marginBottom: 8 }}
@@ -172,7 +175,7 @@ class TableForm extends PureComponent {
 
   getColumns = () => {
     const { userState } = this.props;
-    const { roleList } = userState;
+    const { roleComboList } = userState;
 
     return [
       {
@@ -262,7 +265,7 @@ class TableForm extends PureComponent {
                 onChange={this.handleFieldChange('roleId', record.id)}
                 onKeyPress={this.handleKeyPress(record.id)}
               >
-                {roleList.map((role) => (
+                {roleComboList.map((role) => (
                   <Select.Option key={role.id} value={role.id}>
                     {role.roleName}
                   </Select.Option>
@@ -319,10 +322,8 @@ class TableForm extends PureComponent {
 
   handleToDistributionProject = (record) => () => {
     const { dispatch } = this.props;
-    dispatch({
-      type: 'user/setUserVis',
-      payload: { data: { distributionVis: true, userNow: record } },
-    });
+    dispatch({ type: 'user/setUserVis', payload: { data: { distributionVis: true } } });
+    dispatch({ type: 'user/setState', payload: { userNow: record } });
   };
 }
 

@@ -7,19 +7,19 @@ export const state = {
     currentPage: 1,
     pageSize: 10,
   },
+  userListLoading: false,
   userList: [],
-  pagination: {
-    current: 1,
-    pageSize: 10,
-    total: 0,
-  },
+  pagination: { current: 1, pageSize: 10, total: 0 },
   roleList: [],
+  roleComboList: [],
   userVis: { distributionVis: false },
   userNow: {},
 };
 
 export const effects = {
   *fetchUserList() {
+    yield put({ type: 'user/setState', payload: { userListLoading: true } });
+
     const userState = yield select((state) => state.userState);
     const res = yield call(userApi.getUserList, userState.query);
     if (res) {
@@ -37,11 +37,16 @@ export const effects = {
   },
 
   *fetchRoleList() {
-    const res = yield call(roleApi.getRoleList, { currentPage: 1, pageSize: 100 });
+    const res = yield call(roleApi.getRoleList);
 
     if (res) {
       yield put({ type: 'user/setState', payload: { roleList: res.data.roles } });
     }
+  },
+
+  *fetchRoleComboList() {
+    const res = yield call(roleApi.getRoleCombo);
+    if (res) yield put.resolve({ type: 'user/setState', payload: { roleComboList: res.data } });
   },
 
   *editUser({ payload }) {

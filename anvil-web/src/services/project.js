@@ -1,8 +1,8 @@
 import axios from 'axios';
 import invariant from 'invariant';
 
-export async function requestProjectList() {
-  return axios.get('/application/applicationBatch');
+export async function requestProjectList(params) {
+  return axios.get('/application/applicationBatch', { params });
 }
 
 export async function requestEditProject(params) {
