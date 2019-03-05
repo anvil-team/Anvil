@@ -14,7 +14,7 @@ public class AnvilUser {
 	
 	private String department;
 
-	private Integer role;
+	private Long roleId;
 	
 	private AnvilRole roleObject;
 
@@ -66,12 +66,12 @@ public class AnvilUser {
 		this.department = department;
 	}
 
-	public Integer getRole() {
-		return role;
+	public Long getRoleId() {
+		return roleId;
 	}
 
-	public void setRole(Integer role) {
-		this.role = role;
+	public void setRoleId(Long roleId) {
+		this.roleId = roleId;
 	}
 
 	public AnvilRole getRoleObject() {
