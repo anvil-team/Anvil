@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.godman.anvil.dao.AnvilUserDao;
@@ -25,6 +26,9 @@ public class UserServiceImpl implements UserService {
 	private AnvilUserDao anvilUserDao;
 
 	@Autowired
+	private BCryptPasswordEncoder encoder;
+
+	@Autowired
 	private JwtTokenUtil jwtTokenUtil;
 
 	private static final String DEFAULT_PASSWORD = "12345678";
@@ -38,24 +42,6 @@ public class UserServiceImpl implements UserService {
 		}
 		UserDetailResponse userDetailResponse = genUserDetailResponse(user);
 		return userDetailResponse;
-	}
-
-	@Override
-	public Boolean updateUserByAuthToken(String token, UserDetailRequest userDetail) {
-		String userName = jwtTokenUtil.getUsernameFromToken(token);
-		AnvilUser user = anvilUserDao.findByUsername(userName);
-		if (Strings.isNullOrEmpty(userName) || user == null) {
-			return false;
-		}
-
-		AnvilUser updateUser = new AnvilUser();
-		BeanUtils.copyProperties(userDetail, updateUser);
-
-		// 确保ID和username不变
-		updateUser.setId(user.getId());
-		updateUser.setUsername(user.getUsername());
-		anvilUserDao.updateUser(user);
-		return true;
 	}
 
 	@Override
@@ -77,11 +63,29 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	public Boolean updateUserByAuthToken(String token, UserDetailRequest userDetail) {
+		String userName = jwtTokenUtil.getUsernameFromToken(token);
+		AnvilUser user = anvilUserDao.findByUsername(userName);
+		if (Strings.isNullOrEmpty(userName) || user == null) {
+			return false;
+		}
+		
+		// 确保roleId和username不变
+		AnvilUser updateUser = convertUserDetailRequestTAnvilUser(userDetail);
+		if (updateUser.getId() == null||updateUser.getId()!=user.getId()) {
+			updateUser.setId(user.getId());
+		}
+		updateUser.setRoleId(null);
+		updateUser.setUsername(null);
+		anvilUserDao.updateUser(updateUser);
+		return true;
+	}
+
+	@Override
 	public void addUserBatch(UserDetailRequest userDetail) throws Exception {
 		try {
-			userDetail.setPassword(DEFAULT_PASSWORD);
-			AnvilUser user = new AnvilUser();
-			BeanUtils.copyProperties(userDetail, user);
+			userDetail.setPassword(encoder.encode(DEFAULT_PASSWORD));
+			AnvilUser user = convertUserDetailRequestTAnvilUser(userDetail);
 			anvilUserDao.addUser(user);
 		} catch (DuplicateKeyException e) {
 			throw new Exception("username : " + userDetail.getUsername() + " is already exist.");
@@ -90,8 +94,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void updateUserBatch(UserDetailRequest userDetail) {
-		AnvilUser user = new AnvilUser();
-		BeanUtils.copyProperties(userDetail, user);
+		AnvilUser user = convertUserDetailRequestTAnvilUser(userDetail);
 		anvilUserDao.updateUser(user);
 	}
 
@@ -103,12 +106,27 @@ public class UserServiceImpl implements UserService {
 	private UserDetailResponse genUserDetailResponse(AnvilUser user) {
 		UserDetailResponse userDetailResponse = new UserDetailResponse();
 		BeanUtils.copyProperties(user, userDetailResponse);
-		
-		AnvilRole role=user.getRoleObject();
-		userDetailResponse.setRoleId(role.getId());
+
+		AnvilRole role = user.getRoleObject();
 		userDetailResponse.setRoleCode(role.getRoleCode());
 		userDetailResponse.setRoleName(role.getRoleName());
 		return userDetailResponse;
+	}
+
+	private AnvilUser convertUserDetailRequestTAnvilUser(UserDetailRequest userDetail) {
+		AnvilUser anvilUser = new AnvilUser();
+		anvilUser.setId(userDetail.getId());
+		if (!Strings.isNullOrEmpty(userDetail.getUsername())) {
+			anvilUser.setUsername(userDetail.getUsername());
+		}
+		anvilUser.setRealName(userDetail.getRealName());
+		if (!Strings.isNullOrEmpty(userDetail.getPassword())) {
+			anvilUser.setPassword(encoder.encode(userDetail.getPassword()));
+		}
+		anvilUser.setRoleId(userDetail.getRoleId());
+		anvilUser.setDepartment(userDetail.getDepartment());
+		anvilUser.setPosition(userDetail.getPosition());
+		return anvilUser;
 	}
 
 }

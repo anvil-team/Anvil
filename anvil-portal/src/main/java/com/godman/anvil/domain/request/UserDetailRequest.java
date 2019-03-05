@@ -21,8 +21,8 @@ public class UserDetailRequest extends CommonRequest{
 	@NotBlank(message = "position is blank")
 	private String position;
 
-	@NotNull(message = "role is null")
-	private Integer role;
+	@NotNull(message = "roleId is null")
+	private Long roleId;
 
 	public Long getId() {
 		return id;
@@ -72,12 +72,12 @@ public class UserDetailRequest extends CommonRequest{
 		this.position = position;
 	}
 
-	public Integer getRole() {
-		return role;
+	public Long getRoleId() {
+		return roleId;
 	}
 
-	public void setRole(Integer role) {
-		this.role = role;
+	public void setRoleId(Long roleId) {
+		this.roleId = roleId;
 	}
 
 }

@@ -9,17 +9,18 @@
 		<result property="realName" column="real_name" />
 		<result property="position" column="position" />
 		<result property="department" column="department" />
-		<result property="role" column="role" />
-		<association property="roleObject" javaType="AnvilRole" resultMap="AnvilRoleResultMap" />
+		<result property="roleId" column="role_id" />
+		<association property="roleObject" javaType="AnvilRole"
+			resultMap="AnvilRoleResultMap" />
 	</resultMap>
 
 	<resultMap id="AnvilRoleResultMap" type="AnvilRole">
-		<result property="id" column="role_id" />
 		<result property="roleCode" column="role_code" />
 		<result property="roleName" column="role_name" />
 	</resultMap>
 
-	<select id="findByUsername" parameterType="Map" resultMap="AnvilUserResultMap">
+	<select id="findByUsername" parameterType="Map"
+		resultMap="AnvilUserResultMap">
 		SELECT
 		u.id,
 		u.username,
@@ -27,40 +28,40 @@
 		u.real_name,
 		u.position,
 		u.department,
-		u.role,
-		r.id as role_id,
+		u.role_id,
+		r.role_code,
+		r.role_name
+		FROM anvil_user u,
+		anvil_role r
+		WHERE u.username=#{username} and r.id=u.role_id
+	</select>
+
+	<select id="findByPaging" parameterType="Map"
+		resultMap="AnvilUserResultMap">
+		SELECT
+		u.id,
+		u.username,
+		u.password,
+		u.real_name,
+		u.position,
+		u.department,
+		u.role_id,
 		r.role_code,
 		r.role_name
 		FROM anvil_user u, anvil_role r
-		WHERE u.username=#{username} and r.id=u.role
-	</select>
-
-	<select id="findByPaging" parameterType="Map" resultMap="AnvilUserResultMap">
-		SELECT
-		u.id,
-		u.username,
-		u.password,
-		u.real_name,
-		u.position,
-		u.department,
-		u.role,
-		r.id as role_id,
-		r.role_code,
-		r.role_name
-		FROM anvil_user u, anvil_role r 
-		WHERE r.id=u.role 
+		WHERE r.id = u.role_id
 		<if test="username != null">
-		and u.username=#{username} 
+			and u.username = #{username}
 		</if>
 		limit #{pageStart},#{pageSize}
 	</select>
-	
+
 	<select id="getSize" parameterType="Map" resultType="Integer">
 		SELECT
 		count(1)
 		FROM anvil_user u
 	</select>
-	
+
 	<insert id="addUser" parameterType="AnvilUser">
 		INSERT INTO anvil_user
 		(username,
@@ -68,7 +69,7 @@
 		real_name,
 		position,
 		department,
-		role,
+		role_id,
 		create_time,
 		update_time)
 		VALUES
@@ -77,27 +78,33 @@
 		#{realName},
 		#{position},
 		#{department},
-		#{role},
+		#{roleId},
 		now(),
 		now()
 		)
 	</insert>
-	
+
 	<update id="updateUser" parameterType="AnvilUser">
-		UPDATE  anvil_user SET
-		username=#{username},
-		password=#{password},
+		UPDATE anvil_user SET
+		<if test="username != null">
+			username=#{username},
+		</if>
+		<if test="password != null">
+			password=#{password},
+		</if>
 		real_name=#{realName},
 		position=#{position},
 		department=#{department},
-		role=#{role},
+		<if test="roleId != null">
+			role_id=#{roleId},
+		</if>
 		update_time=now()
 		WHERE id=#{id}
 	</update>
-	
+
 	<delete id="deleteUser" parameterType="Map">
 		DELETE FROM anvil_user
 		WHERE id=#{userId}
 	</delete>
-	
+
 </mapper>
