@@ -2,7 +2,7 @@
  * @Author: zhenglfsir@gmail.com
  * @Date: 2019-01-03 22:16:54
  * @Last Modified by: zhenglfsir@gmail.com
- * @Last Modified time: 2019-03-05 22:21:01
+ * @Last Modified time: 2019-03-06 21:57:23
  * 项目配置
  */
 
@@ -11,18 +11,18 @@ import { connect } from 'react-redux';
 import { Table, Tag, Input, Button, Row, Col } from 'antd';
 import BlankContent from 'src/layouts/BlankContent';
 import SearchBox from 'components/UI/SearchBox';
-import ProjectEditModal from './ProjectEditModal';
+import ApplicationEditModal from './ApplicationEditModal';
 
-class ProjectConfiguration extends React.Component {
+class ApplicationConfiguration extends React.Component {
   componentDidMount() {
     const { dispatch } = this.props;
 
-    dispatch({ type: 'project/fetchProjectList' });
+    dispatch({ type: 'application/fetchApplicationList' });
     dispatch({ type: 'user/fetchUserList' });
   }
 
   render() {
-    const { projectList, projectListLoading } = this.props;
+    const { applicationList, applicationListLoading } = this.props;
 
     return (
       <>
@@ -30,8 +30,13 @@ class ProjectConfiguration extends React.Component {
           <SearchBox>
             <Row>
               <Col span={12}>
-                <Input placeholder="项目名称" style={{ width: 200 }} />
-                <Button type="primary" style={{ marginLeft: 10 }}>
+                <Input
+                  placeholder="项目名称"
+                  style={{ width: 200 }}
+                  onChange={this.handleChange}
+                  onPressEnter={this.handleSearch}
+                />
+                <Button type="primary" style={{ marginLeft: 10 }} onClick={this.handleSearch}>
                   搜索
                 </Button>
               </Col>
@@ -42,12 +47,12 @@ class ProjectConfiguration extends React.Component {
           </SearchBox>
           <Table
             columns={this.getColumns()}
-            loading={projectListLoading}
-            dataSource={projectList}
+            loading={applicationListLoading}
+            dataSource={applicationList}
             size="middle"
           />
         </BlankContent>
-        <ProjectEditModal onClose={this.handleClose('editVis')} />
+        <ApplicationEditModal onClose={this.handleClose('editVis')} />
       </>
     );
   }
@@ -79,22 +84,32 @@ class ProjectConfiguration extends React.Component {
   handleConfigurationProject = (record) => () => {
     const { dispatch } = this.props;
 
-    dispatch({ type: 'project/setState', payload: { currentProject: record } });
+    dispatch({ type: 'application/setState', payload: { currentApp: record } });
   };
 
   handleToAdd = () => {
     const { dispatch } = this.props;
-    dispatch({ type: 'project/setProjectVis', payload: { editVis: true } });
+    dispatch({ type: 'application/setApplicationVis', payload: { editVis: true } });
   };
 
   handleClose = (field) => () => {
     const { dispatch } = this.props;
-    dispatch({ type: 'project/setProjectVis', payload: { [field]: false } });
+    dispatch({ type: 'application/setApplicationVis', payload: { [field]: false } });
+  };
+
+  handleChange = (e) => {
+    const { dispatch } = this.props;
+    dispatch({ type: 'application/setState', payload: { applicationName: e.target.value } });
+  };
+
+  handleSearch = () => {
+    const { dispatch } = this.props;
+    dispatch({ type: 'application/fetchApplicationList' });
   };
 }
 
 const mapStateToProps = (state) => ({
-  projectState: state.projectState,
+  applicationState: state.applicationState,
 });
 
-export default connect(mapStateToProps)(ProjectConfiguration);
+export default connect(mapStateToProps)(ApplicationConfiguration);

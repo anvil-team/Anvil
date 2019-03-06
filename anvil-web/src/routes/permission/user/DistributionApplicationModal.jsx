@@ -2,16 +2,16 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Modal, Transfer, Spin } from 'antd';
 
-class DistributionProjectModal extends React.Component {
+class DistributionApplicationModal extends React.Component {
   componentDidMount() {
     const { dispatch } = this.props;
 
-    dispatch({ type: 'project/fetchProjectList' });
+    dispatch({ type: 'application/fetchApplicationList' });
   }
 
   render() {
-    const { projectState, userState, onClose } = this.props;
-    const { projectListLoading } = projectState;
+    const { applicationState, userState, onClose } = this.props;
+    const { applicationListLoading } = applicationState;
     const { userVis, userNow } = userState;
 
     return (
@@ -19,9 +19,9 @@ class DistributionProjectModal extends React.Component {
         visible={userVis.distributionVis}
         title={`给${userNow.username} 分配项目`}
         onCancel={onClose}
-        onOk={this.handleDistributionProject}
+        onOk={this.handleDistributionApplication}
       >
-        <Spin spinning={projectListLoading}>
+        <Spin spinning={applicationListLoading}>
           <Transfer rowKey={(record) => record.id} dataSource={this.getTransferDataSource()} />
         </Spin>
       </Modal>
@@ -30,21 +30,21 @@ class DistributionProjectModal extends React.Component {
 
   getTransferDataSource = () => {
     const {
-      projectState: { projectList },
+      applicationState: { applicationList },
     } = this.props;
 
-    return projectList.map((pro) => ({
+    return applicationList.map((pro) => ({
       key: pro.id,
       title: pro.applicationName,
     }));
   };
 
-  handleDistributionProject = () => {};
+  handleDistributionApplication = () => {};
 }
 
 const mapStateToProps = (state) => ({
   userState: state.userState,
-  projectState: state.projectState,
+  applicationState: state.applicationState,
 });
 
-export default connect(mapStateToProps)(DistributionProjectModal);
+export default connect(mapStateToProps)(DistributionApplicationModal);

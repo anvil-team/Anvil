@@ -45,12 +45,12 @@ export const routes = [
       {
         path: '/',
         title: '项目配置',
-        component: LazyLoad(() => import('./project/ProjectConfiguration')),
+        component: LazyLoad(() => import('./application/ApplicationConfiguration')),
       },
       {
         path: '/cluster',
         title: '集群配置',
-        component: LazyLoad(() => import('./project/ClusterConfiguration')),
+        component: LazyLoad(() => import('./application/ClusterConfiguration')),
       },
     ],
   },

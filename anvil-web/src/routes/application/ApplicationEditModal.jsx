@@ -7,15 +7,15 @@ const formLayoutItem = {
   wrapperCol: { span: 14 },
 };
 
-class ProjectEditModal extends React.Component {
+class ApplicationEditModal extends React.Component {
   render() {
-    const { form, userState, projectState, onClose } = this.props;
+    const { form, userState, applicationState, onClose } = this.props;
     const { getFieldDecorator } = form;
     const { userList } = userState;
-    const { projectVis } = projectState;
+    const { applicationVis } = applicationState;
 
     return (
-      <Modal visible={projectVis.editVis} title="新增项目" onCancel={onClose}>
+      <Modal visible={applicationVis.editVis} title="新增项目" onCancel={onClose}>
         <Form>
           <Form.Item label="项目名称" {...formLayoutItem}>
             {getFieldDecorator('applicationName')(<Input />)}
@@ -46,8 +46,8 @@ class ProjectEditModal extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  projectState: state.projectState,
+  applicationState: state.applicationState,
   userState: state.userState,
 });
 
-export default connect(mapStateToProps)(Form.create()(ProjectEditModal));
+export default connect(mapStateToProps)(Form.create()(ApplicationEditModal));

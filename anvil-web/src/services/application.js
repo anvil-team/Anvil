@@ -1,7 +1,7 @@
 import axios from 'axios';
 import invariant from 'invariant';
 
-export async function requestProjectList(params) {
+export async function requestApplicationList(params) {
   return axios.get('/application/applicationBatch', { params });
 }
 
@@ -14,7 +14,7 @@ export async function requestEditProject(params) {
   return axios.post('/application/applicationBatch');
 }
 
-export async function requestDeleteProject(params) {
+export async function requestDeleteApplication(params) {
   invariant(params.id);
 
   return axios.delete('/application/applicationBatch', { params });

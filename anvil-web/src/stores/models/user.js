@@ -3,10 +3,6 @@ import * as userApi from 'services/user';
 import * as roleApi from 'services/role';
 
 export const state = {
-  query: {
-    currentPage: 1,
-    pageSize: 10,
-  },
   userListLoading: false,
   userList: [],
   pagination: { current: 1, pageSize: 10, total: 0 },
@@ -14,6 +10,7 @@ export const state = {
   roleComboList: [],
   userVis: { distributionVis: false },
   userNow: {},
+  username: '',
 };
 
 export const effects = {
@@ -21,7 +18,10 @@ export const effects = {
     yield put({ type: 'user/setState', payload: { userListLoading: true } });
 
     const userState = yield select((state) => state.userState);
-    const res = yield call(userApi.getUserList, userState.query);
+    const { pagination, username } = userState;
+    const query = { username, currentPage: pagination.current, pageSize: pagination.pageSize };
+
+    const res = yield call(userApi.getUserList, query);
     if (res) {
       yield put({
         type: 'user/setState',
