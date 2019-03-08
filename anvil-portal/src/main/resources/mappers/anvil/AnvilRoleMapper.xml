@@ -11,7 +11,7 @@
 		r.create_time,
 		r.update_time 
 		FROM anvil_role r 
-		<if test="roleCode != null">
+		<if test="roleCode!='' and roleCode != null">
 		and r.role_code=#{roleCode} 
 		</if>
 		limit #{pageStart},#{pageSize}

@@ -3,6 +3,7 @@ package com.godman.anvil.services;
 import java.util.List;
 
 import com.godman.anvil.domain.request.CategoryRequest;
+import com.godman.anvil.domain.response.CategoryAssignResponse;
 import com.godman.anvil.domain.response.CategoryBatchResponse;
 
 public interface CategoryService {
@@ -13,6 +14,13 @@ public interface CategoryService {
 	 * @return
 	 */
 	List<CategoryBatchResponse> getCategoryBatch();
+
+	/**
+	 * 获取目录分配情况
+	 * 
+	 * @return
+	 */
+	CategoryAssignResponse getCategoryAssign(Long roleId, Integer condition);
 
 	/**
 	 * 新增目录

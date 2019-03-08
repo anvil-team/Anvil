@@ -14,8 +14,8 @@
 		a.create_time,
 		a.update_time 
 		FROM anvil_application a 
-		<if test="applicationName != null">
-		and a.application_name like '%${applicationName}%' 
+		<if test="applicationName!='' and applicationName != null">
+		where a.application_name like '%${applicationName}%' 
 		</if>
 		limit #{pageStart},#{pageSize}
 	</select>

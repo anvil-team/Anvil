@@ -29,6 +29,52 @@
 			a.category_id = c.id AND a.role_id = #{roleId}
 	</select>
 	
+	<select id="findCategoryDeassign" parameterType="Map" resultType="AnvilCategory">
+		SELECT 
+   			id,
+    		CONCAT((SELECT 
+                    	category_name
+                	FROM
+                    	anvil_category
+               		WHERE
+                    	id = a.parent_id),
+            		'-',
+            		category_name) AS combinationName
+		FROM
+    		anvil_category a
+		WHERE
+    		id NOT IN (SELECT 
+            	   		category_id
+        		   FROM
+            			anvil_role_assign
+        		   WHERE
+            			role_id = #{roleId})
+        	AND parent_id IS NOT NULL
+	</select>
+	
+	<select id="findCategoryAssign" parameterType="Map" resultType="AnvilCategory">
+		SELECT 
+   			id,
+    		CONCAT((SELECT 
+                    	category_name
+                	FROM
+                    	anvil_category
+               		WHERE
+                    	id = a.parent_id),
+            		'-',
+            		category_name) AS combinationName
+		FROM
+    		anvil_category a
+		WHERE
+    		id IN (SELECT 
+            	   		category_id
+        		   FROM
+            			anvil_role_assign
+        		   WHERE
+            			role_id = #{roleId})
+        	AND parent_id IS NOT NULL
+	</select>
+	
 	<insert id="addCategory" parameterType="AnvilCategory">
 		INSERT INTO anvil_category
 		(parent_id,

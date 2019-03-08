@@ -6,6 +6,8 @@ public class AnvilCategory {
 
 	private Long parentId;
 
+	private String combinationName;
+	
 	private String categoryName;
 
 	private String url;
@@ -30,6 +32,14 @@ public class AnvilCategory {
 
 	public void setParentId(Long parentId) {
 		this.parentId = parentId;
+	}
+
+	public String getCombinationName() {
+		return combinationName;
+	}
+
+	public void setCombinationName(String combinationName) {
+		this.combinationName = combinationName;
 	}
 
 	public String getCategoryName() {

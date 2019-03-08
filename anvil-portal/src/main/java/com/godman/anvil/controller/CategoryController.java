@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.godman.anvil.domain.request.CategoryRequest;
+import com.godman.anvil.domain.response.CategoryAssignResponse;
 import com.godman.anvil.domain.response.CategoryBatchResponse;
 import com.godman.anvil.domain.response.CommonResponse;
 import com.godman.anvil.services.CategoryService;
@@ -31,7 +32,9 @@ public class CategoryController {
 	@PreAuthorize("hasAuthority('SYSTEM_ADMIN')")
 	@RequestMapping(value = "/categoryBatch", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public CommonResponse<List<CategoryBatchResponse>> getCategoryList() throws Exception {
+		
 		List<CategoryBatchResponse> userBatchResponse = categoryService.getCategoryBatch();
+		
 		CommonResponse<List<CategoryBatchResponse>> response = new CommonResponse<List<CategoryBatchResponse>>();
 		response.setSuccess(CommonResponse.SUCCESS_STATE);
 		response.setData(userBatchResponse);
@@ -78,9 +81,29 @@ public class CategoryController {
 	@PreAuthorize("hasAuthority('SYSTEM_ADMIN')")
 	@RequestMapping(value = "/categoryBatch", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public CommonResponse<Void> deleteCategoryList(@RequestParam("id") Integer id) throws Exception {
+		
 		categoryService.deleteCategoryBatch(id);
+		
 		CommonResponse<Void> response = new CommonResponse<Void>();
 		response.setSuccess(CommonResponse.SUCCESS_STATE);
+		return response;
+	}
+	
+	/**
+	 * 目录列表下发接口
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	@PreAuthorize("hasAuthority('SYSTEM_ADMIN')")
+	@RequestMapping(value = "/categoryAssign", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public CommonResponse<CategoryAssignResponse> getCategoryAssign(@RequestParam("roleId")Long roleId,@RequestParam("condition")Integer condition) throws Exception {
+		
+		CategoryAssignResponse categoryAssignResponse = categoryService.getCategoryAssign(roleId,condition);
+
+		CommonResponse<CategoryAssignResponse> response = new CommonResponse<>();
+		response.setSuccess(CommonResponse.SUCCESS_STATE);
+		response.setData(categoryAssignResponse);
 		return response;
 	}
 }
