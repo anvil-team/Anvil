@@ -38,6 +38,15 @@ public interface CategoryService {
 	void updateCategoryBatch(CategoryRequest categoryRequest);
 
 	/**
+	 * 目录列表分配
+	 * 
+	 * @param roleId
+	 * @param categoryIdAssign
+	 * @param categoryIdDeassign
+	 */
+	void updateCategoryAssign(Long roleId, String categoryIdAssign, String categoryIdDeassign);
+
+	/**
 	 * 删除目录
 	 * 
 	 * @param id

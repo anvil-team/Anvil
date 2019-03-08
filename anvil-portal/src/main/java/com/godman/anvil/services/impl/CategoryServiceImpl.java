@@ -6,14 +6,18 @@ import java.util.Map;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.godman.anvil.dao.AnvilCategoryDao;
 import com.godman.anvil.domain.AnvilCategory;
+import com.godman.anvil.domain.AnvilCategoryAssign;
+import com.godman.anvil.domain.AnvilCategoryFullAuthority;
 import com.godman.anvil.domain.request.CategoryRequest;
 import com.godman.anvil.domain.response.CategoryAssignResponse;
 import com.godman.anvil.domain.response.CategoryBatchResponse;
 import com.godman.anvil.enumtype.AssignConditionType;
 import com.godman.anvil.services.CategoryService;
+import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
@@ -59,31 +63,13 @@ public class CategoryServiceImpl implements CategoryService {
 	public CategoryAssignResponse getCategoryAssign(Long roleId, Integer condition) {
 		List<AnvilCategory> categoryList = Lists.newArrayList();
 		if (condition == AssignConditionType.DEASSIGN.getValue()) {
-			categoryList = getCategoryDeassign(roleId);
+			categoryList = anvilCategoryDao.findCategoryDeassign(roleId);
 		} else if (condition == AssignConditionType.ASSIGN.getValue()) {
-			categoryList = getCategoryAssign(roleId);
+			categoryList = anvilCategoryDao.findCategoryAssign(roleId);
 		}
 
 		CategoryAssignResponse assign = convertCategorysTAssigns(categoryList);
 		return assign;
-	}
-
-	/**
-	 * 查询未分配的目录
-	 * 
-	 * @return
-	 */
-	private List<AnvilCategory> getCategoryDeassign(Long roleId) {
-		return anvilCategoryDao.findCategoryDeassign(roleId);
-	}
-
-	/**
-	 * 查询已分配目录
-	 * 
-	 * @return
-	 */
-	private List<AnvilCategory> getCategoryAssign(Long roleId) {
-		return anvilCategoryDao.findCategoryAssign(roleId);
 	}
 
 	/**
@@ -115,6 +101,57 @@ public class CategoryServiceImpl implements CategoryService {
 		AnvilCategory category = new AnvilCategory();
 		BeanUtils.copyProperties(categoryRequest, category);
 		anvilCategoryDao.updateCategory(category);
+	}
+
+	@Override
+	@Transactional
+	public void updateCategoryAssign(Long roleId, String categoryIdAssign, String categoryIdDeassign) {
+		AnvilCategoryAssign assign = new AnvilCategoryAssign();
+		if (!Strings.isNullOrEmpty(categoryIdAssign)) {
+			for (String categoryId : categoryIdAssign.split(",")) {
+				addCategoryAssign(assign, roleId, Long.valueOf(categoryId));
+			}
+		}
+		if (!Strings.isNullOrEmpty(categoryIdDeassign)) {
+			for (String categoryId : categoryIdDeassign.split(",")) {
+				deleteCategoryAssign(assign, roleId, Long.valueOf(categoryId));
+			}
+		}
+		List<AnvilCategoryFullAuthority> fullAuthCategories = anvilCategoryDao.findCategoryFullAuthority(roleId);
+		for (AnvilCategoryFullAuthority fullAuthCategory : fullAuthCategories) {
+			Long parentId = fullAuthCategory.getParentId();
+			if (fullAuthCategory.getCounts() > 0) {
+				addCategoryAssign(assign, roleId, Long.valueOf(parentId));
+			} else {
+				deleteCategoryAssign(assign, roleId, Long.valueOf(parentId));
+			}
+		}
+	}
+
+	/**
+	 * 分配操作
+	 * 
+	 * @param assign
+	 * @param roleId
+	 * @param categoryId
+	 */
+	private void addCategoryAssign(AnvilCategoryAssign assign, Long roleId, Long categoryId) {
+		assign.setRoleId(roleId);
+		assign.setCategoryId(categoryId);
+		anvilCategoryDao.addCategoryAssign(assign);
+	}
+
+	/**
+	 * 取消分配操作
+	 * 
+	 * @param assign
+	 * @param roleId
+	 * @param categoryId
+	 */
+	private void deleteCategoryAssign(AnvilCategoryAssign assign, Long roleId, Long categoryId) {
+		assign.setRoleId(roleId);
+		assign.setCategoryId(categoryId);
+		anvilCategoryDao.deleteCategoryAssign(assign);
 	}
 
 	@Override

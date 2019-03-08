@@ -90,7 +90,7 @@ public class CategoryController {
 	}
 	
 	/**
-	 * 目录列表下发接口
+	 * 目录列表分配情况接口
 	 * 
 	 * @return
 	 * @throws Exception
@@ -106,4 +106,25 @@ public class CategoryController {
 		response.setData(categoryAssignResponse);
 		return response;
 	}
+	
+	/**
+	 * 目录列表分配接口
+	 * 
+	 * @param roleId
+	 * @param categoryIdAssign
+	 * @param categoryIdDeassign
+	 * @return
+	 * @throws Exception
+	 */
+	@PreAuthorize("hasAuthority('SYSTEM_ADMIN')")
+	@RequestMapping(value = "/categoryAssign", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public CommonResponse<Void> updateCategoryAssign(@RequestParam("roleId")Long roleId,@RequestParam("categoryIdAssign")String categoryIdAssign,@RequestParam("categoryIdDeassign")String categoryIdDeassign) throws Exception {
+
+		categoryService.updateCategoryAssign(roleId, categoryIdAssign, categoryIdDeassign);
+		
+		CommonResponse<Void> response = new CommonResponse<Void>();
+		response.setSuccess(CommonResponse.SUCCESS_STATE);
+		return response;
+	}
+	
 }
