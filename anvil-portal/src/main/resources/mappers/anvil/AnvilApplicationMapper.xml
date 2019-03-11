@@ -32,6 +32,9 @@
 		FROM
 		    anvil_application a
 		WHERE
+			<if test="applicationName!='' and applicationName != null">
+				application_name like '%${applicationName}%' and 
+			</if>
 		    id NOT IN (SELECT 
 		            application_id
 		        FROM
@@ -46,6 +49,9 @@
 		FROM
 		    anvil_application a
 		WHERE
+			<if test="applicationName!='' and applicationName != null">
+				application_name like '%${applicationName}%' and 
+			</if>
 		    id IN (SELECT 
 		            application_id
 		        FROM
