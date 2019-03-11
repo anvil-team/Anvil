@@ -1,5 +1,6 @@
 package com.godman.anvil.services.impl;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.BeanUtils;
@@ -13,6 +14,7 @@ import com.godman.anvil.domain.response.RoleBatchResponse;
 import com.godman.anvil.domain.response.RoleComboResponse;
 import com.godman.anvil.domain.response.RoleDetailResponse;
 import com.godman.anvil.services.RoleService;
+import com.google.common.collect.Collections2;
 import com.google.common.collect.Lists;
 
 @Service
@@ -40,14 +42,10 @@ public class RoleServiceImpl implements RoleService {
 	}
 
 	@Override
-	public List<RoleComboResponse> getRoleCombo() {
-		List<AnvilRole> roles = anvilRoleDao.getCombo();
-		List<RoleComboResponse> roleCombos = Lists.newArrayList();
-		for (AnvilRole role : roles) {
-			RoleComboResponse roleComboResponse = new RoleComboResponse();
-			BeanUtils.copyProperties(role, roleComboResponse);
-			roleCombos.add(roleComboResponse);
-		}
+	public Collection<RoleComboResponse> getRoleCombo() {
+		List<AnvilRole> roles = anvilRoleDao.findAll();
+		Collection<RoleComboResponse> roleCombos = Collections2.transform(roles,
+				index -> new RoleComboResponse(index.getId(), index.getRoleCode(), index.getRoleName()));
 		return roleCombos;
 	}
 

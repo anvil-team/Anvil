@@ -1,6 +1,6 @@
 package com.godman.anvil.controller;
 
-import java.util.List;
+import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -34,7 +34,9 @@ public class RoleController {
 	 */
 	@PreAuthorize("hasAuthority('SYSTEM_ADMIN') OR hasAuthority('NORMAL_ADMIN')")
 	@RequestMapping(value = "/roleBatch", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public CommonResponse<RoleBatchResponse> getRoleDetailList(String roleCode, @RequestParam("currentPage") Integer currentPage, @RequestParam("pageSize") Integer pageSize) throws Exception {
+	public CommonResponse<RoleBatchResponse> getRoleDetailList(String roleCode,
+			@RequestParam("currentPage") Integer currentPage, @RequestParam("pageSize") Integer pageSize)
+			throws Exception {
 		RoleBatchResponse roleBatchResponse = roleService.getRolesBatch(roleCode, currentPage, pageSize);
 		CommonResponse<RoleBatchResponse> response = new CommonResponse<RoleBatchResponse>();
 		response.setSuccess(CommonResponse.SUCCESS_STATE);
@@ -52,9 +54,11 @@ public class RoleController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/roleCombo", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public CommonResponse<List<RoleComboResponse>> getRoleCombo() throws Exception {
-		List<RoleComboResponse> roleComboResponses = roleService.getRoleCombo();
-		CommonResponse<List<RoleComboResponse>> response = new CommonResponse<List<RoleComboResponse>>();
+	public CommonResponse<Collection<RoleComboResponse>> getRoleCombo() throws Exception {
+
+		Collection<RoleComboResponse> roleComboResponses = roleService.getRoleCombo();
+
+		CommonResponse<Collection<RoleComboResponse>> response = new CommonResponse<Collection<RoleComboResponse>>();
 		response.setSuccess(CommonResponse.SUCCESS_STATE);
 		response.setData(roleComboResponses);
 		return response;
@@ -70,15 +74,15 @@ public class RoleController {
 	@PreAuthorize("hasAuthority('SYSTEM_ADMIN')")
 	@RequestMapping(value = "/roleBatch", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public CommonResponse<Void> updateRoleDetailList(@RequestParam("role") RoleRequest role) throws Exception {
-		
-		if(role==null){
+
+		if (role == null) {
 			throw new Exception("role is null or structure error");
 		}
-		
-		if(role.getConstraintViolationException()!=null){
+
+		if (role.getConstraintViolationException() != null) {
 			throw role.getConstraintViolationException();
 		}
-		
+
 		Long id = role.getId();
 		if (id == null) {
 			roleService.addRolesBatch(role);

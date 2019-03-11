@@ -1,5 +1,6 @@
 package com.godman.anvil.services.impl;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.BeanUtils;
@@ -13,11 +14,13 @@ import com.godman.anvil.domain.AnvilApplicationAssign;
 import com.godman.anvil.domain.request.ApplicationRequest;
 import com.godman.anvil.domain.response.ApplicationAssignResponse;
 import com.godman.anvil.domain.response.ApplicationBatchResponse;
+import com.godman.anvil.domain.response.ApplicationComboResponse;
 import com.godman.anvil.domain.response.ApplicationDetailResponse;
 import com.godman.anvil.enumtype.AssignConditionType;
 import com.godman.anvil.services.ApplicationService;
 import com.godman.anvil.utils.MechineIdentifiedUtil;
 import com.google.common.base.Strings;
+import com.google.common.collect.Collections2;
 import com.google.common.collect.Lists;
 
 @Service
@@ -44,6 +47,14 @@ public class ApplicationServiceImpl implements ApplicationService {
 		applicationBatchResponse.setPageSize(pageSize);
 		applicationBatchResponse.setApplications(applicationDetails);
 		return applicationBatchResponse;
+	}
+
+	@Override
+	public Collection<ApplicationComboResponse> getApplicationCombo() {
+		List<AnvilApplication> applications = anvilApplicationDao.findAll();
+		Collection<ApplicationComboResponse> applicationCombos = Collections2.transform(applications,
+				input -> new ApplicationComboResponse(input.getId(), input.getApplicationName()));
+		return applicationCombos;
 	}
 
 	@Override
@@ -145,5 +156,4 @@ public class ApplicationServiceImpl implements ApplicationService {
 		BeanUtils.copyProperties(application, applicationDetailResponse);
 		return applicationDetailResponse;
 	}
-
 }

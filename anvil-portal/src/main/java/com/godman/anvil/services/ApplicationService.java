@@ -1,8 +1,11 @@
 package com.godman.anvil.services;
 
+import java.util.Collection;
+
 import com.godman.anvil.domain.request.ApplicationRequest;
 import com.godman.anvil.domain.response.ApplicationAssignResponse;
 import com.godman.anvil.domain.response.ApplicationBatchResponse;
+import com.godman.anvil.domain.response.ApplicationComboResponse;
 
 public interface ApplicationService {
 
@@ -15,6 +18,13 @@ public interface ApplicationService {
 	 * @return
 	 */
 	ApplicationBatchResponse getApplicationsBatch(String applicationName, Integer currentPage, Integer pageSize);
+
+	/**
+	 * 项目列表combo
+	 * 
+	 * @return
+	 */
+	Collection<ApplicationComboResponse> getApplicationCombo();
 
 	/**
 	 * 获取项目分配情况
@@ -39,7 +49,7 @@ public interface ApplicationService {
 	 * @param application
 	 */
 	void updateApplicationsBatch(ApplicationRequest application);
-	
+
 	/**
 	 * 项目列表分配
 	 * 

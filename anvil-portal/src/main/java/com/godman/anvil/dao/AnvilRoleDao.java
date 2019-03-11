@@ -12,7 +12,7 @@ public interface AnvilRoleDao {
 
 	public Integer getSize();
 
-	public List<AnvilRole> getCombo();
+	public List<AnvilRole> findAll();
 
 	public List<AnvilRole> findByPaging(@Param("roleCode") String roleCode, @Param("pageStart") Integer pageStart, @Param("pageSize") Integer pageSize);
 

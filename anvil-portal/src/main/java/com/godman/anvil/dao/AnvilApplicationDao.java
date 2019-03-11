@@ -10,7 +10,10 @@ import com.godman.anvil.domain.AnvilApplicationAssign;
 
 @Mapper
 public interface AnvilApplicationDao {
+	
 	public Integer getSize();
+	
+	public List<AnvilApplication> findAll();
 
 	public List<AnvilApplication> findByPaging(@Param("applicationName") String applicationName, @Param("pageStart") Integer pageStart, @Param("pageSize") Integer pageSize);
 

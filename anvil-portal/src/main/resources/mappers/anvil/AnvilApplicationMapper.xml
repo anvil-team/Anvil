@@ -20,6 +20,13 @@
 		limit #{pageStart},#{pageSize}
 	</select>
 	
+	<select id="findAll" parameterType="Map" resultType="AnvilApplication">
+		SELECT
+		a.id,
+		a.application_name
+		FROM anvil_application a 
+	</select>
+	
 	<select id="getSize" parameterType="Map" resultType="Integer">
 		SELECT
 		count(1)

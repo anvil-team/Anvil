@@ -1,5 +1,8 @@
 package com.godman.anvil.controller;
 
+import java.util.Collection;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -11,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.godman.anvil.domain.request.ApplicationRequest;
 import com.godman.anvil.domain.response.ApplicationAssignResponse;
 import com.godman.anvil.domain.response.ApplicationBatchResponse;
+import com.godman.anvil.domain.response.ApplicationComboResponse;
 import com.godman.anvil.domain.response.CommonResponse;
 import com.godman.anvil.services.ApplicationService;
 
@@ -42,6 +46,26 @@ public class ApplicationController {
 		CommonResponse<ApplicationBatchResponse> response = new CommonResponse<ApplicationBatchResponse>();
 		response.setSuccess(CommonResponse.SUCCESS_STATE);
 		response.setData(applicationBatchResponse);
+		return response;
+	}
+
+	/**
+	 * 项目列表combo下发接口
+	 * 
+	 * @param roleCode
+	 * @param currentPage
+	 * @param pageSize
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/applicationCombo", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public CommonResponse<Collection<ApplicationComboResponse>> getRoleCombo() throws Exception {
+
+		Collection<ApplicationComboResponse> applicationDetailResponses = applicationService.getApplicationCombo();
+
+		CommonResponse<Collection<ApplicationComboResponse>> response = new CommonResponse<Collection<ApplicationComboResponse>>();
+		response.setSuccess(CommonResponse.SUCCESS_STATE);
+		response.setData(applicationDetailResponses);
 		return response;
 	}
 

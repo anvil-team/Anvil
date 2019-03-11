@@ -1,13 +1,23 @@
 package com.godman.anvil.domain.response;
 
-
 public class RoleComboResponse {
 
 	private Long id;
-	
+
 	private String roleCode;
 
 	private String roleName;
+
+	public RoleComboResponse() {
+
+	}
+
+	public RoleComboResponse(Long id, String roleCode, String roleName) {
+		super();
+		this.id = id;
+		this.roleCode = roleCode;
+		this.roleName = roleName;
+	}
 
 	public Long getId() {
 		return id;
