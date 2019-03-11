@@ -52,27 +52,6 @@
         	AND parent_id IS NOT NULL
 	</select>
 	
-	<select id="findCategoryFullAuthority" parameterType="Map" resultType="AnvilCategoryFullAuthority">
-		SELECT 
-		    c.id as parent_id,
-		    (SELECT 
-		            COUNT(1)
-		        FROM
-		            anvil_role_assign
-		        WHERE
-		            category_id IN (SELECT 
-		                    id
-		                FROM
-		                    anvil_category
-		                WHERE
-		                    parent_id = c.id)
-		                AND role_id = #{roleId}) AS counts
-		FROM
-		    anvil_category c
-		WHERE
-		    parent_id IS NULL
-	</select>
-	
 	<select id="findCategoryAssign" parameterType="Map" resultType="AnvilCategory">
 		SELECT 
    			id,
@@ -94,6 +73,27 @@
         		   WHERE
             			role_id = #{roleId})
         	AND parent_id IS NOT NULL
+	</select>
+	
+	<select id="findCategoryFullAuthority" parameterType="Map" resultType="AnvilCategoryFullAuthority">
+		SELECT 
+		    c.id as parent_id,
+		    (SELECT 
+		            COUNT(1)
+		        FROM
+		            anvil_role_assign
+		        WHERE
+		            category_id IN (SELECT 
+		                    id
+		                FROM
+		                    anvil_category
+		                WHERE
+		                    parent_id = c.id)
+		                AND role_id = #{roleId}) AS counts
+		FROM
+		    anvil_category c
+		WHERE
+		    parent_id IS NULL
 	</select>
 	
 	<insert id="addCategory" parameterType="AnvilCategory">
