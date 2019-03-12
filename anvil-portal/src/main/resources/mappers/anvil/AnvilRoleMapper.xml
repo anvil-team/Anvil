@@ -11,13 +11,13 @@
 		r.create_time,
 		r.update_time 
 		FROM anvil_role r 
-		<if test="roleCode != null">
+		<if test="roleCode!='' and roleCode != null">
 		and r.role_code=#{roleCode} 
 		</if>
 		limit #{pageStart},#{pageSize}
 	</select>
 	
-	<select id="getCombo" parameterType="Map" resultType="AnvilRole">
+	<select id="findAll" parameterType="Map" resultType="AnvilRole">
 		SELECT
 		r.id,
 		r.role_code,

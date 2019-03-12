@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.godman.anvil.dao.AnvilClusterDao">
+
+	<select id="findByPaging" parameterType="Map" resultType="AnvilCluster">
+		SELECT
+		a.id,
+		a.application_id,
+		a.cluster_code,
+		a.cluster_name,
+		a.description,
+		a.create_time
+		FROM anvil_cluster a 
+		<if test="clusterName != '' and clusterName != null">
+		where a.cluster_name like '%${clusterName}%' 
+		</if>
+		limit #{pageStart},#{pageSize}
+	</select>
+	
+	<select id="getSize" parameterType="Map" resultType="Integer">
+		SELECT
+		count(1)
+		FROM anvil_cluster a
+	</select>
+	
+	<insert id="addCluster" parameterType="AnvilCluster">
+		INSERT INTO anvil_cluster
+		(application_id,
+		cluster_code,
+		cluster_name,
+		description,
+		update_time
+		)
+		VALUES
+		(#{applicationId},
+		#{clusterCode},
+		#{clusterName},
+		#{description},
+		now()
+		)
+	</insert>
+	
+	<update id="updateCluster" parameterType="AnvilCluster">
+		UPDATE  anvil_cluster SET
+		application_id=#{applicationId},
+		cluster_code=#{clusterCode},
+		cluster_name=#{clusterName},
+		description=#{description},
+		WHERE id=#{id}
+	</update>
+	
+	<delete id="deleteCluster" parameterType="Map">
+		DELETE FROM anvil_cluster 
+		WHERE id=#{clusterId}
+	</delete>
+
+</mapper>

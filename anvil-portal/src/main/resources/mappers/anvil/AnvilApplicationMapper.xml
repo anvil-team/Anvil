@@ -14,16 +14,57 @@
 		a.create_time,
 		a.update_time 
 		FROM anvil_application a 
-		<if test="applicationName != null">
-		and a.application_name like '%${applicationName}%' 
+		<if test="applicationName!='' and applicationName != null">
+		where a.application_name like '%${applicationName}%' 
 		</if>
 		limit #{pageStart},#{pageSize}
+	</select>
+	
+	<select id="findAll" parameterType="Map" resultType="AnvilApplication">
+		SELECT
+		a.id,
+		a.application_name
+		FROM anvil_application a 
 	</select>
 	
 	<select id="getSize" parameterType="Map" resultType="Integer">
 		SELECT
 		count(1)
 		FROM anvil_application a
+	</select>
+	
+	<select id="findApplicationDeassign" parameterType="Map" resultType="AnvilApplication">
+		SELECT 
+		    id, application_name
+		FROM
+		    anvil_application a
+		WHERE
+			<if test="applicationName!='' and applicationName != null">
+				application_name like '%${applicationName}%' and 
+			</if>
+		    id NOT IN (SELECT 
+		            application_id
+		        FROM
+		            anvil_application_assign
+		        WHERE
+		            user_id = #{userId})
+	</select>
+	
+	<select id="findApplicationAssign" parameterType="Map" resultType="AnvilApplication">
+		SELECT 
+		    id, application_name
+		FROM
+		    anvil_application a
+		WHERE
+			<if test="applicationName!='' and applicationName != null">
+				application_name like '%${applicationName}%' and 
+			</if>
+		    id IN (SELECT 
+		            application_id
+		        FROM
+		            anvil_application_assign
+		        WHERE
+		            user_id = #{userId})
 	</select>
 	
 	<insert id="addApplication" parameterType="AnvilApplication">
@@ -47,6 +88,20 @@
 		)
 	</insert>
 	
+	<insert id="addApplicationAssign" parameterType="AnvilCategoryAssign">
+		INSERT INTO anvil_application_assign
+		(user_id,
+		application_id
+		)
+		VALUES
+		(#{userId},
+		#{applicationId}
+		)
+		ON DUPLICATE KEY UPDATE 
+		user_id=#{userId},
+		application_id=#{applicationId}
+	</insert>
+	
 	<update id="updateApplication" parameterType="AnvilApplication">
 		UPDATE  anvil_application SET
 		application_name=#{applicationName},
@@ -60,5 +115,9 @@
 		DELETE FROM anvil_application 
 		WHERE id=#{applicationId}
 	</delete>
-	
+
+	<delete id="deleteApplicationAssign" parameterType="Map">
+		DELETE FROM anvil_application_assign
+		WHERE user_id=#{userId} and application_id=#{applicationId}
+	</delete>
 </mapper>

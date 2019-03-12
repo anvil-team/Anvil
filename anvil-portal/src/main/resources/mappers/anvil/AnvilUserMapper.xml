@@ -50,7 +50,7 @@
 		r.role_name
 		FROM anvil_user u, anvil_role r
 		WHERE r.id = u.role_id
-		<if test="username != null">
+		<if test="username!='' and username != null">
 			and u.username = #{username}
 		</if>
 		limit #{pageStart},#{pageSize}
@@ -86,16 +86,16 @@
 
 	<update id="updateUser" parameterType="AnvilUser">
 		UPDATE anvil_user SET
-		<if test="username != null">
+		<if test="username!='' and username != null">
 			username=#{username},
 		</if>
-		<if test="password != null">
+		<if test="password!='' and password != null">
 			password=#{password},
 		</if>
 		real_name=#{realName},
 		position=#{position},
 		department=#{department},
-		<if test="roleId != null">
+		<if test="roleId!='' and roleId != null">
 			role_id=#{roleId},
 		</if>
 		update_time=now()
