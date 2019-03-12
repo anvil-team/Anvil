@@ -1,6 +1,6 @@
 package com.godman.anvil.domain.response;
 
-import java.util.List;
+import java.util.Collection;
 
 public class ClusterBatchResponse {
 
@@ -10,20 +10,20 @@ public class ClusterBatchResponse {
 
 	private Integer pageSize;
 
-	private List<ClusterDetailResponse> clusters;
+	private Collection<ClusterDetailResponse> clusters;
 
-	class ClusterDetailResponse {
-		
+	public class ClusterDetailResponse {
+
 		private Long id;
-		
+
 		private Long applicationId;
-		
+
 		private String clusterCode;
-		
+
 		private String clusterName;
-		
+
 		private String description;
-		
+
 		private String createTime;
 
 		public Long getId() {
@@ -100,12 +100,11 @@ public class ClusterBatchResponse {
 		this.pageSize = pageSize;
 	}
 
-	public List<ClusterDetailResponse> getClusters() {
+	public Collection<ClusterDetailResponse> getClusters() {
 		return clusters;
 	}
 
-	public void setClusters(List<ClusterDetailResponse> clusters) {
+	public void setClusters(Collection<ClusterDetailResponse> clusters) {
 		this.clusters = clusters;
 	}
-
 }

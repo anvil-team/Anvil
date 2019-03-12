@@ -48,6 +48,18 @@ public class ApplicationServiceImpl implements ApplicationService {
 		applicationBatchResponse.setApplications(applicationDetails);
 		return applicationBatchResponse;
 	}
+	
+	/**
+	 * 生成项目详情信息
+	 * 
+	 * @param application
+	 * @return
+	 */
+	private ApplicationDetailResponse genApplicationDetailResponse(AnvilApplication application) {
+		ApplicationDetailResponse applicationDetailResponse = new ApplicationDetailResponse();
+		BeanUtils.copyProperties(application, applicationDetailResponse);
+		return applicationDetailResponse;
+	}
 
 	@Override
 	public Collection<ApplicationComboResponse> getApplicationCombo() {
@@ -149,11 +161,5 @@ public class ApplicationServiceImpl implements ApplicationService {
 	@Override
 	public void deleteApplicationsBatch(Integer id) {
 		anvilApplicationDao.deleteApplication(id);
-	}
-
-	private ApplicationDetailResponse genApplicationDetailResponse(AnvilApplication application) {
-		ApplicationDetailResponse applicationDetailResponse = new ApplicationDetailResponse();
-		BeanUtils.copyProperties(application, applicationDetailResponse);
-		return applicationDetailResponse;
 	}
 }
