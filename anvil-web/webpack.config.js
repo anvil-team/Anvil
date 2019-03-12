@@ -37,7 +37,7 @@ module.exports = {
     publicPath: '/',
     filename: isDev ? '[name].[hash:8].js' : '[name].[chunkhash:8].js',
     libraryTarget: 'umd',
-    chunkFilename: isDev ? '[name].[chunkhash].js' : 'static/js/[name].[chunkhash:8].js',
+    chunkFilename: isDev ? '[name].chunk.js' : 'static/js/[name].[chunkhash:8].js',
   },
   resolve: {
     alias: {

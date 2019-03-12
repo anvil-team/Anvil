@@ -2,7 +2,7 @@
  * @Author: zhenglfsir@gmail.com
  * @Date: 2019-01-03 22:16:54
  * @Last Modified by: zhenglfsir@gmail.com
- * @Last Modified time: 2019-03-06 21:57:23
+ * @Last Modified time: 2019-03-12 22:20:23
  * 项目配置
  */
 
@@ -22,7 +22,8 @@ class ApplicationConfiguration extends React.Component {
   }
 
   render() {
-    const { applicationList, applicationListLoading } = this.props;
+    const { applicationState } = this.props;
+    const { applicationList, applicationListLoading } = applicationState;
 
     return (
       <>
@@ -46,6 +47,7 @@ class ApplicationConfiguration extends React.Component {
             </Row>
           </SearchBox>
           <Table
+            rowKey="id"
             columns={this.getColumns()}
             loading={applicationListLoading}
             dataSource={applicationList}
@@ -66,7 +68,7 @@ class ApplicationConfiguration extends React.Component {
       {
         title: '审核开关',
         dataIndex: 'shouldReviewed',
-        render: (txt) => (txt === 1 ? <Tag color="red">是</Tag> : <Tag color="green">否</Tag>),
+        render: (txt) => (txt === 1 ? <Tag color="green">是</Tag> : <Tag color="red">否</Tag>),
       },
       { title: '创建时间', dataIndex: 'createTime' },
       {

@@ -6,7 +6,7 @@ class DistributionApplicationModal extends React.Component {
   componentDidMount() {
     const { dispatch } = this.props;
 
-    dispatch({ type: 'application/fetchApplicationList' });
+    dispatch({ type: 'application/fetchApplicationCombo' });
   }
 
   render() {

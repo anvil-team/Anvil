@@ -18,13 +18,24 @@ class Login extends React.Component {
             <Form.Item>
               {getFieldDecorator('username', {
                 rules: [{ required: true, message: 'please input your username' }],
-              })(<Input prefix={<Icon type="user" />} placeholder="Your username" />)}
+              })(
+                <Input
+                  prefix={<Icon type="user" />}
+                  onPressEnter={this.handleLogin}
+                  placeholder="Your username"
+                />
+              )}
             </Form.Item>
             <Form.Item>
               {getFieldDecorator('password', {
                 rules: [{ required: true, message: 'please input your password' }],
               })(
-                <Input type="password" prefix={<Icon type="lock" />} placeholder="Your password" />
+                <Input
+                  type="password"
+                  prefix={<Icon type="lock" />}
+                  onPressEnter={this.handleLogin}
+                  placeholder="Your password"
+                />
               )}
             </Form.Item>
             <Form.Item>
