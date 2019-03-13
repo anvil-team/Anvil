@@ -2,7 +2,7 @@
  * @Author: zhenglfsir@gmail.com
  * @Date: 2019-01-07 22:01:36
  * @Last Modified by: zhenglfsir@gmail.com
- * @Last Modified time: 2019-01-12 10:29:40
+ * @Last Modified time: 2019-03-13 22:11:32
  * 用户服务
  */
 
@@ -11,10 +11,6 @@ import invariant from 'invariant';
 
 export function getUserDetail() {
   return axios.get('/user/userDetail');
-}
-
-export function updateUser() {
-  return axios.put('/user/userDetail');
 }
 
 export function deleteUser(params) {

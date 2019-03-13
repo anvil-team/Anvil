@@ -50,7 +50,7 @@ export const routes = [
       {
         path: '/cluster',
         title: '集群配置',
-        component: LazyLoad(() => import('./application/ClusterConfiguration')),
+        component: LazyLoad(() => import('./application/cluster/ClusterConfiguration')),
       },
     ],
   },

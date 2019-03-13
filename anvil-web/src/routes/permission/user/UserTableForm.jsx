@@ -324,6 +324,7 @@ class TableForm extends PureComponent {
     const { dispatch } = this.props;
     dispatch({ type: 'user/setUserVis', payload: { data: { distributionVis: true } } });
     dispatch({ type: 'user/setState', payload: { userNow: record } });
+    dispatch({ type: 'user/fetchUserApplicationAssign' });
   };
 }
 

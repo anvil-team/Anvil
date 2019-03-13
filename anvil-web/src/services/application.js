@@ -23,3 +23,11 @@ export async function requestDeleteApplication(params) {
 export async function requestApplicationCombo() {
   return axios.get('/application/applicationCombo');
 }
+
+export async function requestUpdateApplicationAssign(params) {
+  return axios.post('/application/applicationAssign', params);
+}
+
+export async function requestApplicationAssignDetail(params) {
+  return axios.get('/application/applicationAssign', { params });
+}

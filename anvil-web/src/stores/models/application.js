@@ -1,6 +1,5 @@
 import { call, put, select } from 'redux-saga/effects';
 import * as applicationApi from 'services/application';
-import { message } from 'antd';
 
 export const state = {
   applicationListLoading: false,
@@ -60,6 +59,8 @@ export const effects = {
       yield put({ type: 'application/setApplicationVis', payload: { editVis: false } });
     }
   },
+
+  
 };
 
 export const reducers = {

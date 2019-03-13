@@ -12,7 +12,7 @@ class DistributionApplicationModal extends React.Component {
   render() {
     const { applicationState, userState, onClose } = this.props;
     const { applicationListLoading } = applicationState;
-    const { userVis, userNow } = userState;
+    const { userVis, userNow, selectedKeys, targetKeys } = userState;
 
     return (
       <Modal
@@ -22,7 +22,15 @@ class DistributionApplicationModal extends React.Component {
         onOk={this.handleDistributionApplication}
       >
         <Spin spinning={applicationListLoading}>
-          <Transfer rowKey={(record) => record.id} dataSource={this.getTransferDataSource()} />
+          <Transfer
+            rowKey={(record) => record.key}
+            render={(item) => item.title}
+            selectedKeys={selectedKeys}
+            targetKeys={targetKeys}
+            dataSource={this.getTransferDataSource()}
+            onChange={this.handleTransferChange}
+            onSelectChange={this.handleTransferSelectChange}
+          />
         </Spin>
       </Modal>
     );
@@ -30,16 +38,36 @@ class DistributionApplicationModal extends React.Component {
 
   getTransferDataSource = () => {
     const {
-      applicationState: { applicationList },
+      applicationState: { applicationComboList },
+      userState: { targetKeys },
     } = this.props;
 
-    return applicationList.map((pro) => ({
-      key: pro.id,
-      title: pro.applicationName,
-    }));
+    return applicationComboList
+      .filter((app) => !targetKeys.includes(app.id))
+      .map((pro) => ({
+        key: pro.id,
+        title: pro.applicationName,
+      }));
   };
 
-  handleDistributionApplication = () => {};
+  handleTransferChange = (nextTargetKeys) => {
+    const { dispatch } = this.props;
+    dispatch({ type: 'user/setState', payload: { targetKeys: nextTargetKeys } });
+  };
+
+  handleTransferSelectChange = (sourceSelectedKeys, targetSelectedKeys) => {
+    const { dispatch } = this.props;
+
+    dispatch({
+      type: 'user/setState',
+      payload: { selectedKeys: [...sourceSelectedKeys, ...targetSelectedKeys] },
+    });
+  };
+
+  handleDistributionApplication = () => {
+    const { dispatch } = this.props;
+    dispatch({ type: 'user/updateUserApplicationAssign' });
+  };
 }
 
 const mapStateToProps = (state) => ({
