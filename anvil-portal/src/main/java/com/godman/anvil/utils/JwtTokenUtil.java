@@ -1,9 +1,5 @@
 package com.godman.anvil.utils;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -13,6 +9,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import com.godman.anvil.security.SecurityUser;
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 
 @Component
 public class JwtTokenUtil {
@@ -40,33 +41,26 @@ public class JwtTokenUtil {
 		return username;
 	}
 
-	public Date getCreatedDateFromToken(String token) {
-		Date created;
-		try {
-			final Claims claims = getClaimsFromToken(token);
-			created = new Date((Long) claims.get(CLAIM_KEY_CREATED));
-		} catch (Exception e) {
-			created = null;
-		}
-		return created;
-	}
-
-	public Date getRefreshDateFromToken(String token) {
+	private Date getRefreshDateFromToken(String token) {
 		Date refreshDate;
 		try {
 			final Claims claims = getClaimsFromToken(token);
 			refreshDate = new Date((Long) claims.get(CLAIM_KEY_REFRESH));
+		} catch (ExpiredJwtException e) {
+			refreshDate = new Date((Long) e.getClaims().get(CLAIM_KEY_REFRESH));
 		} catch (Exception e) {
 			refreshDate = null;
 		}
 		return refreshDate;
 	}
 
-	public Date getExpirationDateFromToken(String token) {
+	private Date getExpirationDateFromToken(String token) {
 		Date expiration;
 		try {
 			final Claims claims = getClaimsFromToken(token);
 			expiration = claims.getExpiration();
+		} catch (ExpiredJwtException e) {
+			expiration = e.getClaims().getExpiration();
 		} catch (Exception e) {
 			expiration = null;
 		}
@@ -74,13 +68,7 @@ public class JwtTokenUtil {
 	}
 
 	private Claims getClaimsFromToken(String token) {
-		Claims claims;
-		try {
-			claims = Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
-		} catch (Exception e) {
-			claims = null;
-		}
-		return claims;
+		return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
 	}
 
 	public String generateToken(UserDetails userDetails) {
@@ -95,22 +83,23 @@ public class JwtTokenUtil {
 
 	public String generateToken(Map<String, Object> claims) {
 		Date expirationDate = new Date(((Date) claims.get(CLAIM_KEY_CREATED)).getTime() + expiration * 60 * 1000);
-		return Jwts.builder().setClaims(claims).setExpiration(expirationDate).signWith(SignatureAlgorithm.HS512, secret).compact();
+		return Jwts.builder().setClaims(claims).setExpiration(expirationDate).signWith(SignatureAlgorithm.HS512, secret)
+				.compact();
 	}
 
 	public String refreshToken(String token) {
-		String refreshedToken;
+		Claims claims;
 		try {
-			final Claims claims = getClaimsFromToken(token);
-
-			Long nowTime = System.currentTimeMillis();
-			claims.put(CLAIM_KEY_CREATED, new Date(nowTime));
-			claims.put(CLAIM_KEY_REFRESH, new Date(nowTime + refreshallow * 60 * 1000));
-			refreshedToken = generateToken(claims);
+			claims = getClaimsFromToken(token);
+		}catch (ExpiredJwtException e) {
+			claims = e.getClaims();
 		} catch (Exception e) {
-			refreshedToken = null;
+			return null;
 		}
-		return refreshedToken;
+		Long nowTime = System.currentTimeMillis();
+		claims.put(CLAIM_KEY_CREATED, new Date(nowTime));
+		claims.put(CLAIM_KEY_REFRESH, new Date(nowTime + refreshallow * 60 * 1000));
+		return generateToken(claims);
 	}
 
 	public Boolean isTokenExpired(String token) {
