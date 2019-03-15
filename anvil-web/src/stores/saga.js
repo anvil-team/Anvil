@@ -59,23 +59,26 @@ export function getReducers(history) {
 
 function* saga() {
   yield all(
-    Object.keys(effects).map((key) =>
-      takeEvery(key, function*(action) {
+    Object.keys(effects).map((key) => {
+      return takeEvery(key, function*(action) {
+        const effect = effects[key](action);
         try {
-          const ret = yield effects[key](action);
+          const ret = yield effect;
           action._resolve && action._resolve(ret);
         } catch (err) {
+          action._reject && action._reject(err);
+
+          // 如果失去权限，这里就等待某个action，根据action 后继续操作
           const state = yield select();
-          console.error('take', err);
+          console.error('take', { ...err });
           Sentry.withScope((scope) => {
             scope.setExtra('action', action);
             scope.setExtra('state', state);
           });
           Sentry.captureException(err);
-          action._reject && action._reject(err);
         }
-      })
-    )
+      });
+    })
   );
 }
 

@@ -3,7 +3,7 @@ import { message } from 'antd';
 import * as authService from 'services/auth';
 import * as userApi from 'services/user';
 
-export const state = { userMenus: [], user: {} };
+export const state = { userMenus: [], user: {}, token: '' };
 
 export const effects = {
   *syncApp() {

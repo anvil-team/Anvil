@@ -23,6 +23,7 @@ export const effects = {
       pageSize: applicationPagination.pageSize,
     };
     const res = yield call(applicationApi.requestApplicationList, query);
+    console.log('application list', res)
     if (res) {
       yield put({
         type: 'application/setState',
