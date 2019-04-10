@@ -21,16 +21,13 @@ export const effects = {
     const { pagination, username } = userState;
     const query = { username, currentPage: pagination.current, pageSize: pagination.pageSize };
 
-    const res = yield call(userApi.getUserList, query);
+    const res = yield call(userApi.requestUserList, query);
     if (res) {
       yield put({
         type: 'user/setState',
         payload: {
           userList: res.data.userDetails,
-          pagination: {
-            ...userState.pagination,
-            total: res.total,
-          },
+          pagination: { ...userState.pagination, total: res.total },
         },
       });
     }

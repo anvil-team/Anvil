@@ -2,7 +2,7 @@
  * @Author: zhenglfsir@gmail.com
  * @Date: 2019-01-03 22:08:18
  * @Last Modified by: zhenglfsir@gmail.com
- * @Last Modified time: 2019-04-10 16:35:57
+ * @Last Modified time: 2019-04-10 16:51:15
  * 用户管理
  */
 
@@ -22,30 +22,22 @@ class UserManage extends React.Component {
   }
 
   render() {
-    const { userState, form } = this.props;
+    const { userState } = this.props;
     const { userList } = userState;
-    const { getFieldDecorator } = form;
 
     return (
       <>
         <BlankContent>
           <SearchBox>
-            <Form layout="inline">
-              <Form.Item>
-                {getFieldDecorator('keyword')(
-                  <Input
-                    placeholder="请输入"
-                    onChange={this.handleSearchChange}
-                    onPressEnter={this.handleSearch}
-                  />
-                )}
-              </Form.Item>
-              <Form.Item>
-                <Button type="primary" onClick={this.handleSearch}>
-                  搜索
-                </Button>
-              </Form.Item>
-            </Form>
+            <Input
+              style={{ width: 200, marginRight: 10 }}
+              placeholder="请输入"
+              onChange={this.handleSearchChange}
+              onPressEnter={this.handleSearch}
+            />
+            <Button type="primary" onClick={this.handleSearch}>
+              搜索
+            </Button>
           </SearchBox>
           <UserTableForm value={userList} pagination={false} onChange={this.handleChange} />
         </BlankContent>
@@ -66,7 +58,7 @@ class UserManage extends React.Component {
   handleSearchChange = (e) => {
     const { dispatch } = this.props;
 
-    dispatch({ type: 'user/setState', payload: { username: e.target.key } });
+    dispatch({ type: 'user/setState', payload: { username: e.target.value } });
   };
 
   handleSearch = () => {

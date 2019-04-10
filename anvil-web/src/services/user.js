@@ -2,7 +2,7 @@
  * @Author: zhenglfsir@gmail.com
  * @Date: 2019-01-07 22:01:36
  * @Last Modified by: zhenglfsir@gmail.com
- * @Last Modified time: 2019-04-10 16:39:00
+ * @Last Modified time: 2019-04-10 16:49:40
  * 用户服务
  */
 
@@ -27,6 +27,6 @@ export function requestEditUser(params) {
   return axios.post('/user/userBatch', { userDetail: JSON.stringify(params) });
 }
 
-export function getUserList(params) {
+export function requestUserList(params) {
   return axios.get('/user/userBatch', { params });
 }
