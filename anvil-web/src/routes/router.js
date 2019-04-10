@@ -39,7 +39,7 @@ export const routes = [
     ],
   },
   {
-    path: '/project',
+    path: '/application',
     auth: true,
     children: [
       {

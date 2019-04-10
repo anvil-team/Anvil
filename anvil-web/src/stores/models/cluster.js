@@ -7,6 +7,7 @@ export const state = {
   clusterPagination: { current: 1, pageSize: 10, total: 0 },
   clusterName: '',
   clusterVis: { editVis: false },
+  cluster: null,
 };
 
 export const effects = {
@@ -32,6 +33,26 @@ export const effects = {
         },
       });
     }
+  },
+
+  *fetchEditCluster({ payload }) {
+    const { cluster } = yield select((state) => state.clusterState);
+
+    const params = { ...payload };
+
+    if (cluster?.id) params.data.id = cluster.id;
+
+    const res = yield call(clusterApi.requestEditCluster, params);
+
+    if (res) {
+      yield put({ type: 'cluster/setClusterVis', payload: { editVis: false } });
+      yield put({ type: 'cluster/fetchClusterList' });
+    }
+  },
+
+  *fetchDeleteCluster({ payload }) {
+    const res = yield call(clusterApi.requestDeleteCluster, payload);
+    if (res) yield put({ type: 'cluster/fetchClusterList' });
   },
 };
 

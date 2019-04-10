@@ -2,14 +2,14 @@
  * @Author: zhenglfsir@gmail.com
  * @Date: 2019-01-03 22:17:38
  * @Last Modified by: zhenglfsir@gmail.com
- * @Last Modified time: 2019-03-13 23:04:59
+ * @Last Modified time: 2019-04-10 15:37:54
  * 集群配置
  */
 
 import React from 'react';
 import BlankContent from 'src/layouts/BlankContent';
 import SearchBox from 'components/UI/SearchBox';
-import { Row, Col, Input, Button, Table } from 'antd';
+import { Row, Col, Input, Button, Table, Modal } from 'antd';
 import { connect } from 'react-redux';
 import ClusterEditModal from './ClusterEditModal';
 
@@ -67,13 +67,31 @@ class ClusterConfiguration extends React.Component {
       {
         title: '操作',
         dataIndex: 'btn',
-        render: () => (
+        render: (txt, record) => (
           <>
-            <a>编辑</a>
+            <a onClick={this.handleToEdit(record)}>编辑</a>
+            <a onClick={this.handleDelete(record)}>删除</a>
           </>
         ),
       },
     ];
+  };
+
+  handleDelete = (record) => () => {
+    Modal.confirm({
+      title: `确认删除 ${record.clusterName}?`,
+      onOk: async () => {
+        const { dispatch } = this.props;
+        await dispatch({ type: 'cluster/fetchDeleteCluster', payload: { id: record.id } });
+      },
+    });
+  };
+
+  handleToEdit = (record) => () => {
+    const { dispatch } = this.props;
+
+    dispatch({ type: 'cluster/setState', payload: { cluster: { ...record } } });
+    dispatch({ type: 'cluster/setClusterVis', payload: { editVis: true } });
   };
 
   handleToAdd = () => {

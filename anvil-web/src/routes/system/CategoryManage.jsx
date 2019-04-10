@@ -2,6 +2,7 @@ import React from 'react';
 import { Table, Popconfirm, Modal, Form, Input, InputNumber, Select, Button } from 'antd';
 import { connect } from 'react-redux';
 import dayjs from 'dayjs';
+import BlankContent from 'src/layouts/BlankContent';
 
 const formItemLayout = {
   labelCol: { span: 4 },
@@ -28,7 +29,7 @@ class CategoryManage extends React.Component {
     const { current } = categoryState;
 
     return (
-      <>
+      <BlankContent>
         <div>
           <Button type="primary" onClick={this.handleToAdd}>
             添加目录
@@ -73,7 +74,7 @@ class CategoryManage extends React.Component {
             </Form.Item>
           </Form>
         </Modal>
-      </>
+      </BlankContent>
     );
   }
 
