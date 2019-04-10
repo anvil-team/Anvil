@@ -2,14 +2,14 @@
  * @Author: zhenglfsir@gmail.com
  * @Date: 2019-01-03 22:17:38
  * @Last Modified by: zhenglfsir@gmail.com
- * @Last Modified time: 2019-04-10 15:37:54
+ * @Last Modified time: 2019-04-10 16:55:26
  * 集群配置
  */
 
 import React from 'react';
 import BlankContent from 'src/layouts/BlankContent';
 import SearchBox from 'components/UI/SearchBox';
-import { Row, Col, Input, Button, Table, Modal } from 'antd';
+import { Row, Col, Input, Button, Table, Modal, Divider } from 'antd';
 import { connect } from 'react-redux';
 import ClusterEditModal from './ClusterEditModal';
 
@@ -70,6 +70,7 @@ class ClusterConfiguration extends React.Component {
         render: (txt, record) => (
           <>
             <a onClick={this.handleToEdit(record)}>编辑</a>
+            <Divider type="vertical" />
             <a onClick={this.handleDelete(record)}>删除</a>
           </>
         ),
