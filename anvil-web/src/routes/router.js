@@ -24,7 +24,7 @@ export const routes = [
       {
         path: '/',
         title: '权限',
-        component: LazyLoad(() => import('./permission/PermissionManage')),
+        component: LazyLoad(() => import('./permission/role/PermissionManage')),
       },
       {
         path: '/user',

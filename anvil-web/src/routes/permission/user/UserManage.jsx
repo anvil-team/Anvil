@@ -2,7 +2,7 @@
  * @Author: zhenglfsir@gmail.com
  * @Date: 2019-01-03 22:08:18
  * @Last Modified by: zhenglfsir@gmail.com
- * @Last Modified time: 2019-03-06 21:44:02
+ * @Last Modified time: 2019-04-10 16:35:57
  * 用户管理
  */
 
@@ -18,7 +18,7 @@ class UserManage extends React.Component {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({ type: 'user/fetchUserList' });
-    dispatch({ type: 'user/fetchRoleComboList' });
+    dispatch({ type: 'permission/fetchRoleComboList' });
   }
 
   render() {
@@ -35,7 +35,7 @@ class UserManage extends React.Component {
                 {getFieldDecorator('keyword')(
                   <Input
                     placeholder="请输入"
-                    onChange={this.handleChange}
+                    onChange={this.handleSearchChange}
                     onPressEnter={this.handleSearch}
                   />
                 )}
@@ -47,14 +47,23 @@ class UserManage extends React.Component {
               </Form.Item>
             </Form>
           </SearchBox>
-          <UserTableForm value={userList} pagination={false} />
+          <UserTableForm value={userList} pagination={false} onChange={this.handleChange} />
         </BlankContent>
         <DistributionApplicationModal onClose={this.handleClose('distributionVis')} />
       </>
     );
   }
 
-  handleChange = (e) => {
+  handleChange = (row) => {
+    const { dispatch } = this.props;
+    const rowData = { ...row };
+    if (rowData.editable) delete rowData.editable;
+
+    if (row.isDel) dispatch({ type: 'user/fetchDelUser', payload: { id: rowData.id } });
+    else dispatch({ type: 'user/fetchEditUser', payload: rowData });
+  };
+
+  handleSearchChange = (e) => {
     const { dispatch } = this.props;
 
     dispatch({ type: 'user/setState', payload: { username: e.target.key } });

@@ -1,14 +1,11 @@
 import { put, call, select } from 'redux-saga/effects';
 import * as userApi from 'services/user';
-import * as roleApi from 'services/role';
 import * as applicationApi from 'services/application';
 
 export const state = {
   userListLoading: false,
   userList: [],
   pagination: { current: 1, pageSize: 10, total: 0 },
-  roleList: [],
-  roleComboList: [],
   userVis: { distributionVis: false },
   userNow: {},
   username: '',
@@ -39,28 +36,14 @@ export const effects = {
     }
   },
 
-  *fetchRoleList() {
-    const res = yield call(roleApi.getRoleList);
-
-    if (res) {
-      yield put({ type: 'user/setState', payload: { roleList: res.data.roles } });
-    }
-  },
-
-  *fetchRoleComboList() {
-    const res = yield call(roleApi.getRoleCombo);
-    if (res) yield put.resolve({ type: 'user/setState', payload: { roleComboList: res.data } });
-  },
-
-  *editUser({ payload }) {
-    const { userState } = yield select();
-    const { userNow } = userState;
-    const { data } = payload;
-    let updater = { ...data };
-    if (userNow) updater = { ...updater, ...userNow };
-
-    const res = yield call(userApi.editUser, updater);
+  *fetchEditUser({ payload }) {
+    const res = yield call(userApi.requestEditUser, payload);
     if (res) yield put.resolve({ type: 'user/fetchUserList' });
+  },
+
+  *fetchDelUser({ payload }) {
+    const res = yield call(userApi.requestDeleteUser, payload);
+    if (res) yield put({ type: 'user/fetchUserList' });
   },
 
   *fetchUserApplicationAssign() {

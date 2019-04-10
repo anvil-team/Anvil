@@ -70,13 +70,16 @@ class TableForm extends PureComponent {
     this.setState({ data: newData });
   };
 
-  handleRemove(id) {
+  handleRemove(row) {
     return () => {
       const { data } = this.state;
       const { onChange } = this.props;
-      const newData = data.filter((item) => item.id !== id);
+      const newData = data.filter((item) => item.id !== row.id);
       this.setState({ data: newData });
-      onChange(newData);
+      if (!row.isNew) {
+        row.isDel = true;
+        onChange(row.id);
+      }
     };
   }
 
@@ -121,10 +124,10 @@ class TableForm extends PureComponent {
           return;
         }
         delete target.isNew;
+        delete target.id;
         this.toggleEditable(e, key);
-        const { data } = this.state;
         const { onChange } = this.props;
-        onChange(data);
+        onChange(target);
 
         this.setState({ loading: false });
       }, 500);
@@ -174,8 +177,8 @@ class TableForm extends PureComponent {
   }
 
   getColumns = () => {
-    const { userState } = this.props;
-    const { roleComboList } = userState;
+    const { permissionState } = this.props;
+    const { roleComboList } = permissionState;
 
     return [
       {
@@ -290,7 +293,7 @@ class TableForm extends PureComponent {
                 <span>
                   <a onClick={this.handleSaveRow(record.id)}>添加</a>
                   <Divider type="vertical" />
-                  <Popconfirm title="是否要删除此行？" onConfirm={this.handleRemove(record.id)}>
+                  <Popconfirm title="是否要删除此行？" onConfirm={this.handleRemove(record)}>
                     <a>删除</a>
                   </Popconfirm>
                 </span>
@@ -310,7 +313,7 @@ class TableForm extends PureComponent {
               <Divider type="vertical" />
               <a onClick={this.handleToDistributionProject(record)}>分配项目</a>
               <Divider type="vertical" />
-              <Popconfirm title="是否要删除此行？" onConfirm={this.handleRemove(record.id)}>
+              <Popconfirm title="是否要删除此行？" onConfirm={this.handleRemove(record)}>
                 <a>删除</a>
               </Popconfirm>
             </span>
@@ -330,6 +333,7 @@ class TableForm extends PureComponent {
 
 const mapStateToProps = (state) => ({
   userState: state.userState,
+  permissionState: state.permissionState,
 });
 
 export default connect(mapStateToProps)(TableForm);

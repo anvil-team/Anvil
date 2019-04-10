@@ -2,7 +2,7 @@
  * @Author: zhenglfsir@gmail.com
  * @Date: 2019-01-07 22:01:12
  * @Last Modified by: zhenglfsir@gmail.com
- * @Last Modified time: 2019-03-05 21:13:53
+ * @Last Modified time: 2019-04-10 16:21:40
  * 角色服务
  */
 
@@ -12,7 +12,7 @@ import invariant from 'invariant';
 /**
  * 得到所有角色类型
  */
-export function getRoleCombo() {
+export function requestRoleCombo() {
   return axios.get('/role/roleCombo');
 }
 
@@ -20,7 +20,7 @@ export function getRoleCombo() {
  * 得到所有角色列表
  * @param {*} params
  */
-export function getRoleList(params) {
+export function requestRoleList(params) {
   return axios.get('/role/roleBatch', { params });
 }
 
@@ -28,14 +28,14 @@ export function getRoleList(params) {
  * 新增和修改
  * @param {*} params
  */
-export function editRole(params) {
+export function requestEditRole(params) {
   invariant(params.roleCode, 'miss roleCode');
   invariant(params.roleName, 'miss roleName');
   invariant(params.roleDesc, 'miss roleDesc');
-  return axios.post('/role/roleBatch', { role: params });
+  return axios.post('/role/roleBatch', { role: JSON.stringify(params) });
 }
 
-export function deleteRole(params) {
+export function requestDeleteRole(params) {
   invariant(params.id, 'miss id');
   return axios.delete('/role/roleBatch', { params });
 }
