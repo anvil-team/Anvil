@@ -20,7 +20,7 @@
     "@ant-design/icons": "^1.1.16",
     "@sentry/browser": "^4.6.1",
     "antd": "^3.13.2",
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "connected-react-router": "^5.0.1",
     "dayjs": "^1.8.6",
     "invariant": "^2.2.4",
